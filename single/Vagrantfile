@@ -1,0 +1,65 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# Create single node Spectrum Scale cluster
+#
+
+$message = <<EOT
+--------------------------------------------------------------------------
+
+Created virtual environment for IBM Spectrum Scale.
+
+User Guide:
+https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+
+To logon on the management node execute:
+vagrant ssh
+
+--------------------------------------------------------------------------
+EOT
+
+# Load common settings
+load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
+
+# Customize configuration specific settings
+Vagrant.configure("2") do |config|
+
+  #
+  # The single node cluster comprises one node only
+  #
+  config.vm.define "m1", primary: true do |node|
+    node.vm.hostname = "m1"
+    node.vm.network "private_network", ip: "10.1.1.11"  
+    node.vm.network "private_network", ip: "10.1.2.11" 
+    node.vm.network "forwarded_port", guest: 443, host: 8888
+
+    # Attach five disks for Spectrum Scale NSDs
+    node.vm.provider "virtualbox" do |vbox|
+      vbox.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata', '--hostiocache', 'off']
+      small = 5
+      (1..small).each do |disk|
+        filename = "disk/disk-m1-00#{disk}.vdi"
+        unless File.exist?(filename)
+          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 1024]
+        end
+        vbox.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', "#{disk-1}", '--device', 0, '--type', 'hdd', '--medium', filename]
+      end
+      large = 2
+      (small+1..small+large).each do |disk|
+        filename = "disk/disk-m1-00#{disk}.vdi"
+        unless File.exist?(filename)
+          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 10 * 1024]
+        end
+        vbox.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', "#{disk-1}", '--device', 0, '--type', 'hdd', '--medium', filename]
+      end
+    end
+
+  # Set message to be printed after VMs are up and running
+  config.vm.post_up_message = $message
+
+  end
+
+end
+
+

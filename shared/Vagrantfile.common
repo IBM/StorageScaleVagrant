@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# Common settings used by all nodes of all configurations
+# This file should be included by the Vagrantfile of each cluster configuration
+#
+
+Vagrant.configure('2') do |config|
+
+  # Use the Vagrant box prepared for Spectrum Scale
+  config.vm.box     = "SpectrumScale_base"
+  config.vm.box_url = "../boxes/SpectrumScale_base.box"
+
+  # Customize resources of virtual machines
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.memory = 2048
+  end
+
+  # Sync folders and files from host to guests
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "../vagrant", "/vagrant", type: "rsync"
+
+end
