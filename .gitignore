@@ -1,2 +1,2 @@
 .vagrant/
-boxes/*/*.box
+boxes/*.box
