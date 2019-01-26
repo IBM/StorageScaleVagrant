@@ -19,6 +19,11 @@ Vagrant.configure('2') do |config|
 
   # Sync folders and files from host to guests
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "../vagrant", "/vagrant", type: "rsync"
+  config.vm.synced_folder "../setup", "/vagrant", type: "rsync"
+
+  # Configure /etc/hosts
+  config.vm.provision "shell",
+    name:   "Configure /ets/hosts",
+    inline: "/usr/bin/cp /vagrant/files/linux/etc__hosts /etc/hosts"
 
 end

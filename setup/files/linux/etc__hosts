@@ -1,0 +1,24 @@
+# Provisioned by Vagrant
+
+# Includes hostnames and IP addresses for
+#  o  single node cluster
+#  o  small cluster with six nodes
+
+# localhost
+127.0.0.1   localhost localhost.localdomain
+
+# management access
+10.1.1.11   m1m.example.com m1m
+10.1.1.21   n1m.example.com n1m
+10.1.1.22   n2m.example.com n2m
+10.1.1.31   c1m.example.com c1m
+10.1.1.32   c2m.example.com c2m
+10.1.1.33   c3m.example.com c3m
+
+# data transfer
+10.1.2.11   m1.example.com m1
+10.1.2.21   n1.example.com n1
+10.1.2.22   n2.example.com n2
+10.1.2.31   c1.example.com c1
+10.1.2.32   c2.example.com c2
+10.1.2.33   c3.example.com c3
