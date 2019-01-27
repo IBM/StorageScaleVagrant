@@ -34,12 +34,16 @@ To create the custom Vagrant box:
 1. `vagrant destroy`
 1. `cd ..`
 
-## Configurations
+## Environments
 
 This version of SpectrumScaleVagrant provides tooling to provision
 * a single node Spectrum Scale cluster comprising one node only
 
 It is planned to add configurations with multiple nodes later.
+
+### Security
+
+The environments are optimized to play with Spectrum Scale in a lab environment. To simplify access from the outside, all virtual nodes are configured with well known SSH keys. This is a security exposure for production environments.
 
 ### Single node cluster
 
