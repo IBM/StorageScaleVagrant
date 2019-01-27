@@ -15,6 +15,14 @@ Open a Command Prompt and clone the GitHub repostory:
 1. `git clone https://github.com/IBM/SpectrumScaleVagrant.git`
 1. `cd SpectrumScaleVagrant`
 
+### Get the Spectrum Scale self-extracting installation package
+
+The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The installation package can be downloaded from [IBM Support Fix Central](https://www.ibm.com/support/fixcentral/).
+
+Download the `Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+
+Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
+
 ### SpectrumScale_base.box - A Vagrant box optimized for Spectrum Scale
 
 The virtual machines are based on the [official Vagrant CentOS/7 boxes](https://app.vagrantup.com/centos/boxes/7). Spectrum Scale requires a couple of additional RPMs. We create a custom Vagrant box to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
