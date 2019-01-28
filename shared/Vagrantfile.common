@@ -40,4 +40,11 @@ Vagrant.configure('2') do |config|
       cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
    "
 
+  # Add Spectrum Scale executables to sudo secure_path
+    config.vm.provision "shell",
+    name:   "Add /usr/lpp/mmfs/bin to sudo secure_path",
+    inline: "
+      cp /vagrant/files/linux/etc__sudoers.d__spectrumscale /etc/sudoers.d/spectrumscale
+   "
+
 end
