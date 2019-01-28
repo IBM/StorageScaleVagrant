@@ -47,7 +47,7 @@ The environments are optimized to play with Spectrum Scale in a lab environment.
 
 ### Single node cluster
 
-The single node cluster is good enough for many lab excercises and for
+The single node cluster is good enough for many lab exercises and for
 developing and testing most of the scripts of this project.
 
 The advantage of the single node cluster is that it is much faster provisioned
