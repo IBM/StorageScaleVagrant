@@ -1,3 +1,4 @@
 script-01.sh  Check that Spectrum Scale self-extracting install package exists
 script-02.sh  Extract Spectrum Scale RPMs
 script-03.sh  Setup management node (m1) as Spectrum Scale Install Node
+script-04.sh  Specify Spectrum Scale Cluster
