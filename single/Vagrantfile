@@ -55,11 +55,11 @@ Vagrant.configure("2") do |config|
       end
     end
 
-  # Set message to be printed after VMs are up and running
-  config.vm.post_up_message = $message
+    # Set message to be printed after VMs are up and running
+    config.vm.post_up_message = $message
 
-  # Sync Spectrum Scale install package to admin node
-  config.vm.synced_folder "../software", "/software", type: "rsync"
+    # Sync Spectrum Scale install package to admin node
+    config.vm.synced_folder "../software", "/software", type: "rsync"
 
   end
 
