@@ -3,3 +3,4 @@ script-02.sh  Extract Spectrum Scale RPMs
 script-03.sh  Setup management node (m1) as Spectrum Scale Install Node
 script-04.sh  Specify Spectrum Scale Cluster
 script-05.sh  Install Spectrum Scale and create a Spectrum Scale cluster
+script-06.sh  Create Spectrum Scale filesystems
