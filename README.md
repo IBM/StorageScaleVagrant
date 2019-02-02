@@ -98,3 +98,31 @@ dr-xr-xr-x. 2 root root   8192 Jan  1  1970 .snapshots
 
 [vagrant@m1 ~]$
 ```
+
+The filesystem fs1 is configured with two storage pools to illustrate how to integrate storage media such as NVMe, SSD and NL-SAS in a single filesystem.
+
+```
+[vagrant@m1 ~]$ sudo mmlspool fs1
+Storage pools in file system at '/ibm/fs1':
+Name                    Id   BlkSize Data Meta Total Data in (KB)   Free Data in (KB)   Total Meta in (KB)    Free Meta in (KB)
+system                   0      4 MB  yes  yes        5242880        1118208 ( 21%)        5242880        1171456 ( 22%)
+capacity             65537      4 MB  yes   no       20971520       20824064 ( 99%)              0              0 (  0%)
+```
+
+The capacity of each storage pool and therefore the capacity of a filesystem is provided by one or more disks.
+
+```
+[vagrant@m1 ~]$ sudo mmlsdisk fs1
+disk         driver   sector     failure holds    holds                            storage
+name         type       size       group metadata data  status        availability pool
+------------ -------- ------ ----------- -------- ----- ------------- ------------ ------------
+nsd1         nsd         512           1 Yes      Yes   ready         up           system
+nsd2         nsd         512           1 Yes      Yes   ready         up           system
+nsd3         nsd         512           1 Yes      Yes   ready         up           system
+nsd4         nsd         512           1 Yes      Yes   ready         up           system
+nsd5         nsd         512           1 Yes      Yes   ready         up           system
+nsd6         nsd         512           1 No       Yes   ready         up           capacity
+nsd7         nsd         512           1 No       Yes   ready         up           capacity
+
+[vagrant@m1 ~]$
+```
