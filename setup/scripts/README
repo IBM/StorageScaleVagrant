@@ -1,3 +1,7 @@
+script.sh     Perform all steps to provision a Spectrum Scale cluster
+
+              script.sh executes the following scripts:
+
 script-01.sh  Check that Spectrum Scale self-extracting install package exists
 script-02.sh  Extract Spectrum Scale RPMs
 script-03.sh  Setup management node (m1) as Spectrum Scale Install Node
