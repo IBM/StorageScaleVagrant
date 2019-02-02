@@ -59,13 +59,22 @@ Vagrant.configure("2") do |config|
         libaio
     "
 
+  # Remove installed kernel-devel and kernel-headers to prevent version missmatches
+  config.vm.provision "shell",
+    name:   "Remove installed kernel-devel and kernel-headers to prevent version missmatches",
+    inline: "
+      /usr/bin/yum remove -y\
+        kernel-devel\
+        kernel-headers\
+    "
+
   # Install RPMs required by Spectrum Scale to build portability layer
   config.vm.provision "shell",
     name:   "Install RPMs required by Spectrum Scale to build portability layer",
     inline: "
       /usr/bin/yum install -y\
-        kernel-devel-3.10.0-957.1.3.el7\
-        kernel-headers-3.10.0-957.1.3.el7\
+        kernel-devel-$(uname -r)\
+        kernel-headers-$(uname -r)\
         cpp\
         gcc\
         gcc-c++
