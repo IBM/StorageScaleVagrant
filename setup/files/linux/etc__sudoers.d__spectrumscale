@@ -1,4 +1,5 @@
 # Provisioned by Vagrant
 
 # Add Spectrum Scale executables
+Defaults:root       secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/lpp/mmfs/bin
 Defaults:vagrant    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/lpp/mmfs/bin
