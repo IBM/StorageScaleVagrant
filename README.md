@@ -99,7 +99,7 @@ dr-xr-xr-x. 2 root root   8192 Jan  1  1970 .snapshots
 [vagrant@m1 ~]$
 ```
 
-The filesystem fs1 is configured with two storage pools to illustrate how to integrate storage media such as NVMe, SSD and NL-SAS in a single filesystem.
+The filesystem `fs1` is configured with two storage pools to illustrate how to integrate storage media such as NVMe, SSD and NL-SAS in a single filesystem.
 
 ```
 [vagrant@m1 ~]$ sudo mmlspool fs1
