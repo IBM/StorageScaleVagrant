@@ -27,7 +27,7 @@ sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale callhome disable
 
 # Specify nodes and its roles
 echo "===> Specify nodes and their roles"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node add -a -q -m -n m1
+sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node add -a -g -q -m -n m1
 
 # Show cluster specification
 echo "===> Show cluster specification"
