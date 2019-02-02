@@ -59,3 +59,23 @@ To create and logon on a single node cluster:
 1. `cd single`
 1. `vagrant up`
 1. `vagrant ssh`
+
+Configuration of Spectrum Scale Cluster:
+```
+[vagrant@m1 ~]$ sudo mmlscluster
+
+GPFS cluster information
+========================
+  GPFS cluster name:         demo.example.com
+  GPFS cluster id:           4200744107440960413
+  GPFS UID domain:           demo.example.com
+  Remote shell command:      /usr/bin/ssh
+  Remote file copy command:  /usr/bin/scp
+  Repository type:           CCR
+
+ Node  Daemon node name  IP address  Admin node name  Designation
+------------------------------------------------------------------
+   1   m1.example.com    10.1.2.11   m1m.example.com  quorum-manager-perfmon
+
+[vagrant@m1 ~]$
+```
