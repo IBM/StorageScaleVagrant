@@ -40,6 +40,13 @@ Vagrant.configure('2') do |config|
       cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
    "
 
+  # Configure ssh host keys
+  config.vm.provision "shell",
+    name:   "Configure ssh host keys",
+    inline: "
+      /usr/bin/sudo /usr/bin/bash -c '/usr/bin/ssh-keyscan m1 >> /root/.ssh/known_hosts'
+   "
+
   # Get fingerprint for management IP address
   config.vm.provision "shell",
     name:   "Get fingerprint for management IP address",
