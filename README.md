@@ -11,7 +11,7 @@ Follow the [Vagrant Getting Started Guide](https://www.vagrantup.com/intro/getti
 
 ### Get the scripts and configuration files
 
-Open a Command Prompt and clone the GitHub repostory:
+Open a Command Prompt and clone the GitHub repository:
 1. `git clone https://github.com/IBM/SpectrumScaleVagrant.git`
 1. `cd SpectrumScaleVagrant`
 
