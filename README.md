@@ -79,3 +79,22 @@ GPFS cluster information
 
 [vagrant@m1 ~]$
 ```
+
+### Filesystem
+
+For all clusters, the Spectrum Scale filesystem `fs1` is created which is mounted at `/ibm/fs1`:
+```
+[vagrant@m1 ~]$ sudo mmlsmount all
+File system fs1 is mounted on 1 nodes.
+
+[vagrant@m1 ~]$ mount | grep fs1
+fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
+
+[vagrant@m1 ~]$ ls -la /ibm/fs1/
+total 261
+drwxr-xr-x. 2 root root 262144 Feb  2 10:50 .
+drwxr-xr-x. 3 root root   4096 Feb  2 10:50 ..
+dr-xr-xr-x. 2 root root   8192 Jan  1  1970 .snapshots
+
+[vagrant@m1 ~]$
+```
