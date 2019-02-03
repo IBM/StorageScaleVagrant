@@ -80,11 +80,32 @@ GPFS cluster information
 [vagrant@m1 ~]$
 ```
 
+Cluster health status:
+```
+[vagrant@m1 ~]$ sudo mmhealth cluster show
+
+Component           Total         Failed       Degraded        Healthy          Other
+-------------------------------------------------------------------------------------
+NODE                    1              0              0              0              1
+GPFS                    1              0              0              0              1
+NETWORK                 1              0              0              1              0
+FILESYSTEM              1              0              0              1              0
+DISK                    7              0              0              7              0
+GUI                     1              0              0              1              0
+PERFMON                 1              0              0              1              0
+THRESHOLD               1              0              0              1              0
+
+[vagrant@m1 ~]$
+```
+
 ### Spectrum Scale GUI
 
 To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
 
-![](https://github.com/IBM/SpectrumScaleVagrant/blob/master/doc/gui/gui_login.png)
+![](/doc/gui/gui_login.png)
+
+Cluster health status:
+![](/doc/gui/gui_home_overview.png)
 
 ### Filesystem
 
