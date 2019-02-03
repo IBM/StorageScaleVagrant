@@ -22,9 +22,11 @@ set -e
 echo "===> Install Spectrum Scale and create Spectrum Scale cluster"
 sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale install
 
-# Change admin interface
-echo "==> Change admin interface"
-sudo mmchnode -N m1 --admin-interface m1m.example.com
+## Change admin interface
+#  Note: Disable configuration of separate admin network, because
+#        this requires reconfiguration of Zimon Collector.
+#echo "==> Change admin interface"
+#sudo mmchnode -N m1 --admin-interface m1m.example.com
 
 # Show cluster configuration
 echo "===> Show cluster configuration"
