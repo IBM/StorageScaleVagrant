@@ -60,6 +60,12 @@ service pmcollector status
 echo "===> Show Zimon Sensors service"
 service pmsensors status
 
+# Initialize Spectrum Scale GUI
+# Note: The Spectrum Scale GUI initializes implicitly during first login
+#       attempt. Initializing the GUI here accelerates the first login.
+echo "==> Initialize Spectrum Scale GUI"
+sudo /usr/lpp/mmfs/gui/cli/initgui
+
 
 # Exit successfully
 echo "===> Script completed successfully!"
