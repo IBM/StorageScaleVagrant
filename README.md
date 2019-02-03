@@ -105,6 +105,7 @@ To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browse
 ![](/doc/gui/gui_login.png)
 
 Cluster health status:
+
 ![](/doc/gui/gui_home_overview.png)
 
 ### Filesystem
