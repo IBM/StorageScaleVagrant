@@ -80,6 +80,12 @@ GPFS cluster information
 [vagrant@m1 ~]$
 ```
 
+### Spectrum Scale GUI
+
+To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
+
+![](https://github.com/IBM/SpectrumScaleVagrant/blob/master/doc/gui/gui_login.png)
+
 ### Filesystem
 
 For all clusters, the Spectrum Scale filesystem `fs1` is created which is mounted at `/ibm/fs1`:
