@@ -16,6 +16,9 @@ https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
 To logon on the management node execute:
 vagrant ssh
 
+To connect to the Spectrum Scale GUI, in a web browser:
+https://localhost:8888
+
 --------------------------------------------------------------------------
 EOT
 
