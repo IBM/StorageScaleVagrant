@@ -71,6 +71,13 @@ Vagrant.configure("2") do |config|
         /vagrant/install/script.sh
       "
 
+    # Configure Spectrum Scale for demo purposes
+    node.vm.provision "shell",
+      name:   "Configure Spectrum Scale for demo purposes",
+      inline: "
+        /vagrant/demo/script.sh
+      "
+
   end
 
 end
