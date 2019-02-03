@@ -48,6 +48,18 @@ sudo mmhealth node show
 echo "===> Show NSDs"
 sudo mmlsnsd
 
+# Show GUI service
+echo "===> Show GUI service"
+service gpfsgui.service status
+
+# Show Zimon Collector service
+echo "===> Show Zimon Collector service"
+service pmcollector status
+
+# Show Zimon Sensors service
+echo "===> Show Zimon Sensors service"
+service pmsensors status
+
 
 # Exit successfully
 echo "===> Script completed successfully!"
