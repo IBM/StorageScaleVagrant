@@ -2,5 +2,5 @@ script.sh     Perform all steps to configure the Spectrum Scale for demo purpose
 
               script.sh executes the following scripts:
 
-script-01.sh  TODO
+script-01.sh  Show filesystem details
 

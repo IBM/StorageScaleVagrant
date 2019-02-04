@@ -16,7 +16,7 @@ set -e
 
 
 # Perform all steps to configure Spectrum Scale for demo purposes
-echo "TODO /vagrant/demo/script-01.sh"
+/vagrant/demo/script-01.sh
 
 
 # Exit successfully
