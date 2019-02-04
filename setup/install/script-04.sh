@@ -35,7 +35,7 @@ sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node list
 
 # Specify NSDs
 sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 -po capacity -u dataOnly /dev/sdg /dev/sdh
+sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
 
 # Show NSD specification
 echo "===> Show NSD specification"
