@@ -3,4 +3,4 @@ script.sh     Perform all steps to configure the Spectrum Scale for demo purpose
               script.sh executes the following scripts:
 
 script-01.sh  Show filesystem details
-
+script-02.sh  Add second storage pool to filesystem fs1

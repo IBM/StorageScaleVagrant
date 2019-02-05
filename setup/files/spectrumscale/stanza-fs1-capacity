@@ -1,0 +1,13 @@
+%nsd: device=/dev/sdg
+nsd=nsd6
+servers=m1
+usage=dataOnly
+failureGroup=1
+pool=capacity
+
+%nsd: device=/dev/sdh
+nsd=nsd7
+servers=m1
+usage=dataOnly
+failureGroup=1
+pool=capacity
