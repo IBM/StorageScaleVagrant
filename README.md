@@ -80,33 +80,67 @@ GPFS cluster information
 [vagrant@m1 ~]$
 ```
 
-Cluster health status:
-```
-[vagrant@m1 ~]$ sudo mmhealth cluster show
-
-Component           Total         Failed       Degraded        Healthy          Other
--------------------------------------------------------------------------------------
-NODE                    1              0              0              0              1
-GPFS                    1              0              0              0              1
-NETWORK                 1              0              0              1              0
-FILESYSTEM              1              0              0              1              0
-DISK                    7              0              0              7              0
-GUI                     1              0              0              1              0
-PERFMON                 1              0              0              1              0
-THRESHOLD               1              0              0              1              0
-
-[vagrant@m1 ~]$
-```
-
 ### Spectrum Scale GUI
 
 To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
 
 ![](/doc/gui/gui_login.png)
 
-Cluster health status:
+Cluster overview in Spectrum Scale GUI:
 
 ![](/doc/gui/gui_home_overview.png)
+
+### Spectrum Scale REST API
+
+To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer/#/` in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI.
+
+![](/doc/gui/gui_rest_api.png)
+
+Configuration of Spectrum Scale Cluster:
+
+```
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/clu
+ster'
+{
+  "cluster" : {
+    "clusterSummary" : {
+      "clusterId" : 4200744107441232322,
+      "clusterName" : "demo.example.com",
+      "primaryServer" : "m1.example.com",
+      "rcpPath" : "/usr/bin/scp",
+      "rcpSudoWrapper" : false,
+      "repositoryType" : "CCR",
+      "rshPath" : "/usr/bin/ssh",
+      "rshSudoWrapper" : false,
+      "uidDomain" : "demo.example.com"
+    }
+  },
+  "status" : {
+    "code" : 200,
+    "message" : "The request finished successfully."
+  }
+}
+
+[vagrant@m1 ~]$
+```
+
+Cluster nodes:
+
+```
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/nod
+es'
+{
+  "nodes" : [ {
+    "adminNodeName" : "m1.example.com"
+  } ],
+  "status" : {
+    "code" : 200,
+    "message" : "The request finished successfully."
+  }
+}
+
+[vagrant@m1 ~]$
+```
 
 ### Filesystem
 
