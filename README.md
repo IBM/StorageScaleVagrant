@@ -153,7 +153,9 @@ The filesystem `fs1` mounts on all cluster nodes at `/ibm/fs1`:
 [vagrant@m1 ~]$ mmlsmount all
 File system fs1 is mounted on 1 nodes.
 
-[vagrant@m1 ~]$ mmlsfs fs1 | grep "Default mount point"
+[vagrant@m1 ~]$ mmlsfs fs1 -T
+flag                value                    description
+------------------- ------------------------ -----------------------------------
  -T                 /ibm/fs1                 Default mount point
 
 [vagrant@m1 ~]$
