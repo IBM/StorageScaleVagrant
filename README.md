@@ -142,24 +142,52 @@ es'
 [vagrant@m1 ~]$
 ```
 
-### Filesystem
+## Spectrum Scale Filesystem
 
-For all clusters, the Spectrum Scale filesystem `fs1` is created which is mounted at `/ibm/fs1`:
+Spectrum Scale Vagrant configures the filesystem `fs1` and adds some example data to illustrate selected Spectrum Scale features.
+
+### Example filesystems
+
+The filesystem `fs1` mounts on all cluster nodes at `/ibm/fs1`:
 ```
-[vagrant@m1 ~]$ sudo mmlsmount all
+[vagrant@m1 ~]$ mmlsmount all
 File system fs1 is mounted on 1 nodes.
 
-[vagrant@m1 ~]$ mount | grep fs1
-fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
-
-[vagrant@m1 ~]$ ls -la /ibm/fs1/
-total 261
-drwxr-xr-x. 2 root root 262144 Feb  2 10:50 .
-drwxr-xr-x. 3 root root   4096 Feb  2 10:50 ..
-dr-xr-xr-x. 2 root root   8192 Jan  1  1970 .snapshots
+[vagrant@m1 ~]$ mmlsfs fs1 | grep "Default mount point"
+ -T                 /ibm/fs1                 Default mount point
 
 [vagrant@m1 ~]$
 ```
+
+In Linux, a Spectrum Scale filesystem can be used like any other filesystem:
+```
+[vagrant@m1 ~]$ mount | grep /ibm/
+fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
+
+[vagrant@m1 ~]$ find /ibm/
+/ibm/
+/ibm/fs1
+/ibm/fs1/.snapshots
+
+[vagrant@m1 ~]$
+```
+
+REST API call to show all filesystems:
+
+```
+[vagrant@m1 ~]$ curl -k -s -S -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/filesystems/'
+{
+  "filesystems" : [ {
+    "name" : "fs1"
+  } ],
+  "status" : {
+    "code" : 200,
+    "message" : "The request finished successfully."
+  }
+}[vagrant@m1 ~]$
+```
+
+### Storage Pools
 
 The filesystem `fs1` is configured with two storage pools to illustrate how to integrate storage media such as NVMe, SSD and NL-SAS in a single filesystem.
 
