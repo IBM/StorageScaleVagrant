@@ -92,7 +92,9 @@ Cluster overview in Spectrum Scale GUI:
 
 ### Spectrum Scale REST API
 
-To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer/#/` in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI.
+To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer/#/` in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
+
+[Trying out and exploring the Spectrum Scale REST API using “curl” and/or the IBM API Explorer website](https://developer.ibm.com/storage/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api/)
 
 ![](/doc/gui/gui_rest_api.png)
 
