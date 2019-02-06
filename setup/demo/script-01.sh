@@ -20,6 +20,10 @@ set -e
 echo "===> Show the global mount status for the whole Spectrum Scale cluster"
 mmlsmount all
 
+# Show the default mount point managed by Spectrum Scale
+echo "==> Show the default mount point managed by Spectrum Scale"
+mmlsfs fs1 -T
+
 # Show the local mount status on the current node
 echo "===> Show the local mount status on the current node"
 mount | grep /ibm/
