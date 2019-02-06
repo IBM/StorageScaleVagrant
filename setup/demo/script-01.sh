@@ -5,7 +5,7 @@
 echo "========================================================================================="
 echo "===>"
 echo "===> Running $0"
-echo "===> Show filesystem details"
+echo "===> Show Spectrum Scale filesystems"
 echo "===>"
 echo "========================================================================================="
 
@@ -28,9 +28,9 @@ mount | grep /ibm/
 echo "===> Show content of all Spectrum Scale filesystems"
 find /ibm/
 
-# Show usage of filesystem fs1
-echo "===> Show usage of filesystem fs1"
-mmdf fs1
+# Show all Spectrum Scale filesystems using the REST API
+echo "==> Show all Spectrum Scale filesystems using the REST API"
+curl -k -s -S -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/filesystems/'
 
 
 # Exit successfully
