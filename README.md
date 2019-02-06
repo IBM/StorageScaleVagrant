@@ -148,7 +148,7 @@ es'
 
 Spectrum Scale Vagrant configures the filesystem `fs1` and adds some example data to illustrate selected Spectrum Scale features.
 
-### Example filesystems
+### Filesystems
 
 The filesystem `fs1` mounts on all cluster nodes at `/ibm/fs1`:
 ```
@@ -193,30 +193,113 @@ REST API call to show all filesystems:
 
 ### Storage Pools
 
-The filesystem `fs1` is configured with two storage pools to illustrate how to integrate storage media such as NVMe, SSD and NL-SAS in a single filesystem.
+Storage pools allow to integrate different media types such es NVMe, SSD and NL-SAS into a single filesystem. Each Spectrum Scale filesystem has at list the system pool which stores metadata (inodes) and optionally data (content of files).
 
 ```
-[vagrant@m1 ~]$ sudo mmlspool fs1
+[vagrant@m1 ~]$ mmlspool fs1
 Storage pools in file system at '/ibm/fs1':
 Name                    Id   BlkSize Data Meta Total Data in (KB)   Free Data in (KB)   Total Meta in (KB)    Free Meta in (KB)
-system                   0      4 MB  yes  yes        5242880        1118208 ( 21%)        5242880        1171456 ( 22%)
+system                   0      4 MB  yes  yes        5242880        1114112 ( 21%)        5242880        1167360 ( 22%)
+
+[vagrant@m1 ~]$ mmdf fs1
+disk                disk size  failure holds    holds           free in KB          free in KB
+name                    in KB    group metadata data        in full blocks        in fragments
+--------------- ------------- -------- -------- ----- -------------------- -------------------
+Disks in storage pool: system (Maximum disk size allowed is 15.87 GB)
+nsd3                  1048576        1 Yes      Yes          229376 ( 22%)         11384 ( 1%)
+nsd4                  1048576        1 Yes      Yes          204800 ( 20%)         11128 ( 1%)
+nsd5                  1048576        1 Yes      Yes          217088 ( 21%)         11128 ( 1%)
+nsd2                  1048576        1 Yes      Yes          225280 ( 21%)         11640 ( 1%)
+nsd1                  1048576        1 Yes      Yes          237568 ( 23%)         11640 ( 1%)
+                -------------                         -------------------- -------------------
+(pool total)          5242880                               1114112 ( 21%)         56920 ( 1%)
+
+                =============                         ==================== ===================
+(total)               5242880                               1114112 ( 21%)         56920 ( 1%)
+
+Inode Information
+-----------------
+Number of used inodes:            4108
+Number of free inodes:          103412
+Number of allocated inodes:     107520
+Maximum number of inodes:       107520
+
+[vagrant@m1 ~]$
+```
+
+A typcial configuration is to use NVMe or SSD for the system pool for metadata and hot files, and to add a second storage pool with NL-SAS for colder data.
+```
+[vagrant@m1 ~]$ cat /vagrant/files/spectrumscale/stanza-fs1-capacity
+%nsd: device=/dev/sdg
+nsd=nsd6
+servers=m1
+usage=dataOnly
+failureGroup=1
+pool=capacity
+
+%nsd: device=/dev/sdh
+nsd=nsd7
+servers=m1
+usage=dataOnly
+failureGroup=1
+pool=capacity
+
+[vagrant@m1 ~]$ sudo mmadddisk fs1 -F /vagrant/files/spectrumscale/stanza-fs1-capacity
+
+The following disks of fs1 will be formatted on node m1:
+    nsd6: size 10240 MB
+    nsd7: size 10240 MB
+Extending Allocation Map
+Creating Allocation Map for storage pool capacity
+Flushing Allocation Map for storage pool capacity
+Disks up to size 322.37 GB can be added to storage pool capacity.
+Checking Allocation Map for storage pool capacity
+Completed adding disks to file system fs1.
+mmadddisk: mmsdrfs propagation completed.
+
+[vagrant@m1 ~]$
+```
+
+Now the filesystem has two storage pool.
+
+```
+[vagrant@m1 ~]$ mmlspool fs1
+Storage pools in file system at '/ibm/fs1':
+Name                    Id   BlkSize Data Meta Total Data in (KB)   Free Data in (KB)   Total Meta in (KB)    Free Meta in (KB)
+system                   0      4 MB  yes  yes        5242880        1101824 ( 21%)        5242880        1155072 ( 22%)
 capacity             65537      4 MB  yes   no       20971520       20824064 ( 99%)              0              0 (  0%)
-```
 
-The capacity of each storage pool and therefore the capacity of a filesystem is provided by one or more disks.
+[vagrant@m1 ~]$ mmdf fs1
+disk                disk size  failure holds    holds           free in KB          free in KB
+name                    in KB    group metadata data        in full blocks        in fragments
+--------------- ------------- -------- -------- ----- -------------------- -------------------
+Disks in storage pool: system (Maximum disk size allowed is 15.87 GB)
+nsd1                  1048576        1 Yes      Yes          233472 ( 22%)         11640 ( 1%)
+nsd2                  1048576        1 Yes      Yes          221184 ( 21%)         11640 ( 1%)
+nsd3                  1048576        1 Yes      Yes          229376 ( 22%)         11384 ( 1%)
+nsd4                  1048576        1 Yes      Yes          204800 ( 20%)         11128 ( 1%)
+nsd5                  1048576        1 Yes      Yes          212992 ( 20%)         11128 ( 1%)
+                -------------                         -------------------- -------------------
+(pool total)          5242880                               1101824 ( 21%)         56920 ( 1%)
 
-```
-[vagrant@m1 ~]$ sudo mmlsdisk fs1
-disk         driver   sector     failure holds    holds                            storage
-name         type       size       group metadata data  status        availability pool
------------- -------- ------ ----------- -------- ----- ------------- ------------ ------------
-nsd1         nsd         512           1 Yes      Yes   ready         up           system
-nsd2         nsd         512           1 Yes      Yes   ready         up           system
-nsd3         nsd         512           1 Yes      Yes   ready         up           system
-nsd4         nsd         512           1 Yes      Yes   ready         up           system
-nsd5         nsd         512           1 Yes      Yes   ready         up           system
-nsd6         nsd         512           1 No       Yes   ready         up           capacity
-nsd7         nsd         512           1 No       Yes   ready         up           capacity
+Disks in storage pool: capacity (Maximum disk size allowed is 322.37 GB)
+nsd6                 10485760        1 No       Yes        10412032 ( 99%)          8056 ( 0%)
+nsd7                 10485760        1 No       Yes        10412032 ( 99%)          8056 ( 0%)
+                -------------                         -------------------- -------------------
+(pool total)         20971520                              20824064 ( 99%)         16112 ( 0%)
+
+                =============                         ==================== ===================
+(data)               26214400                              21925888 ( 84%)         73032 ( 0%)
+(metadata)            5242880                               1101824 ( 21%)         56920 ( 1%)
+                =============                         ==================== ===================
+(total)              26214400                              21925888 ( 84%)         73032 ( 0%)
+
+Inode Information
+-----------------
+Number of used inodes:            4108
+Number of free inodes:          103412
+Number of allocated inodes:     107520
+Maximum number of inodes:       107520
 
 [vagrant@m1 ~]$
 ```
