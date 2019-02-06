@@ -20,25 +20,22 @@ set -e
 echo "===> Show storage pools of filesystem fs1"
 mmlspool fs1
 
+# Show usage of filesystem fs1
+echo "===> Show usage of filesystem fs1"
+mmdf fs1
+
 # Add NSDs to new capacity storage pool
 echo "===> Add NSDs to new capacity storage pool"
 sudo mmadddisk fs1 -F /vagrant/files/spectrumscale/stanza-fs1-capacity
 
-# Show the local mount status on the current node
-echo "===> Show the local mount status on the current node"
-mount | grep /ibm/
-
-# Show content of all Spectrum Scale filesystems
-echo "===> Show content of all Spectrum Scale filesystems"
-find /ibm/
+# Show storage pools of filesystem fs1
+echo "===> Show storage pools of filesystem fs1"
+mmlspool fs1
 
 # Show usage of filesystem fs1
 echo "===> Show usage of filesystem fs1"
 mmdf fs1
 
-# Show storage pools of filesystem fs1
-echo "===> Show storage pools of filesystem fs1"
-mmlspool fs1
 
 
 # Exit successfully
