@@ -24,6 +24,10 @@ mmlspool fs1
 echo "===> Show usage of filesystem fs1"
 mmdf fs1
 
+# Show the stanza file that describe the new disks
+echo "===> Show the stanza file that describe the new disks"
+cat /vagrant/files/spectrumscale/stanza-fs1-capacity
+
 # Add NSDs to new capacity storage pool
 echo "===> Add NSDs to new capacity storage pool"
 sudo mmadddisk fs1 -F /vagrant/files/spectrumscale/stanza-fs1-capacity
