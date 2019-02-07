@@ -1,0 +1,13 @@
+/* Spectrum Scale filesystems can be configured with multiple Storage Pools */
+/* A common configuration is to use fast media (e.g. NVMe, SSD) for         */
+/* meta data and for files with very high performance requirements. All     */
+/* other files go into a capacity pool using cheaper media (e.g. NL-SAS).   */
+
+/* This rule stores all files ending with .hot in the system pool'          */
+RULE 'Files ending with .hot to system pool'
+    SET POOL 'system'
+        WHERE (LOWER(NAME) LIKE '%.hot')
+
+/* This rule places all other files in the capacity pool.           */
+RULE 'All other files to capacity pool'
+    SET POOL 'capacity'
