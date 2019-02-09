@@ -21,6 +21,13 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "../setup", "/vagrant", type: "rsync"
 
+  # Configure permissions for shell scripts
+  config.vm.provision "shell",
+    name:   "Configure permissions for shell scripts",
+    inline: "
+      chmod 755 /vagrant/*/*.sh
+    "
+
   # Configure /etc/hosts
   config.vm.provision "shell",
     name:   "Configure /ets/hosts",
