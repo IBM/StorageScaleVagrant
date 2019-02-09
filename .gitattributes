@@ -1,0 +1,9 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Vagrant copies the directory 'setup' and all its subdirectories to the
+# virtual machines. All files in those directories need Unix EOL.
+/setup/** text eol=lf
+
+# Png files are binary files and should not be modified.
+*.png binary
