@@ -19,6 +19,8 @@ set -e
 /vagrant/demo/script-01.sh
 /vagrant/demo/script-02.sh
 /vagrant/demo/script-03.sh
+#/vagrant/demo/script-04.sh
+/vagrant/demo/script-05.sh
 
 
 # Exit successfully
