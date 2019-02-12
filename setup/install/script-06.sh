@@ -26,6 +26,11 @@ sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale filesystem list
 echo "===> Create Spectrum Scale filesystems"
 sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale deploy
 
+# Enable quotas
+echo "===> Enable quotas"
+echo "===> Note: Capacity reports in the GUI depend on enabled quotas"
+sudo mmchfs fs1 -Q yes
+
 # Show Spectrum Scale filesystem configuration
 echo "===> Show Spectrum Scale filesystem configuration"
 sudo mmlsfs all
