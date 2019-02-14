@@ -7,3 +7,5 @@ script-02.sh  Add second storage pool to filesystem fs1
 script-03.sh  Create placement policy for filesystem fs1
 script-04.sh  - TODO: Placeholder for migration policies -
 script-05.sh  Create filesets and some example data
+
+script-99.sh  Tweak GUI screens

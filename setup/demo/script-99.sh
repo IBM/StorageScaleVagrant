@@ -1,10 +1,11 @@
 #!/usr/bin/bash
 
+
 # Improve readability of output
 echo "========================================================================================="
 echo "===>"
 echo "===> Running $0"
-echo "===> Perform all steps to configure Spectrum Scale for demo purposes"
+echo "===> Tweak GUI screens"
 echo "===>"
 echo "========================================================================================="
 
@@ -15,15 +16,9 @@ set -x
 set -e
 
 
-# Perform all steps to configure Spectrum Scale for demo purposes
-/vagrant/demo/script-01.sh
-/vagrant/demo/script-02.sh
-/vagrant/demo/script-03.sh
-#/vagrant/demo/script-04.sh
-/vagrant/demo/script-05.sh
-
-# Tweak GUI screens
-/vagrant/demo/script-99.sh
+# Update capacity reports
+echo "===> Update capacity reports"
+sudo /usr/lpp/mmfs/gui/cli/runtask QUOTA
 
 
 # Exit successfully
