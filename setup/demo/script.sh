@@ -15,7 +15,7 @@ set -x
 set -e
 
 
-# Perform all steps to configure Spectrum Scale for demo purposes
+# Perform all steps to configure the Spectrum Scale filesystem for demo purposes
 /vagrant/demo/script-01.sh
 /vagrant/demo/script-02.sh
 /vagrant/demo/script-03.sh
@@ -24,7 +24,7 @@ set -e
 /vagrant/demo/script-06.sh
 #/vagrant/demo/script-07.sh
 
-# Tweak GUI screens
+# Tweak the configuration to show more management capabilities
 /vagrant/demo/script-99.sh
 
 
