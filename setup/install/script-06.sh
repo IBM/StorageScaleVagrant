@@ -31,10 +31,6 @@ echo "===> Enable quotas"
 echo "===> Note: Capacity reports in the GUI depend on enabled quotas"
 sudo mmchfs fs1 -Q yes
 
-# Initialize quota database
-echo "===> Initialize quota database"
-sudo mmcheckquota fs1
-
 # Show Spectrum Scale filesystem configuration
 echo "===> Show Spectrum Scale filesystem configuration"
 sudo mmlsfs all

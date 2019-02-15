@@ -16,6 +16,10 @@ set -x
 set -e
 
 
+# Initialize quota database
+echo "===> Initialize quota database"
+sudo mmcheckquota fs1
+
 # Update capacity reports
 echo "===> Update capacity reports"
 sudo /usr/lpp/mmfs/gui/cli/runtask QUOTA
