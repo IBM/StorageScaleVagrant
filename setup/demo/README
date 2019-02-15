@@ -14,4 +14,5 @@ script-07.sh  - TODO: Placeholder for snapshot schedule -
 
 Tweak the configuration to show more management capabilities:
 script-80.sh  Authorize the default GUI admin to manage ACLs
+script-81.sh  Trigger health events by filesets that exceed thresholds
 script-99.sh  Update the capacitiy reports

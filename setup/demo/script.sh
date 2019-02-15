@@ -26,6 +26,7 @@ set -e
 
 # Tweak the configuration to show more management capabilities
 /vagrant/demo/script-80.sh
+/vagrant/demo/script-81.sh
 /vagrant/demo/script-99.sh
 
 
