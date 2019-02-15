@@ -13,4 +13,5 @@ script-06.sh  Create snapshot for fileset snapshots
 script-07.sh  - TODO: Placeholder for snapshot schedule -
 
 Tweak the configuration to show more management capabilities:
+script-80.sh  Authorize the default GUI admin to manage ACLs
 script-99.sh  Update the capacitiy reports
