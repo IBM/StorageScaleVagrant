@@ -21,6 +21,8 @@ set -e
 /vagrant/demo/script-03.sh
 #/vagrant/demo/script-04.sh
 /vagrant/demo/script-05.sh
+/vagrant/demo/script-06.sh
+#/vagrant/demo/script-07.sh
 
 # Tweak GUI screens
 /vagrant/demo/script-99.sh
