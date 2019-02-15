@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
       (1..small).each do |disk|
         filename = "disk/disk-m1-00#{disk}.vdi"
         unless File.exist?(filename)
-          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 1024]
+          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 2 * 1024]
         end
         vbox.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', "#{disk-1}", '--device', 0, '--type', 'hdd', '--medium', filename]
       end
