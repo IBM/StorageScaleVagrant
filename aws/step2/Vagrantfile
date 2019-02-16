@@ -1,0 +1,59 @@
+$message = <<EOT
+--------------------------------------------------------------------------
+
+Created virtual environment for IBM Spectrum Scale.
+
+User Guide:
+https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+
+To logon on the management node execute:
+vagrant ssh
+
+To connect to the Spectrum Scale GUI, in a web browser:
+https://<AWS Public IP>
+
+--------------------------------------------------------------------------
+EOT
+
+
+# Customize configuration specific settings
+Vagrant.configure("2") do |config|
+
+  # Dummy box for AWS provided by vagrant-aws plugin
+  # See section Quickstart: https://github.com/mitchellh/vagrant-aws
+  config.vm.box = "dummy"
+
+  #
+  # The single node cluster comprises one node only
+  #
+  
+  config.vm.provider :aws do |aws, override|
+
+    # Pin the AWS region
+    aws.region = "us-east-1"
+
+    # Set AWS credentials
+    aws.access_key_id     = ENV['SPECTRUM_SCALE_VAGRANT_AWS_ACCESS_KEY_ID']
+    aws.secret_access_key = ENV['SPECTRUM_SCALE_VAGRANT_AWS_SECRET_ACCESS_KEY']
+
+    # Pin the Spectrum Scale AMI
+    aws.ami = "ami-07707895bd217b8a7"
+
+    # Set user name for CentOS images
+    override.ssh.username = "centos"
+
+    # Set SSH keys
+    aws.keypair_name              = ENV['SPECTRUM_SCALE_VAGRANT_AWS_KEYPAIR_NAME']
+    override.ssh.private_key_path = ENV['SPECTRUM_SCALE_VAGRANT_AWS_SSH_PRIVATE_KEY_PATH']
+
+  end    
+
+
+  # Set message to be printed after VMs are up and running
+  config.vm.post_up_message = $message
+
+  # Sync Spectrum Scale install package to admin node
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+
+end
