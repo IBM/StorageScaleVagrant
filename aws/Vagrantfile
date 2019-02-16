@@ -144,6 +144,9 @@ Vagrant.configure("2") do |config|
         perl-Sub-Install\
         perl-Try-Tiny\
         zlib-devel
-    " 
+    "
+
+    # Sync Spectrum Scale install package to admin node
+    config.vm.synced_folder "../software", "/software", type: "rsync"
 
 end
