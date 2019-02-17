@@ -79,4 +79,12 @@ Vagrant.configure("2") do |config|
       cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
     "
 
+  # Get fingerprints of host keys
+  config.vm.provision "shell",
+    name:   "Get fingerprints of host keys",
+    inline: "
+      ssh-keyscan -t ecdsa m1             >> /root/.ssh/known_hosts 2>/dev/null
+      ssh-keyscan -t ecdsa m1.example.com >> /root/.ssh/known_hosts 2>/dev/null
+   "
+
 end
