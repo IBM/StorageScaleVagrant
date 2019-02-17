@@ -63,5 +63,11 @@ Vagrant.configure("2") do |config|
       chmod 755 /vagrant/*/*.sh
     "
 
+  # Configure /etc/hosts
+  config.vm.provision "shell",
+    name:   "Configure /etc/hosts",
+    inline: "
+      echo \"`hostname -I` m1.example.com m1\" >> /etc/hosts
+    "
 
 end
