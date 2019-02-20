@@ -46,3 +46,10 @@ notepad Vagrantfile.aws-credentials
 See the AWS documentation ([Managing Access Keys for IAM Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
 and [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html))
 on how to get the AWS access key and the ssh key.
+
+## Accept the CentOS license agreement on AWS marketplace
+
+At the point of writing this README, there is no charge for using the CentOS software,
+but before using CentOS you need to find [CentOS 7 on the AWS marketplace](https://aws.amazon.com/marketplace/pp/B00O7WM7QW)
+and to subscribe it in order to accept the license agreement.
+
