@@ -1,16 +1,13 @@
 $message = <<EOT
 --------------------------------------------------------------------------
 
-Created virtual environment for IBM Spectrum Scale.
+Created virtual machine with all RPMs required by IBM Spectrum Scale. Next
+steps are to create an AWS AMI and to destroy the virtual machine.
 
-User Guide:
-https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+TODO: Describe how to create the AWS AMI.
 
-To logon on the management node execute:
-vagrant ssh
-
-To connect to the Spectrum Scale GUI, in a web browser:
-https://<AWS Public IP>
+To destroy the virtual machine execute:
+vagrant destroy
 
 --------------------------------------------------------------------------
 EOT
