@@ -2,3 +2,4 @@
 boxes/*.box
 disk/
 software/
+aws/Vagrantfile.aws-credentials
