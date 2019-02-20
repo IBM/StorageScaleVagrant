@@ -16,6 +16,10 @@ https://<AWS Public IP>
 EOT
 
 
+# Read AWS credentials and ssh keys from shared configuration file
+load File.expand_path('../../Vagrantfile.aws-credentials', __FILE__)
+
+
 # Customize configuration specific settings
 Vagrant.configure("2") do |config|
 
@@ -26,15 +30,17 @@ Vagrant.configure("2") do |config|
   #
   # The single node cluster comprises one node only
   #
-  
   config.vm.provider :aws do |aws, override|
+
+    aws.access_key_id     = $my_aws_access_key_id
+    aws.secret_access_key = $my_aws_secret_access_key
+
+    # Set SSH keys
+    aws.keypair_name              = $my_aws_keypair_name
+    override.ssh.private_key_path = $my_aws_private_key_path
 
     # Pin the AWS region
     aws.region = "us-east-1"
-
-    # Set AWS credentials
-    aws.access_key_id     = ENV['SPECTRUM_SCALE_VAGRANT_AWS_ACCESS_KEY_ID']
-    aws.secret_access_key = ENV['SPECTRUM_SCALE_VAGRANT_AWS_SECRET_ACCESS_KEY']
 
     # Pin the CentOS 7 AMI
     aws.ami = "ami-02eac2c0129f6376b"
@@ -42,12 +48,7 @@ Vagrant.configure("2") do |config|
     # Set user name for CentOS images
     override.ssh.username = "centos"
 
-    # Set SSH keys
-    aws.keypair_name              = ENV['SPECTRUM_SCALE_VAGRANT_AWS_KEYPAIR_NAME']
-    override.ssh.private_key_path = ENV['SPECTRUM_SCALE_VAGRANT_AWS_SSH_PRIVATE_KEY_PATH']
-
   end    
-
 
 
   # Set message to be printed after VMs are up and running
