@@ -20,6 +20,11 @@ vagrant destroy
 --------------------------------------------------------------------------
 EOT
 
+
+# Load RPMs that need to be installed on top of the CentOS base image
+load File.expand_path('../../shared/Vagrantfile.rpms', __FILE__)
+
+
 Vagrant.configure("2") do |config|
 
 
@@ -41,93 +46,5 @@ Vagrant.configure("2") do |config|
   # Keep insecure default ssh keys - keys will be updated later
   config.ssh.insert_key = false
 
-  # Install RPMs required by Spectrum Scale Installation Toolkit
-  config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale Installation Toolkit",
-    inline: "
-      /usr/bin/yum install -y\
-        net-tools
-    "
-
-  # Install RPMs required by Spectrum Scale core
-    config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale core",
-    inline: "
-      /usr/bin/yum install -y\
-        ksh\
-        m4\
-        libaio
-    "
-
-  # Remove installed kernel-devel and kernel-headers to prevent version missmatches
-  config.vm.provision "shell",
-    name:   "Remove installed kernel-devel and kernel-headers to prevent version missmatches",
-    inline: "
-      /usr/bin/yum remove -y\
-        kernel-devel\
-        kernel-headers\
-    "
-
-  # Install RPMs required by Spectrum Scale to build portability layer
-  config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale to build portability layer",
-    inline: "
-      /usr/bin/yum install -y\
-        kernel-devel-$(uname -r)\
-        kernel-headers-$(uname -r)\
-        cpp\
-        gcc\
-        gcc-c++
-    "
-
-  # Install RPMs required by Spectrum Scale GUI
-  config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale GUI",
-    inline: "
-      /usr/bin/yum install -y\
-        libpcap\
-        lsof\
-        nmap-ncat\
-        postgresql\
-        postgresql-libs\
-        postgresql-server
-    "
-
-  # Install additional RPMs required by Spectrum Scale
-    config.vm.provision "shell",
-    name:   "Install additional RPMs required by Spectrum Scale",
-    inline: "
-      /usr/bin/yum install -y\
-        boost-regex\
-        cyrus-sasl\
-        cyrus-sasl-devel\
-        keyutils-libs-devel\
-        krb5-devel\
-        libcom_err-devel\
-        libkadm5\
-        libselinux-devel\
-        libsepol-devel\
-        libverto-devel\
-        openssl-devel\
-        pcre-devel\
-        perl-Class-Load\
-        perl-Class-Singleton\
-        perl-Data-Dumper\
-        perl-Data-OptList\
-        perl-DateTime\
-        perl-DateTime-Locale\
-        perl-DateTime-TimeZone\
-        perl-List-MoreUtils\
-        perl-Module-Implementation\
-        perl-Module-Runtime\
-        perl-Package-DeprecationManager\
-        perl-Package-Stash\
-        perl-Package-Stash-XS\
-        perl-Params-Util\
-        perl-Params-Validate\
-        perl-Sub-Install\
-        perl-Try-Tiny\
-        zlib-devel
-    "
 
 end
