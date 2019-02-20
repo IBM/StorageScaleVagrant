@@ -18,7 +18,7 @@ vagrant plugin install --plugin-version 1.0.1 fog-ovirt
 vagrant plugin install vagrant-aws
 ```
 
-## Install the Vagrant plugin for AWS (vagrant-aws)
+## Get the dummy box for the vagrant-aws plugin
 
 Vagrant requires each provider plug-in to provide its own box format. The
 vagrant-aws plugin provides a [dummy box](https://github.com/mitchellh/vagrant-aws#box-format)
