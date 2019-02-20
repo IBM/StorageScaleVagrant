@@ -32,3 +32,17 @@ to your Vagrant installation:
 ```
 vagrant box add aws-dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 ```
+
+## Configure your AWS access key and your SSH key pair
+
+Copy the `Vagrantfile.aws-credentials.sample` to `Vagrantfile.aws-credentials` and update that file with your credentials:
+
+```
+cd SpectrumScaleVagrant\aws
+copy Vagrantfile.aws-credentials.sample Vagrantfile.aws-credentials
+notepad Vagrantfile.aws-credentials
+```
+
+See the AWS documentation ([Managing Access Keys for IAM Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
+and [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html))
+on how to get the AWS access key and the ssh key.
