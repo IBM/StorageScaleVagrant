@@ -10,7 +10,7 @@ need to install the [vagrant-aws plugin](https://github.com/mitchellh/vagrant-aw
 to enable Vagrant to manage virtual environments on AWS.
 
 On my host the installation of the vagrant-aws plugin failed, but [pinning the
-version of the fog-ovirt](https://github.com/mitchellh/vagrant-aws/issues/539#issuecomment-398100794)
+version of fog-ovirt](https://github.com/mitchellh/vagrant-aws/issues/539#issuecomment-398100794)
 resolved the issue:
 
 ```
