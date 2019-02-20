@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
 
   # Dummy box for AWS provided by vagrant-aws plugin
   # See section Quickstart: https://github.com/mitchellh/vagrant-aws
-  config.vm.box = "dummy"
+  config.vm.box = "dummy-aws"
 
   #
   # The single node cluster comprises one node only
