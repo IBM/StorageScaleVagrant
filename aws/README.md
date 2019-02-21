@@ -53,7 +53,7 @@ At the point of writing this README, there is no charge for using the CentOS sof
 but before using CentOS you need to find [CentOS 7 on the AWS marketplace](https://aws.amazon.com/marketplace/pp/B00O7WM7QW)
 and to subscribe it in order to accept the license agreement.
 
-## Decide on when to integratre the Spectrum Scale self-extracting installation package
+## Decide on how to integrate the Spectrum Scale self-extracting installation package
 
 Depending on your network connectivity, it takes some time to upload the Spectrum Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Spectrum Scale:
 1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it from your host to the virtual machine in AWS.
