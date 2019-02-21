@@ -48,6 +48,10 @@ Vagrant.configure("2") do |config|
     # Set user name for CentOS images
     override.ssh.username = "centos"
 
+    # Tag each instance with user name
+    username = "#{ENV['USERNAME'] || `whoami`}"
+    aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
+
   end    
 
 
