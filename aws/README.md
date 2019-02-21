@@ -59,4 +59,28 @@ Depending on your network connectivity, it takes some time to upload the Spectru
 1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
+## SpectrumScale_base AMI - An AWS AMI optimized for Spectrum Scale
 
+The virtual machines are based on the official CentOS/7 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom AWS AWI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
+
+To start the initial virtual machine:
+1. `cd SpectrumScaleVagrant\aws\prep-ami`
+1. `Vagrant up`
+1. `Vagrant ssh`
+
+Copy the Spectrum Scale self-extracting installation package to `/software`, if you decided for approach option 2 above.
+
+```
+SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
+
+[centos@ip-172-31-27-143 ~]$ ls -l /software
+total 1489140
+-rw-r--r--. 1 centos centos        136 Feb 16 17:26 README
+-rw-rw-r--. 1 centos centos 1564495872 Feb 14 13:20 Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install
+
+[centos@ip-172-31-27-143 ~]$ exit
+logout
+Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
+
+SpectrumScaleVagrant\aws\prep-ami>
+```
