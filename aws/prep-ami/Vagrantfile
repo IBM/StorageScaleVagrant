@@ -51,6 +51,9 @@ Vagrant.configure("2") do |config|
   end    
 
 
+  # Set name of virtual machine
+  config.vm.define "SpectrumScale_base"
+
   # Set message to be printed after VMs are up and running
   config.vm.post_up_message = $message
 
