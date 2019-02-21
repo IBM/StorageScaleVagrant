@@ -59,9 +59,9 @@ Depending on your network connectivity, it takes some time to upload the Spectru
 1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
-## SpectrumScale_base AMI - An AWS AMI optimized for Spectrum Scale
+## Spectrum Scale Base AMI - An AWS AMI optimized for Spectrum Scale
 
-The virtual machines are based on the official CentOS/7 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom AWS AWI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
+The virtual machines are based on the official CentOS/7 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom Spectrum Scale Base AMI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
 
 To start the initial virtual machine:
 1. `cd SpectrumScaleVagrant\aws\prep-ami`
@@ -84,3 +84,63 @@ Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
 
 SpectrumScaleVagrant\aws\prep-ami>
 ```
+
+By default the CentOS AMI leaves the orphaned root volume, after the owning virtual machine (instance) is terminated. Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+
+First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
+
+```
+SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=SpectrumScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
+[
+    [
+        [
+            "i-0e8484f38bf860536",
+            [
+                {
+                    "DeviceName": "/dev/sda1",
+                    "Ebs": {
+                        "AttachTime": "2019-02-21T20:37:36.000Z",
+                        "DeleteOnTermination": false,
+                        "Status": "attached",
+                        "VolumeId": "vol-0219f2a207a60b7d8"
+                    }
+                }
+            ]
+        ]
+    ]
+]
+
+SpectrumScaleVagrant\aws\prep-ami>
+```
+
+Next step is to modify the setting for `DeleteOnTermination` and to validate that the setting was changed:
+
+```
+SpectrumScaleVagrant\aws\prep-ami>aws ec2 modify-instance-attribute --instance-id "i-0dadfb6d892a0d83c" --region us-east-1 --block-device-mappings file://DeleteOnTermination.json
+
+SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=SpectrumScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
+[
+    [
+        [
+            "i-0e8484f38bf860536",
+            [
+                {
+                    "DeviceName": "/dev/sda1",
+                    "Ebs": {
+                        "AttachTime": "2019-02-21T20:37:36.000Z",
+                        "DeleteOnTermination": true,
+                        "Status": "attached",
+                        "VolumeId": "vol-0219f2a207a60b7d8"
+                    }
+                }
+            ]
+        ]
+    ]
+]
+
+SpectrumScaleVagrant\aws\prep-ami>
+```
+
+Having checked that `DeleteOnTermination` is set to `true` we can build the Spectrum Scale AWS AMI and terminate the virtual machine:
+1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
+1. `vagrant destroy`
