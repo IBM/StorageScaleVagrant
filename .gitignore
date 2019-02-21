@@ -1,5 +1,6 @@
 .vagrant/
 boxes/*.box
+*/*/*.box
 disk/
 software/
 aws/Vagrantfile.aws-credentials
