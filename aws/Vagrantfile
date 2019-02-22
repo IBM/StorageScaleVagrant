@@ -26,6 +26,10 @@ load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
 # Read AWS AMI ID of the SpectrumScale_base AMI from the configuration file
 load File.expand_path('../Vagrantfile.aws-ami', __FILE__)
 
+# Load common settings
+load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
+
+
 # Customize configuration specific settings
 Vagrant.configure("2") do |config|
 
@@ -69,46 +73,5 @@ Vagrant.configure("2") do |config|
   # Set message to be printed after VMs are up and running
   config.vm.post_up_message = $message
 
-  # Sync Spectrum Scale install package to admin node
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "../setup", "/vagrant", type: "rsync"
-
-  # Configure permissions for shell scripts
-  config.vm.provision "shell",
-    name:   "Configure permissions for shell scripts",
-    inline: "
-      chmod 755 /vagrant/*/*.sh
-    "
-
-  # Configure /etc/hosts
-  config.vm.provision "shell",
-    name:   "Configure /etc/hosts",
-    inline: "
-      echo \"`hostname -I` m1.example.com m1\" >> /etc/hosts
-    "
-
-  # Add Spectrum Scale executables to $PATH
-  config.vm.provision "shell",
-    name:   "Add /usr/lpp/mmfs/bin to $PATH",
-    inline: "
-      cp /vagrant/files/linux/etc__profile.d__spectrumscale.sh /etc/profile.d/spectrumscale.sh
-   "
-
-  # Generate ssh keys for user root
-  # Note: The Spectrum Scale installation toolkit requires root ssh
-  config.vm.provision "shell",
-    name:   "Generate ssh keys for user root",
-    inline: "
-      ssh-keygen -q -N '' -f /root/.ssh/id_rsa
-      cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
-    "
-
-  # Get fingerprints of host keys
-  config.vm.provision "shell",
-    name:   "Get fingerprints of host keys",
-    inline: "
-      ssh-keyscan -t ecdsa m1             >> /root/.ssh/known_hosts 2>/dev/null
-      ssh-keyscan -t ecdsa m1.example.com >> /root/.ssh/known_hosts 2>/dev/null
-   "
 
 end
