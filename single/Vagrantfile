@@ -33,9 +33,19 @@ load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
 # Customize configuration specific settings
 Vagrant.configure("2") do |config|
 
+  # Use the Vagrant box prepared for Spectrum Scale
+  config.vm.box     = "SpectrumScale_base"
+  config.vm.box_url = "../boxes/SpectrumScale_base.box"
+
+  # Customize resources of virtual machines
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.memory = 2048
+  end
+
   #
   # The single node cluster comprises one node only
   #
+
   config.vm.define "m1", primary: true do |node|
     node.vm.hostname = "m1"
     node.vm.network "private_network", ip: "10.1.1.11"  
