@@ -17,7 +17,7 @@ EOT
 
 
 # Read AWS credentials and ssh keys from shared configuration file
-load File.expand_path('../../Vagrantfile.aws-credentials', __FILE__)
+load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
 
 
 # Customize configuration specific settings
@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
 
   # Sync Spectrum Scale install package to admin node
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "../../setup", "/vagrant", type: "rsync"
+  config.vm.synced_folder "../setup", "/vagrant", type: "rsync"
 
   # Configure permissions for shell scripts
   config.vm.provision "shell",
