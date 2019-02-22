@@ -16,6 +16,10 @@ https://<AWS Public IP>
 EOT
 
 
+# Set provider
+$SpectrumScaleVagrant_provider = 'AWS'
+
+
 # Read AWS credentials and ssh keys from shared configuration file
 load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
 

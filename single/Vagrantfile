@@ -22,6 +22,11 @@ https://localhost:8888
 --------------------------------------------------------------------------
 EOT
 
+
+# Set provider
+$SpectrumScaleVagrant_provider = 'VirtualBox'
+
+
 # Load common settings
 load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
 
