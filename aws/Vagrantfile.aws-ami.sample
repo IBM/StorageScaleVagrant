@@ -1,0 +1,5 @@
+# Copy this file to Vagrantfile.aws-ami and fill the AMI ID of the
+# SpectrumScale_base AMI that was created according to the README.me
+
+# The ID of the SpectrumScale_base AMI
+$my_aws_SpectrumScale_base_AMI_ID  = 'xxx'

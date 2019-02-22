@@ -4,3 +4,4 @@ boxes/*.box
 disk/
 software/
 aws/Vagrantfile.aws-credentials
+aws/Vagrantfile.aws-ami

@@ -19,6 +19,8 @@ EOT
 # Read AWS credentials and ssh keys from shared configuration file
 load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
 
+# Read AWS AMI ID of the SpectrumScale_base AMI from the configuration file
+load File.expand_path('../Vagrantfile.aws-ami', __FILE__)
 
 # Customize configuration specific settings
 Vagrant.configure("2") do |config|
@@ -44,8 +46,8 @@ Vagrant.configure("2") do |config|
     # Pin the AWS region
     aws.region = "us-east-1"
 
-    # Pin the Spectrum Scale AMI
-    aws.ami = "ami-07707895bd217b8a7"
+    # Pin the SpectrumScale_base AMI
+    aws.ami = $my_aws_SpectrumScale_base_AMI_ID
 
     # Set user name for CentOS images
     override.ssh.username = "centos"
