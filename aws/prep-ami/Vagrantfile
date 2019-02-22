@@ -49,6 +49,9 @@ Vagrant.configure("2") do |config|
     username = "#{ENV['USERNAME'] || `whoami`}"
     aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
 
+    # Tag derived AMI with 'SpectrumScale_base'
+    aws.package_tags = { 'Name' => "SpectrumScale_base" }
+
   end    
 
 
