@@ -64,6 +64,18 @@ Vagrant.configure("2") do |config|
     username = "#{ENV['USERNAME'] || `whoami`}"
     aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
 
+    # Add disks for SpectrumScale NSDs
+    aws.block_device_mapping = [
+      { 'DeviceName' => '/dev/xvdb', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdc', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdd', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvde', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdf', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdg', 'Ebs.VolumeSize' => 10 },
+      { 'DeviceName' => '/dev/xvdh', 'Ebs.VolumeSize' => 10 },      
+    ]
+
+
   end    
 
 
