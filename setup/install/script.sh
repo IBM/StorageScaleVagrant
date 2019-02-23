@@ -1,5 +1,14 @@
 #!/usr/bin/bash
 
+
+usage(){
+  echo "Usage: $0 [<provider>]"
+  echo "Supported provider:"
+  echo "  AWS"
+  echo "  Virtualbox"
+}
+
+
 # Improve readability of output
 echo "========================================================================================="
 echo "===>"
@@ -15,14 +24,32 @@ set -x
 set -e
 
 
+# Exit, if not exactly one argument given
+if [ $# -ne 1 ]; then
+  usage
+  exit -1
+fi
+
+# Use first argument as current underlying provider
+case $1 in
+  'AWS'|'Virtualbox' )
+    PROVIDER=$1
+    ;;
+  *)
+    usage
+    exit -1
+    ;;
+esac
+
+
 # Perform all steps to provision Spectrum Scale Cluster
-/vagrant/install/script-01.sh
-/vagrant/install/script-02.sh
-/vagrant/install/script-03.sh
-/vagrant/install/script-04.sh
-/vagrant/install/script-05.sh
-/vagrant/install/script-06.sh
-/vagrant/install/script-07.sh
+/vagrant/install/script-01.sh $PROVIDER
+/vagrant/install/script-02.sh $PROVIDER
+/vagrant/install/script-03.sh $PROVIDER
+/vagrant/install/script-04.sh $PROVIDER
+/vagrant/install/script-05.sh $PROVIDER
+/vagrant/install/script-06.sh $PROVIDER
+/vagrant/install/script-07.sh $PROVIDER
 
 # Exit successfully
 echo "===> Script completed successfully!"
