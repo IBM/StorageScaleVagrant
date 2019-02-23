@@ -20,11 +20,25 @@ Vagrant.configure('2') do |config|
     "
 
   # Configure /etc/hosts
-  config.vm.provision "shell",
-    name:   "Configure /etc/hosts",
-    inline: "
-      cp /vagrant/files/linux/etc__hosts /etc/hosts
-    "
+  # ... for AWS
+  if $SpectrumScaleVagrant_provider == 'AWS'
+  then
+    config.vm.provision "shell",
+      name:   "Configure /etc/hosts for AWS",
+      inline: "
+        echo \"`hostname -I` m1.example.com m1\" >> /etc/hosts
+      "
+  end
+  # ... for VirtualBox
+  # Configure /etc/hosts
+  if $SpectrumScaleVagrant_provider == 'VirtualBox'
+  then
+    config.vm.provision "shell",
+      name:   "Configure /etc/hosts for VirtualBox",
+      inline: "
+        cp /vagrant/files/linux/etc__hosts /etc/hosts
+      "
+  end
 
   # Configure ssh keys for user root
   # Note: The Spectrum Scale installation toolkit requires root ssh
