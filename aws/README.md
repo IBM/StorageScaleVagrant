@@ -144,3 +144,21 @@ SpectrumScaleVagrant\aws\prep-ami>
 Having checked that `DeleteOnTermination` is set to `true` we can build the Spectrum Scale AWS AMI and terminate the virtual machine:
 1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
 1. `vagrant destroy`
+
+## Configure the SpectrumScale_base AMI ID
+
+The `vagrant package ...` command of the previous step prints the AMI ID of the new SpectrumScale_base AMI:
+
+```
+...
+==> SpectrumScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
+...
+```
+
+Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the SpectrumScale_base AMI:
+
+```
+cd SpectrumScaleVagrant\aws
+copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
+notepad Vagrantfile.aws-ami
+```
