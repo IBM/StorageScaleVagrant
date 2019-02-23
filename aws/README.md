@@ -162,3 +162,12 @@ cd SpectrumScaleVagrant\aws
 copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
 notepad Vagrantfile.aws-ami
 ```
+
+## Boot a virtual machine with a single node Spectrum Scale cluster
+
+Now we are ready to boot a virtual machine on AWS and to configure it with a single node Spectrum Scale cluster:
+1. `cd SpectrumScaleVagrant\aws`
+1. `vagrant up`
+1. `vagrant ssh`
+
+See the [README.md](../README.md) for details on the configured Spectrum Scale cluster.
