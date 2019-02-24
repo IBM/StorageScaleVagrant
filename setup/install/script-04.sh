@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+usage(){
+  echo "Usage: $0 [<provider>]"
+  echo "Supported provider:"
+  echo "  AWS"
+  echo "  Virtualbox"
+}
+
 
 # Improve readability of output
 echo "========================================================================================="
@@ -15,6 +22,24 @@ set -x
 
 # Exit script immediately, if one of the commands returns error code
 set -e
+
+
+# Exit, if not exactly one argument given
+if [ $# -ne 1 ]; then
+  usage
+  exit -1
+fi
+
+# Use first argument as current underlying provider
+case $1 in
+  'AWS'|'Virtualbox' )
+    PROVIDER=$1
+    ;;
+  *)
+    usage
+    exit -1
+    ;;
+esac
 
 
 # Specify cluster name to 'demo'
@@ -34,8 +59,18 @@ echo "===> Show cluster specification"
 sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node list
 
 # Specify NSDs
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
+# ... for AWS
+if [ "$PROVIDER" = "AWS" ]
+then
+  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
+  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
+fi
+# ... for VirtualBox
+if [ "$PROVIDER" = "Virtualbox" ]
+then
+  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
+fi
 
 # Show NSD specification
 echo "===> Show NSD specification"
