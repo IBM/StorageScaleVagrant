@@ -85,6 +85,10 @@ Vagrant.configure("2") do |config|
   # Set message to be printed after VMs are up and running
   config.vm.post_up_message = $message
 
+  # Send keep-alive packets to keep ssh connections alive
+  config.ssh.keep_alive = true
+  config.winssh.keep_alive = true
+
   # Install and configure single node Spectrum Scale cluster
   config.vm.provision "shell",
     name:   "Install and configure single node Spectrum Scale cluster",
