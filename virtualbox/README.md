@@ -23,3 +23,10 @@ To create the custom Vagrant box:
 1. `vagrant up`
 1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
 1. `vagrant destroy`
+
+## Security
+
+The environment on VirtualBox is optimized to play with Spectrum Scale
+in a lab environment. To simplify access from the outside, all virtual
+nodes are configured with well known SSH keys. This is a security exposure
+for production environments.
