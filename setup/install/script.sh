@@ -32,7 +32,7 @@ fi
 
 # Use first argument as current underlying provider
 case $1 in
-  'AWS'|'Virtualbox' )
+  'AWS'|'VirtualBox' )
     PROVIDER=$1
     ;;
   *)

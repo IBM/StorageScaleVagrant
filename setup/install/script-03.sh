@@ -5,7 +5,7 @@ usage(){
   echo "Usage: $0 [<provider>]"
   echo "Supported provider:"
   echo "  AWS"
-  echo "  Virtualbox"
+  echo "  VirtualBox"
 }
 
 
@@ -32,7 +32,7 @@ fi
 
 # Use first argument as current underlying provider
 case $1 in
-  'AWS'|'Virtualbox' )
+  'AWS'|'VirtualBox' )
     PROVIDER=$1
     ;;
   *)
@@ -48,7 +48,7 @@ then
   INSTALL_NODE=`hostname -I`
 fi
 # ... for VirtualBox
-if [ "$PROVIDER" = "Virtualbox" ]
+if [ "$PROVIDER" = "VirtualBox" ]
 then
   INSTALL_NODE="10.1.1.11"
 fi

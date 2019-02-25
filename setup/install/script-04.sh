@@ -4,7 +4,7 @@ usage(){
   echo "Usage: $0 [<provider>]"
   echo "Supported provider:"
   echo "  AWS"
-  echo "  Virtualbox"
+  echo "  VirtualBox"
 }
 
 
@@ -32,7 +32,7 @@ fi
 
 # Use first argument as current underlying provider
 case $1 in
-  'AWS'|'Virtualbox' )
+  'AWS'|'VirtualBox' )
     PROVIDER=$1
     ;;
   *)
@@ -66,7 +66,7 @@ then
   sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
 fi
 # ... for VirtualBox
-if [ "$PROVIDER" = "Virtualbox" ]
+if [ "$PROVIDER" = "VirtualBox" ]
 then
   sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
   sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
