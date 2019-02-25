@@ -62,14 +62,14 @@ sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node list
 # ... for AWS
 if [ "$PROVIDER" = "AWS" ]
 then
-  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
-  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
+  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
+  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
 fi
 # ... for VirtualBox
 if [ "$PROVIDER" = "Virtualbox" ]
 then
-  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
-  sudo /usr/lpp/mmfs/5.0.2.1/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
+  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
 fi
 
 # Show NSD specification
