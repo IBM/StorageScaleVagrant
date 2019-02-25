@@ -1,0 +1,108 @@
+$message = <<EOT
+--------------------------------------------------------------------------
+
+Created virtual environment for IBM Spectrum Scale.
+
+User Guide:
+https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+
+To logon on the management node execute:
+vagrant ssh
+
+To connect to the Spectrum Scale GUI, in a web browser:
+https://<AWS Public IP>
+
+--------------------------------------------------------------------------
+EOT
+
+
+# Set provider
+$SpectrumScaleVagrant_provider = 'AWS'
+
+
+# Read AWS credentials and ssh keys from shared configuration file
+load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
+
+# Read AWS AMI ID of the SpectrumScale_base AMI from the configuration file
+load File.expand_path('../Vagrantfile.aws-ami', __FILE__)
+
+# Load common settings
+load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
+
+
+# Customize configuration specific settings
+Vagrant.configure("2") do |config|
+
+  # Dummy box for AWS provided by vagrant-aws plugin
+  # See section Quickstart: https://github.com/mitchellh/vagrant-aws
+  config.vm.box = "aws-dummy"
+
+  #
+  # The single node cluster comprises one node only
+  #
+  
+  config.vm.provider :aws do |aws, override|
+
+    # Set AWS credentials
+    aws.access_key_id     = $my_aws_access_key_id
+    aws.secret_access_key = $my_aws_secret_access_key
+
+    # Set SSH keys
+    aws.keypair_name              = $my_aws_keypair_name
+    override.ssh.private_key_path = $my_aws_private_key_path
+
+    # Pin the AWS region
+    aws.region = "us-east-1"
+
+    # Pin the SpectrumScale_base AMI
+    aws.ami = $my_aws_SpectrumScale_base_AMI_ID
+
+    # Set user name for CentOS images
+    override.ssh.username = "centos"
+
+    # Tag each instance running in AWS with user name
+    username = "#{ENV['USERNAME'] || `whoami`}"
+    aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
+
+    # Add disks for SpectrumScale NSDs
+    aws.block_device_mapping = [
+      { 'DeviceName' => '/dev/xvdb', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdc', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdd', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvde', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdf', 'Ebs.VolumeSize' =>  2 },
+      { 'DeviceName' => '/dev/xvdg', 'Ebs.VolumeSize' => 10 },
+      { 'DeviceName' => '/dev/xvdh', 'Ebs.VolumeSize' => 10 },      
+    ]
+
+
+  end    
+
+
+  # Set name of virtual machine used by Vagrant
+  config.vm.define "SpectrumScale_single"
+
+  # Set message to be printed after VMs are up and running
+  config.vm.post_up_message = $message
+
+  # Send keep-alive packets to keep ssh connections alive
+  config.ssh.keep_alive = true
+  config.winssh.keep_alive = true
+
+  # Install and configure single node Spectrum Scale cluster
+  config.vm.provision "shell",
+    name:   "Install and configure single node Spectrum Scale cluster",
+    inline: "
+      /vagrant/install/script.sh #{$SpectrumScaleVagrant_provider}
+    "
+
+  # Configure Spectrum Scale for demo purposes
+  config.vm.provision "shell",
+    name:   "Configure Spectrum Scale for demo purposes",
+    inline: "
+      /vagrant/demo/script.sh
+    "
+
+
+end
+

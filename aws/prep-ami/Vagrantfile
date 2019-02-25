@@ -1,0 +1,70 @@
+$message = <<EOT
+--------------------------------------------------------------------------
+
+Created virtual machine with all RPMs required by IBM Spectrum Scale. Next
+steps are to create an AWS AMI and to destroy the virtual machine.
+
+See the README.md for details.
+
+--------------------------------------------------------------------------
+EOT
+
+
+# Read AWS credentials and ssh keys from shared configuration file
+load File.expand_path('../../Vagrantfile.aws-credentials', __FILE__)
+
+# Load RPMs that need to be installed on top of the CentOS base image
+load File.expand_path('../../../shared/Vagrantfile.rpms', __FILE__)
+
+
+# Customize configuration specific settings
+Vagrant.configure("2") do |config|
+
+  # Dummy box for AWS provided by vagrant-aws plugin
+  # See section Quickstart: https://github.com/mitchellh/vagrant-aws
+  config.vm.box = "aws-dummy"
+
+  #
+  # The single node cluster comprises one node only
+  #
+  config.vm.provider :aws do |aws, override|
+
+    aws.access_key_id     = $my_aws_access_key_id
+    aws.secret_access_key = $my_aws_secret_access_key
+
+    # Set SSH keys
+    aws.keypair_name              = $my_aws_keypair_name
+    override.ssh.private_key_path = $my_aws_private_key_path
+
+    # Pin the AWS region
+    aws.region = "us-east-1"
+
+    # Pin the CentOS 7 AMI
+    aws.ami = "ami-02eac2c0129f6376b"
+
+    # Set user name for CentOS images
+    override.ssh.username = "centos"
+
+    # Tag each instance with user name
+    username = "#{ENV['USERNAME'] || `whoami`}"
+    aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
+
+    # Tag derived AMI with 'SpectrumScale_base'
+    aws.package_tags = { 'Name' => "SpectrumScale_base" }
+
+  end    
+
+
+  # Set name of virtual machine
+  config.vm.define "SpectrumScale_base"
+
+  # Set message to be printed after VMs are up and running
+  config.vm.post_up_message = $message
+
+  # Sync Spectrum Scale install package to admin node
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Sync Spectrum Scale install package to admin node
+  config.vm.synced_folder "../../software", "/software", type: "rsync"
+
+end

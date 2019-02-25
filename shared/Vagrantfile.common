@@ -8,17 +8,7 @@
 
 Vagrant.configure('2') do |config|
 
-  # Use the Vagrant box prepared for Spectrum Scale
-  config.vm.box     = "SpectrumScale_base"
-  config.vm.box_url = "../boxes/SpectrumScale_base.box"
-
-  # Customize resources of virtual machines
-  config.vm.provider "virtualbox" do |vbox|
-    vbox.memory = 2048
-  end
-
   # Sync folders and files from host to guests
-  config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "../setup", "/vagrant", type: "rsync"
 
   # Configure permissions for shell scripts
@@ -29,25 +19,34 @@ Vagrant.configure('2') do |config|
     "
 
   # Configure /etc/hosts
-  config.vm.provision "shell",
-    name:   "Configure /etc/hosts",
-    inline: "
-      cp /vagrant/files/linux/etc__hosts /etc/hosts
-    "
+  # ... for AWS
+  if $SpectrumScaleVagrant_provider == 'AWS'
+  then
+    config.vm.provision "shell",
+      name:   "Configure /etc/hosts for AWS",
+      inline: "
+        echo \"`hostname -I` m1.example.com m1\" >> /etc/hosts
+      "
+  end
+  # ... for VirtualBox
+  # Configure /etc/hosts
+  if $SpectrumScaleVagrant_provider == 'VirtualBox'
+  then
+    config.vm.provision "shell",
+      name:   "Configure /etc/hosts for VirtualBox",
+      inline: "
+        cp /vagrant/files/linux/etc__hosts /etc/hosts
+      "
+  end
 
-  # Configure ssh keys for user root
+  # Generate ssh keys for user root
   # Note: The Spectrum Scale installation toolkit requires root ssh
   config.vm.provision "shell",
-    name:   "Configure ssh keys for user root",
+    name:   "Generate ssh keys for user root",
     inline: "
-      mkdir /root/.ssh
-      chmod 700 /root/.ssh
-      touch /root/.ssh/authorized_keys
-      cp /vagrant/files/linux/root__.ssh__id_rsa /root/.ssh/id_rsa
-      chmod 600 /root/.ssh/id_rsa
-      cp /vagrant/files/linux/root__.ssh__id_rsa.pub /root/.ssh/id_rsa.pub
+      ssh-keygen -q -N '' -f /root/.ssh/id_rsa
       cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
-   "
+    "
 
   # Configure ssh host keys
   config.vm.provision "shell",
@@ -76,5 +75,6 @@ Vagrant.configure('2') do |config|
     inline: "
       cp /vagrant/files/linux/etc__sudoers.d__spectrumscale /etc/sudoers.d/spectrumscale
    "
+
 
 end
