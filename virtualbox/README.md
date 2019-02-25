@@ -30,3 +30,12 @@ The environment on VirtualBox is optimized to play with Spectrum Scale
 in a lab environment. To simplify access from the outside, all virtual
 nodes are configured with well known SSH keys. This is a security exposure
 for production environments.
+
+## Boot a virtual machine with a single node Spectrum Scale cluster
+
+Now we are ready to boot a virtual machine on VirtualBox and to configure it with a single node Spectrum Scale cluster:
+1. `cd SpectrumScaleVagrant\virtualbox`
+1. `vagrant up`
+1. `vagrant ssh`
+
+See the [README.md](../README.md) for details on the configured Spectrum Scale cluster.
