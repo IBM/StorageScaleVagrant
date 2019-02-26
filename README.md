@@ -37,7 +37,7 @@ Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale clu
 
 Once the virtual enivironment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
 
-| Directory                        | Provider                                                            |
+| Directory                        | Description                                                         |
 |----------------------------------|---------------------------------------------------------------------|
 | [setup/install](./setup/install) | Perform all steps to provision a Spectrum Scale cluster             |
 | [setup/demo](./setup/demo)       | Perform all steps to configure the Spectrum Scale for demo purposes |
