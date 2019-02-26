@@ -1,15 +1,12 @@
 # Spectrum Scale Vagrant
 Example scripts and configuration files to install and configure IBM Spectrum Scale in a Vagrant environment.
 
+
 ## Installation
 
-The scripts and configuration files provision a virtual Spectrum Scale cluster using Vagrant and VirtualBox.
+The scripts and configuration files provision a single node Spectrum Scale cluster using Vagrant.
 
-### Install Vagrant and VirtualBox
-
-Follow the [Vagrant Getting Started Guide](https://www.vagrantup.com/intro/getting-started/index.html) to install Vagrant and VirtualBox and to get familiar with Vagrant.
-
-### Get the scripts and configuration files
+### Get the scripts and configuration files from GitHub
 
 Open a Command Prompt and clone the GitHub repository:
 1. `git clone https://github.com/IBM/SpectrumScaleVagrant.git`
@@ -23,44 +20,37 @@ Download the `Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install` packa
 
 Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
 
-### SpectrumScale_base.box - A Vagrant box optimized for Spectrum Scale
+### Install Vagrant
 
-The virtual machines are based on the [official Vagrant CentOS/7 boxes](https://app.vagrantup.com/centos/boxes/7). Spectrum Scale requires a couple of additional RPMs. We create a custom Vagrant box to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
+Follow the [Vagrant Getting Started Guide](https://www.vagrantup.com/intro/getting-started/index.html) to install Vagrant to get familiar with Vagrant.
 
-To create the custom Vagrant box:
-1. `cd boxes`
-1. `vagrant up`
-1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
-1. `vagrant destroy`
-1. `cd ..`
 
-## Environments
+## Provisioning
 
-This version of SpectrumScaleVagrant provides tooling to provision
-* a single node Spectrum Scale cluster comprising one node only
+Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale cluster on VirtualBox and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
 
-It is planned to add configurations with multiple nodes later.
+| Directory                  | Provider            |
+|----------------------------|---------------------|
+| [aws](./aws)               | Amazon Web Services |
+| [virtualbox](./virtualbox) | VirtualBox          |
 
-### Security
 
-The environments are optimized to play with Spectrum Scale in a lab environment. To simplify access from the outside, all virtual nodes are configured with well known SSH keys. This is a security exposure for production environments.
+Once the virtual enivironment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
 
-### Single node cluster
+| Directory                        | Provider                                                            |
+|----------------------------------|---------------------------------------------------------------------|
+| [setup/install](./setup/install) | Perform all steps to provision a Spectrum Scale cluster             |
+| [setup/demo](./setup/demo)       | Perform all steps to configure the Spectrum Scale for demo purposes |
 
-The single node cluster is good enough for many lab exercises and for
-developing and testing most of the scripts of this project.
 
-The advantage of the single node cluster is that it is much faster provisioned
-than a multi node cluster.
+## Spectrum Scale Management Interfaces
 
-The scripts for the single node cluster are stored in `single`.
+Spectrum Scale Vagrant uses the Spectrum Scale CLI and the Spectrum Scale REST API to install and configure Spectrum Scale. In addition it configures the Spectrum Scale GUI to allow interested users to explore its capabilities.
 
-To create and logon on a single node cluster:
-1. `cd single`
-1. `vagrant up`
-1. `vagrant ssh`
+### Spectrum Scale CLI
 
-Configuration of Spectrum Scale Cluster:
+Spectrum Scale Vagrant configures the shell `$PATH` variable and the sudo `secure_path` to include the location of the Spectrum Scale executables.
+
 ```
 [vagrant@m1 ~]$ sudo mmlscluster
 
@@ -79,16 +69,6 @@ GPFS cluster information
 
 [vagrant@m1 ~]$
 ```
-
-### Spectrum Scale GUI
-
-To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
-
-![](/doc/gui/gui_login.png)
-
-Cluster overview in Spectrum Scale GUI:
-
-![](/doc/gui/gui_home_overview.png)
 
 ### Spectrum Scale REST API
 
@@ -143,6 +123,17 @@ es'
 
 [vagrant@m1 ~]$
 ```
+
+### Spectrum Scale GUI
+
+To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
+
+![](/doc/gui/gui_login.png)
+
+Cluster overview in Spectrum Scale GUI:
+
+![](/doc/gui/gui_home_overview.png)
+
 
 ## Spectrum Scale Filesystem
 

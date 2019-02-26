@@ -1,6 +1,6 @@
 # SpectrumScaleVagrant for AWS
 
-The scripts and files in this directory includes the tooling to provision and
+The scripts and files in this directory include the tooling to provision and
 configure the example Spectrum Scale cluster on AWS.
 
 ## Install the Vagrant plugin for AWS (vagrant-aws)
@@ -23,8 +23,8 @@ vagrant plugin install vagrant-aws
 Vagrant requires each provider plug-in to provide its own box format. The
 vagrant-aws plugin provides a [dummy box](https://github.com/mitchellh/vagrant-aws#box-format)
 to get the plugin going. In contrast to other box formats this box format does
-not include images of virtual machines, but a reference to an Amazon AMI stored
-on AWS.
+not include images of virtual machines. Instead the `Vagrantfile` needs to specify
+the AMI ID of an available AWS AMI.
 
 To [add the vagrant-aws dummy box](https://github.com/mitchellh/vagrant-aws#quick-start)
 to your Vagrant installation:
@@ -56,7 +56,7 @@ and to subscribe it in order to accept the license agreement.
 ## Decide on how to integrate the Spectrum Scale self-extracting installation package
 
 Depending on your network connectivity, it takes some time to upload the Spectrum Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Spectrum Scale:
-1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it from your host to the virtual machine in AWS.
+1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
 ## Spectrum Scale Base AMI - An AWS AMI optimized for Spectrum Scale
@@ -85,7 +85,7 @@ Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
 SpectrumScaleVagrant\aws\prep-ami>
 ```
 
-By default the CentOS AMI leaves the orphaned root volume, after the owning virtual machine (instance) is terminated. Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+By default the official CentOS AMI and derived AMIs leave the orphaned root volume, after the owning virtual machine (instance) is terminated. Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Follow the AWS documentation for the installation of the AWS CLI.
 
 First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
 

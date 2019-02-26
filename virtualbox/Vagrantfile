@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
 
   # Use the Vagrant box prepared for Spectrum Scale
   config.vm.box     = "SpectrumScale_base"
-  config.vm.box_url = "../boxes/SpectrumScale_base.box"
+  config.vm.box_url = "./prep-box/SpectrumScale_base.box"
 
   # Customize resources of virtual machines
   config.vm.provider "virtualbox" do |vbox|
