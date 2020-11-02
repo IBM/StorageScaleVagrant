@@ -44,37 +44,37 @@ esac
 
 # Specify cluster name to 'demo'
 echo "===> Specify cluster name"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale config gpfs -c demo
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale config gpfs -c demo
 
 # Disable callhome for demo environment
 echo "===> Specify to disable call home"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale callhome disable
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale callhome disable
 
 # Specify nodes and its roles
 echo "===> Specify nodes and their roles"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node add -a -g -q -m -n m1
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale node add -a -g -q -m -n m1
 
 # Show cluster specification
 echo "===> Show cluster specification"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale node list
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale node list
 
 # Specify NSDs
 # ... for AWS
 if [ "$PROVIDER" = "AWS" ]
 then
-  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
-  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
+  sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
+  sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
 fi
 # ... for VirtualBox
 if [ "$PROVIDER" = "VirtualBox" ]
 then
-  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
-  sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
+  sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+  sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale nsd add -p m1.example.com /dev/sdg /dev/sdh
 fi
 
 # Show NSD specification
 echo "===> Show NSD specification"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale nsd list
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale nsd list
 
 
 # Exit successfully

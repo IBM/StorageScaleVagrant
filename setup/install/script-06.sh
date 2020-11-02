@@ -20,11 +20,11 @@ set -e
 
 # Show Spectrum Scale filesystem specification
 echo "===> Show filesystem specification"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale filesystem list
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale filesystem list
 
 # Create Spectrum Scale filesystems
 echo "===> Create Spectrum Scale filesystems"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale deploy
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale deploy
 
 # Enable quotas
 echo "===> Enable quotas"
