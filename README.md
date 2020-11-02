@@ -16,7 +16,7 @@ Open a Command Prompt and clone the GitHub repository:
 
 The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The installation package can be downloaded from [IBM Support Fix Central](https://www.ibm.com/support/fixcentral/).
 
-Download the `Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Data_Management-5.0.5.2-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
 
 Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
 

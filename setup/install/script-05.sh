@@ -20,7 +20,7 @@ set -e
 
 # Install Spectrum Scale and create Spectrum Scale cluster
 echo "===> Install Spectrum Scale and create Spectrum Scale cluster"
-sudo /usr/lpp/mmfs/5.0.2.2/installer/spectrumscale install
+sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale install
 
 ## Change admin interface
 #  Note: Disable configuration of separate admin network, because
