@@ -16,6 +16,7 @@ Vagrant.configure('2') do |config|
     name:   "Install RPMs required by Spectrum Scale Installation Toolkit",
     inline: "
       /usr/bin/yum install -y\
+        python3\
         net-tools
     "
 
