@@ -17,7 +17,7 @@ set -e
 
 # Pin the version and the edition of Spectrum Scale, until project runs stable for a while
 #install=/software/Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install
-install=/software/Spectrum_Scale_Data_Management-5.0.5.2-x86_64-Linux-install
+install=/software/Spectrum_Scale_Data_Management-5.1.0.0-x86_64-Linux-install
 # Abort with error code, if Spectrum Scale directroy exists
 echo "===> Check for Spectrum Scale directrory"
 if [ -d "/usr/lpp/mmfs" ]; then

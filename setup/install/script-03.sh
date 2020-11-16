@@ -55,8 +55,8 @@ fi
 
 # Setup management node (m1) as Spectrum Scale Install Node
 echo "===> Setup management node (m1) as Spectrum Scale Install Node"
-sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale setup -s $INSTALL_NODE
-sudo /usr/lpp/mmfs/5.0.5.2/installer/spectrumscale node list
+sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale setup -s $INSTALL_NODE
+sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale node list
 
 
 # Exit successfully
