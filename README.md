@@ -16,13 +16,13 @@ Open a Command Prompt and clone the GitHub repository:
 
 The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The installation package can be downloaded from [IBM Support Fix Central](https://www.ibm.com/support/fixcentral/).
 
-Download the `Spectrum_Scale_Data_Management-5.1.0.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Developer-5.1.1.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
 
 Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
 
 ### Install Vagrant
 
-Follow the [Vagrant Getting Started Guide](https://www.vagrantup.com/intro/getting-started/index.html) to install Vagrant to get familiar with Vagrant.
+Follow the [Vagrant Getting Started Guide](https://learn.hashicorp.com/tutorials/vagrant/getting-started-index) to install Vagrant to get familiar with Vagrant.
 
 
 ## Provisioning
@@ -33,9 +33,10 @@ Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale clu
 |----------------------------|---------------------|
 | [aws](./aws)               | Amazon Web Services |
 | [virtualbox](./virtualbox) | VirtualBox          |
+| [KVM/libvirt](./libvirt)   | KVM/libvirt         |
 
 
-Once the virtual enivironment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
+Once the virtual environment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
 
 | Directory                        | Description                                                         |
 |----------------------------------|---------------------------------------------------------------------|

@@ -9,3 +9,4 @@ script-04.sh  Specify Spectrum Scale Cluster
 script-05.sh  Install Spectrum Scale and create a Spectrum Scale cluster
 script-06.sh  Create Spectrum Scale filesystems
 script-07.sh  Tune sensors for demo environment
+script-08.sh  Install Spectrum Scale CES and Object Protocol

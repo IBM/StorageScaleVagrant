@@ -6,6 +6,7 @@ usage(){
   echo "Supported provider:"
   echo "  AWS"
   echo "  VirtualBox"
+  echo "  libvirt"
 }
 
 
@@ -32,7 +33,7 @@ fi
 
 # Use first argument as current underlying provider
 case $1 in
-  'AWS'|'VirtualBox' )
+  'AWS'|'VirtualBox'|'libvirt' )
     PROVIDER=$1
     ;;
   *)
@@ -48,15 +49,15 @@ then
   INSTALL_NODE=`hostname -I`
 fi
 # ... for VirtualBox
-if [ "$PROVIDER" = "VirtualBox" ]
+if [ "$PROVIDER" = "VirtualBox" -o "$PROVIDER" = "libvirt" ]
 then
   INSTALL_NODE="10.1.1.11"
 fi
 
 # Setup management node (m1) as Spectrum Scale Install Node
 echo "===> Setup management node (m1) as Spectrum Scale Install Node"
-sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale setup -s $INSTALL_NODE
-sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale node list
+sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale setup -s $INSTALL_NODE --storesecret
+sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale node list
 
 
 # Exit successfully
