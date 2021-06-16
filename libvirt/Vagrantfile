@@ -24,7 +24,7 @@ EOT
 
 
 # Set provider
-$SpectrumScaleVagrant_provider = 'VirtualBox'
+$SpectrumScaleVagrant_provider = 'libvirt'
 
 
 # Load common settings
@@ -35,48 +35,46 @@ Vagrant.configure("2") do |config|
 
   # Use the Vagrant box prepared for Spectrum Scale
   config.vm.box     = "SpectrumScale_base"
-  config.vm.box_url = "./prep-box/SpectrumScale_base.box"
+  # config.vm.box_url = "./prep-box/SpectrumScale_base.box"
 
   # Customize resources of virtual machines
-  config.vm.provider "virtualbox" do |vbox|
-    vbox.memory = 8192
-    vbox.cpus = 2
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.qemu_use_session = false
+    libvirt.memory = 8192
+    libvirt.cpus = 2
   end
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  #config.hostmanager.enabled = true
 
   #
   # The single node cluster comprises one node only
   #
 
   config.vm.define "m1", primary: true do |node|
-    node.vm.hostname = "m1"
+    node.vm.hostname = "m1.example.com"
     # Management network
-    node.vm.network "private_network", ip: "10.1.1.11"  
+    node.vm.network "private_network", ip: "10.1.1.11"
     # Data transfer network
-    node.vm.network "private_network", ip: "10.1.2.11" 
+    node.vm.network "private_network", ip: "10.1.2.11"
     # CES network
     node.vm.network "private_network", ip: "192.168.56.11"
     node.vm.network "forwarded_port", guest: 443, host: 8888
 
     # Attach five disks for Spectrum Scale NSDs
-    node.vm.provider "virtualbox" do |vbox|
-      unless File.exist?("disk")
-        vbox.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata', '--hostiocache', 'off']
-      end
+    node.vm.provider "libvirt" do |libvirt|
+      # 5 small disks
+      # So far all disks were attached to fs1, the 5*2GB ones
+      # allocated to pool system (1 failure group), the 2*10GB ones
+      # allocated to pool capacity
       small = 5
       (1..small).each do |disk|
-        filename = "disk/disk-m1-00#{disk}.vdi"
-        unless File.exist?(filename)
-          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 3 * 1024]
-        end
-        vbox.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', "#{disk-1}", '--device', 0, '--type', 'hdd', '--medium', filename]
+        libvirt.storage :file, :size => '3G', :cache => 'none'
       end
+      # 2 large disks (original 10, now 5GB each)
       large = 2
       (small+1..small+large).each do |disk|
-        filename = "disk/disk-m1-00#{disk}.vdi"
-        unless File.exist?(filename)
-          vbox.customize ['createhd', '--format', 'vdi', '--variant', 'fixed', '--filename', filename, '--size', 5 * 1024]
-        end
-        vbox.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', "#{disk-1}", '--device', 0, '--type', 'hdd', '--medium', filename]
+        libvirt.storage :file, :size => '5G'
       end
     end
 
@@ -99,9 +97,5 @@ Vagrant.configure("2") do |config|
       inline: "
         /vagrant/demo/script.sh #{$SpectrumScaleVagrant_provider}
       "
-
   end
-
 end
-
-

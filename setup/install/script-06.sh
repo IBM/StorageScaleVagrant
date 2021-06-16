@@ -20,11 +20,11 @@ set -e
 
 # Show Spectrum Scale filesystem specification
 echo "===> Show filesystem specification"
-sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale filesystem list
+sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale filesystem list
 
 # Create Spectrum Scale filesystems
 echo "===> Create Spectrum Scale filesystems"
-sudo /usr/lpp/mmfs/5.1.0.0/installer/spectrumscale deploy
+sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale deploy
 
 # Enable quotas
 echo "===> Enable quotas"

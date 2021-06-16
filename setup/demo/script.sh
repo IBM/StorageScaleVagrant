@@ -1,5 +1,13 @@
 #!/usr/bin/bash
 
+usage(){
+  echo "Usage: $0 [<provider>]"
+  echo "Supported provider:"
+  echo "  AWS"
+  echo "  Virtualbox"
+  echo "  libvirt"
+}
+
 # Improve readability of output
 echo "========================================================================================="
 echo "===>"
@@ -14,6 +22,22 @@ set -x
 # Exit script immediately, if one of the commands returns error code
 set -e
 
+# Exit, if not exactly one argument given
+if [ $# -ne 1 ]; then
+  usage
+  exit -1
+fi
+
+# Use first argument as current underlying provider
+case $1 in
+  'AWS'|'VirtualBox'|'libvirt' )
+    PROVIDER=$1
+    ;;
+  *)
+    usage
+    exit -1
+    ;;
+esac
 
 # Perform all steps to configure the Spectrum Scale filesystem for demo purposes
 /vagrant/demo/script-01.sh
@@ -23,6 +47,10 @@ set -e
 /vagrant/demo/script-05.sh
 /vagrant/demo/script-06.sh
 #/vagrant/demo/script-07.sh
+if [ "$PROVIDER" = "VirtualBox" -o "$PROVIDER" = "libvirt" ]
+then
+    /vagrant/demo/script-08.sh
+fi
 
 # Tweak the configuration to show more management capabilities
 /vagrant/demo/script-80.sh

@@ -22,3 +22,6 @@
 10.1.2.31   c1.example.com c1
 10.1.2.32   c2.example.com c2
 10.1.2.33   c3.example.com c3
+
+# CES endpoint
+192.168.56.101 cesip.example.com cesip

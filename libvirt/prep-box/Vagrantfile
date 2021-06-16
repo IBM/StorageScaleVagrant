@@ -13,6 +13,7 @@ steps are to create a Vagrant box file and to destroy the virtual machine.
 
 To create a Vagrant box file from virtual machine execute:
 vagrant package SpectrumScale_base --output SpectrumScale_base.box
+vagrant box add SpectrumScale_base.box --name SpectrumScale_base
 
 To destroy the virtual machine execute:
 vagrant destroy
@@ -27,6 +28,10 @@ load File.expand_path('../../../shared/Vagrantfile8.rpms', __FILE__)
 
 Vagrant.configure("2") do |config|
 
+  # Customize resources of virtual machines
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.qemu_use_session = false
+  end
 
   # Official CentOS 7 box
   config.vm.box = "centos/8"

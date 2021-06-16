@@ -11,6 +11,7 @@ script-04.sh  - TODO: Placeholder for migration policies -
 script-05.sh  Create filesets and some example data
 script-06.sh  Create snapshot for fileset snapshots
 script-07.sh  - TODO: Placeholder for snapshot schedule -
+script-08.sh  Configure Object S3 interface
 
 Tweak the configuration to show more management capabilities:
 script-80.sh  Authorize the default GUI admin to manage ACLs

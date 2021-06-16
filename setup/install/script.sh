@@ -6,6 +6,7 @@ usage(){
   echo "Supported provider:"
   echo "  AWS"
   echo "  Virtualbox"
+  echo "  libvirt"
 }
 
 
@@ -32,7 +33,7 @@ fi
 
 # Use first argument as current underlying provider
 case $1 in
-  'AWS'|'VirtualBox' )
+  'AWS'|'VirtualBox'|'libvirt' )
     PROVIDER=$1
     ;;
   *)
@@ -50,7 +51,11 @@ esac
 /vagrant/install/script-05.sh $PROVIDER
 /vagrant/install/script-06.sh $PROVIDER
 /vagrant/install/script-07.sh $PROVIDER
-
+# Do not install Object on AWS (yet)
+if [ "$PROVIDER" = "VirtualBox" -o "$PROVIDER" = "libvirt" ]
+then
+  /vagrant/install/script-08.sh $PROVIDER
+fi
 # Exit successfully
 echo "===> Script completed successfully!"
 exit 0

@@ -11,18 +11,18 @@
 Vagrant.configure('2') do |config|
 
 
-  # Upgrade everything to prevent kernel version matches
+  # Upgrade everything to prevent kernel version mismatches
   config.vm.provision "shell",
     name:   "Upgrade everything to ensure kernel version matches packages available in the repos",
     inline: "
-      /usr/bin/yum upgrade -y
+      /usr/bin/dnf upgrade -y
     "
 
   # Install RPMs required by Spectrum Scale Installation Toolkit
   config.vm.provision "shell",
     name:   "Install RPMs required by Spectrum Scale Installation Toolkit",
     inline: "
-      /usr/bin/yum install -y\
+      /usr/bin/dnf install -y\
         python3\
         net-tools
     "
@@ -31,7 +31,7 @@ Vagrant.configure('2') do |config|
     config.vm.provision "shell",
     name:   "Install RPMs required by Spectrum Scale core",
     inline: "
-      /usr/bin/yum install -y\
+      /usr/bin/dnf install -y\
         ksh\
         m4\
         libaio
@@ -41,7 +41,7 @@ Vagrant.configure('2') do |config|
   # config.vm.provision "shell",
   #   name:   "Remove installed kernel-devel and kernel-headers to prevent version mismatches",
   #   inline: "
-  #     /usr/bin/yum remove -y\
+  #     /usr/bin/dnf remove -y\
   #       kernel-devel\
   #       kernel-headers\
   #  "
@@ -50,19 +50,22 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell",
     name:   "Install RPMs required by Spectrum Scale to build portability layer",
     inline: "
-      /usr/bin/yum install -y\
+      /usr/bin/dnf install -y\
         kernel-devel\
         kernel-headers\
         cpp\
         gcc\
-        gcc-c++
+        gcc-c++\
+        elfutils\
+        elfutils-devel\
+        make
     "
 
   # Install RPMs required by Spectrum Scale GUI
   config.vm.provision "shell",
     name:   "Install RPMs required by Spectrum Scale GUI",
     inline: "
-      /usr/bin/yum install -y\
+      /usr/bin/dnf install -y\
         libpcap\
         lsof\
         nmap-ncat\
@@ -75,7 +78,7 @@ Vagrant.configure('2') do |config|
     config.vm.provision "shell",
     name:   "Install additional RPMs required by Spectrum Scale",
     inline: "
-      /usr/bin/yum install -y\
+      /usr/bin/dnf install -y\
         boost-regex\
         cyrus-sasl\
         cyrus-sasl-devel\
@@ -88,25 +91,29 @@ Vagrant.configure('2') do |config|
         libverto-devel\
         openssl-devel\
         pcre-devel\
-        perl-Class-Load\
-        perl-Class-Singleton\
-        perl-Data-Dumper\
-        perl-Data-OptList\
-        perl-DateTime\
-        perl-DateTime-Locale\
-        perl-DateTime-TimeZone\
-        perl-List-MoreUtils\
-        perl-Module-Implementation\
-        perl-Module-Runtime\
-        perl-Package-DeprecationManager\
-        perl-Package-Stash\
-        perl-Package-Stash-XS\
-        perl-Params-Util\
-        perl-Params-Validate\
-        perl-Sub-Install\
-        perl-Try-Tiny\
-        zlib-devel
+        zlib-devel\
+        epel-release
+    "
+ 
+  # Install Ansible as required by Spectrum Scale 5.1.1+ installer
+    config.vm.provision "shell",
+    name:   "Install additional RPMs required by Spectrum Scale",
+    inline: "
+      /usr/bin/dnf makecache && /usr/bin/dnf install -y ansible
     "
 
+  # Install RPM to prevent CLI errors due to locale for German users
+    config.vm.provision "shell",
+    name:   "Install locale RPM",
+    inline: "
+      /usr/bin/dnf install -y\
+        glibc-langpack-de
+    "
 
+  # Upgrade everything to fix dependencies pulled in through EPEL installation
+  config.vm.provision "shell",
+    name:   "Upgrade everything to ensure versions are in sync after pulling packages from EPEL",
+    inline: "
+      /usr/bin/dnf upgrade -y
+    "
 end
