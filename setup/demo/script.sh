@@ -47,10 +47,7 @@ esac
 /vagrant/demo/script-05.sh
 /vagrant/demo/script-06.sh
 #/vagrant/demo/script-07.sh
-if [ "$PROVIDER" = "VirtualBox" -o "$PROVIDER" = "libvirt" ]
-then
-    /vagrant/demo/script-08.sh
-fi
+/vagrant/demo/script-08.sh $PROVIDER
 
 # Tweak the configuration to show more management capabilities
 /vagrant/demo/script-80.sh

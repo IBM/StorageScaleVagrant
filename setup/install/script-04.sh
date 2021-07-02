@@ -63,7 +63,8 @@ sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale node list
 # ... for AWS
 if [ "$PROVIDER" = "AWS" ]
 then
-  sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde /dev/xvdf
+  sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale nsd add -p m1.example.com -fs fs1 /dev/xvdb /dev/xvdc /dev/xvdd
+  sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale nsd add -p m1.example.com -fs cesShared /dev/xvde /dev/xvdf
   sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale nsd add -p m1.example.com /dev/xvdg /dev/xvdh
 fi
 # ... for VirtualBox

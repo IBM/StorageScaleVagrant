@@ -29,6 +29,17 @@ load File.expand_path('../Vagrantfile.aws-ami', __FILE__)
 # Load common settings
 load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
 
+# Workaround for vagrant-aws issue https://github.com/mitchellh/vagrant-aws/issues/566
+class Hash
+  def slice(*keep_keys)
+    h = {}
+    keep_keys.each { |key| h[key] = fetch(key) if has_key?(key) }
+    h
+  end unless Hash.method_defined?(:slice)
+  def except(*less_keys)
+    slice(*keys - less_keys)
+  end unless Hash.method_defined?(:except)
+end
 
 # Customize configuration specific settings
 Vagrant.configure("2") do |config|
@@ -52,10 +63,14 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = $my_aws_private_key_path
 
     # Pin the AWS region
+    # aws.region = "eu-central-1"
     aws.region = "us-east-1"
 
     # Pin the SpectrumScale_base AMI
     aws.ami = $my_aws_SpectrumScale_base_AMI_ID
+
+    # Set instance type - default is m3.medium - we need more RAM for CES
+    aws.instance_type = "m3.large"
 
     # Set user name for CentOS images
     override.ssh.username = "centos"
@@ -66,13 +81,13 @@ Vagrant.configure("2") do |config|
 
     # Add disks for SpectrumScale NSDs
     aws.block_device_mapping = [
-      { 'DeviceName' => '/dev/xvdb', 'Ebs.VolumeSize' =>  2 },
-      { 'DeviceName' => '/dev/xvdc', 'Ebs.VolumeSize' =>  2 },
-      { 'DeviceName' => '/dev/xvdd', 'Ebs.VolumeSize' =>  2 },
-      { 'DeviceName' => '/dev/xvde', 'Ebs.VolumeSize' =>  2 },
-      { 'DeviceName' => '/dev/xvdf', 'Ebs.VolumeSize' =>  2 },
-      { 'DeviceName' => '/dev/xvdg', 'Ebs.VolumeSize' => 10 },
-      { 'DeviceName' => '/dev/xvdh', 'Ebs.VolumeSize' => 10 },      
+      { 'DeviceName' => '/dev/xvdb', 'Ebs.VolumeSize' =>  3 },
+      { 'DeviceName' => '/dev/xvdc', 'Ebs.VolumeSize' =>  3 },
+      { 'DeviceName' => '/dev/xvdd', 'Ebs.VolumeSize' =>  3 },
+      { 'DeviceName' => '/dev/xvde', 'Ebs.VolumeSize' =>  3 },
+      { 'DeviceName' => '/dev/xvdf', 'Ebs.VolumeSize' =>  3 },
+      { 'DeviceName' => '/dev/xvdg', 'Ebs.VolumeSize' => 5 },
+      { 'DeviceName' => '/dev/xvdh', 'Ebs.VolumeSize' => 5 },
     ]
 
 

@@ -14,7 +14,19 @@ EOT
 load File.expand_path('../../Vagrantfile.aws-credentials', __FILE__)
 
 # Load RPMs that need to be installed on top of the CentOS base image
-load File.expand_path('../../../shared/Vagrantfile.rpms', __FILE__)
+load File.expand_path('../../../shared/Vagrantfile8.rpms', __FILE__)
+
+# Workaround for vagrant-aws issue https://github.com/mitchellh/vagrant-aws/issues/566
+class Hash
+  def slice(*keep_keys)
+    h = {}
+    keep_keys.each { |key| h[key] = fetch(key) if has_key?(key) }
+    h
+  end unless Hash.method_defined?(:slice)
+  def except(*less_keys)
+    slice(*keys - less_keys)
+  end unless Hash.method_defined?(:except)
+end
 
 
 # Customize configuration specific settings
@@ -37,10 +49,14 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = $my_aws_private_key_path
 
     # Pin the AWS region
+    # aws.region = "eu-central-1"
     aws.region = "us-east-1"
 
-    # Pin the CentOS 7 AMI
-    aws.ami = "ami-02eac2c0129f6376b"
+    # Pin the CentOS 8 AMI
+    # CentOS 8 AMI for eu-central-1
+    # aws.ami = "ami-04c21037b3f953d37"
+    # CentOS 8 AMI for us-east-1
+    aws.ami = "ami-0d6e9a57f6259ba3a"
 
     # Set user name for CentOS images
     override.ssh.username = "centos"

@@ -51,11 +51,7 @@ esac
 /vagrant/install/script-05.sh $PROVIDER
 /vagrant/install/script-06.sh $PROVIDER
 /vagrant/install/script-07.sh $PROVIDER
-# Do not install Object on AWS (yet)
-if [ "$PROVIDER" = "VirtualBox" -o "$PROVIDER" = "libvirt" ]
-then
-  /vagrant/install/script-08.sh $PROVIDER
-fi
+/vagrant/install/script-08.sh $PROVIDER
 # Exit successfully
 echo "===> Script completed successfully!"
 exit 0

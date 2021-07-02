@@ -8,9 +8,6 @@ usage(){
   echo "  libvirt"
 }
 
-# Exit on error
-set -e
-
 # Improve readability of output
 echo "========================================================================================="
 echo "===>"
@@ -49,7 +46,8 @@ sudo dnf -y upgrade
 
 echo "===> configuring Object"
 sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale node add m1.example.com -p
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale config protocols -e 192.168.56.101
+CESVIP=$(grep "cesip" /etc/hosts | awk {'print $1'})
+sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale config protocols -e $CESVIP
 sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale config protocols -f cesShared -m /ibm/cesShared
 sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale enable object
 sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale config object -f fs1 -m /ibm/fs1 -e cesip.example.com -au admin -dp passw0rd -sp passw0rd -ap passw0rd
