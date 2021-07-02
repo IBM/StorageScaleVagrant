@@ -9,12 +9,20 @@ After installing [SpectrumScaleVagrant and Vagrant itself](../README.md) you
 need to install the [vagrant-aws plugin](https://github.com/mitchellh/vagrant-aws)
 to enable Vagrant to manage virtual environments on AWS.
 
-On my host the installation of the vagrant-aws plugin failed, but [pinning the
+On Windows 10 hosts, the installation of the vagrant-aws plugin might fail, but [pinning the
 version of fog-ovirt](https://github.com/mitchellh/vagrant-aws/issues/539#issuecomment-398100794)
-resolved the issue:
+resolves the issue:
 
 ```
 vagrant plugin install --plugin-version 1.0.1 fog-ovirt
+vagrant plugin install vagrant-aws
+```
+
+On Ubuntu 20.04 it is required to install an additional dependency to pass the vagrant-aws
+plugin installation:
+
+```
+sudo apt install libcurl4-openssl-dev
 vagrant plugin install vagrant-aws
 ```
 
@@ -74,9 +82,9 @@ Copy the Spectrum Scale self-extracting installation package to `/software`, if 
 SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l /software
-total 1489140
--rw-r--r--. 1 centos centos        136 Feb 16 17:26 README
--rw-rw-r--. 1 centos centos 1564495872 Feb 14 13:20 Spectrum_Scale_Data_Management-5.0.2.2-x86_64-Linux-install
+-rw-rw-r--.  1 centos centos        134 16. Jun 10:09 README
+-r-xr-xr-x.  1 centos centos 1407530361 16. Jun 13:11 Spectrum_Scale_Developer-5.1.1.0-x86_64-Linux-install
+-rw-rw-r--.  1 centos centos         88 16. Jun 13:11 Spectrum_Scale_Developer-5.1.1.0-x86_64-Linux-install.md5
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
@@ -85,7 +93,46 @@ Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
 SpectrumScaleVagrant\aws\prep-ami>
 ```
 
-By default the official CentOS AMI and derived AMIs leave the orphaned root volume, after the owning virtual machine (instance) is terminated. Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Follow the AWS documentation for the installation of the AWS CLI.
+Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appendix-avoid-orphaned-root-volumes)) we can build the Spectrum Scale AWS AMI and terminate the virtual machine:
+1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
+1. `vagrant destroy`
+
+If `vagrant package` fails with the error message `Malformed => AMI names must be between 3 and 128 characters long, and may contain letters, numbers, '(', ')', '.', '-', '/' and '_'`
+you need to apply a patch described in the [Appendix](#appendix-fix-for-vagrant-aws-packaging) to your local copy of vagrant-aws and try again.
+
+
+## Configure the SpectrumScale_base AMI ID
+
+The `vagrant package ...` command of the previous step prints the AMI ID of the new SpectrumScale_base AMI:
+
+```
+...
+==> SpectrumScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
+...
+```
+
+Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the SpectrumScale_base AMI:
+
+```
+cd SpectrumScaleVagrant\aws
+copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
+notepad Vagrantfile.aws-ami
+```
+
+## Boot a virtual machine with a single node Spectrum Scale cluster
+
+Now we are ready to boot a virtual machine on AWS and to configure it with a single node Spectrum Scale cluster:
+1. `cd SpectrumScaleVagrant\aws`
+1. `vagrant up`
+1. `vagrant ssh`
+
+See the [README.md](../README.md) for details on the configured Spectrum Scale cluster.
+
+
+## Appendix: Avoid orphaned root volumes
+
+Versions of the official CentOS AMI and derived AMIs might leave the orphaned root volume, after the owning virtual machine (instance) is terminated.
+Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Follow the AWS documentation for the installation of the AWS CLI.
 
 First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
 
@@ -141,33 +188,26 @@ SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 
 SpectrumScaleVagrant\aws\prep-ami>
 ```
 
-Having checked that `DeleteOnTermination` is set to `true` we can build the Spectrum Scale AWS AMI and terminate the virtual machine:
-1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
-1. `vagrant destroy`
+## Appendix: Fix for vagrant-aws packaging
 
-## Configure the SpectrumScale_base AMI ID
-
-The `vagrant package ...` command of the previous step prints the AMI ID of the new SpectrumScale_base AMI:
-
+If `vagrant package` fails with the error message `Malformed => AMI names must be between 3 and 128 characters long, and may contain letters, numbers, '(', ')', '.', '-', '/' and '_'`
+you need to apply a patch like the following to your local copy of vagrant-aws. You need to adopt to your installation path and user name:
 ```
-...
-==> SpectrumScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
-...
+--- /home/user/.vagrant.d/gems/2.7.0/gems/vagrant-aws-0.7.2/lib/vagrant-aws/action/package_instance.rb	2021-06-23 13:58:10.612642358 +0200
++++ /home/user/.vagrant.d/gems/2.7.0/gems/vagrant-aws-0.7.2/lib/vagrant-aws/action/package_instance_fixed.rb	2021-06-23 13:59:10.136684461 +0200
+@@ -39,11 +39,12 @@
+           begin
+             # Get the Fog server object for given machine
+             server = env[:aws_compute].servers.get(env[:machine].id)
++            servername = "#{server.tags["Name"]}".chomp!
+ 
+             env[:ui].info(I18n.t("vagrant_aws.packaging_instance", :instance_id => server.id))
+-            
++
+             # Make the request to AWS to create an AMI from machine's instance
+-            ami_response = server.service.create_image server.id, "#{server.tags["Name"]} Package - #{Time.now.strftime("%Y%m%d-%H%M%S")}", ""
++            ami_response = server.service.create_image server.id, "#{servername}-Package-#{Time.now.strftime("%Y%m%d-%H%M%S")}", ""
+ 
+             # Find ami id
+             @ami_id = ami_response.data[:body]["imageId"]
 ```
-
-Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the SpectrumScale_base AMI:
-
-```
-cd SpectrumScaleVagrant\aws
-copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
-notepad Vagrantfile.aws-ami
-```
-
-## Boot a virtual machine with a single node Spectrum Scale cluster
-
-Now we are ready to boot a virtual machine on AWS and to configure it with a single node Spectrum Scale cluster:
-1. `cd SpectrumScaleVagrant\aws`
-1. `vagrant up`
-1. `vagrant ssh`
-
-See the [README.md](../README.md) for details on the configured Spectrum Scale cluster.

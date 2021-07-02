@@ -26,6 +26,18 @@ Vagrant.configure('2') do |config|
       name:   "Configure /etc/hosts for AWS",
       inline: "
         echo \"`hostname -I` m1.example.com m1\" >> /etc/hosts
+        # Get primary IP
+        IPA=$(hostname -I | awk '{print $1}')
+        # Extract IP Range
+        IPRANGE=${IPA%.*}
+        # Try .200 as VIP
+        NEWIP=${IPRANGE}.200
+        if [ \"$NEWIP\" == \"$IPA\" ];
+        then
+          # In case 200 is taken, use different one
+          NEWIP=${IPRANGE}.201
+        fi
+        echo \"$NEWIP cesip.example.com cesip\" >> /etc/hosts
       "
   end
   # ... for VirtualBox
@@ -56,11 +68,14 @@ Vagrant.configure('2') do |config|
    "
 
   # Get fingerprint for management IP address
-  config.vm.provision "shell",
-    name:   "Get fingerprint for management IP address",
-    inline: "
-      ssh-keyscan -t ecdsa m1m.example.com >> /root/.ssh/known_hosts 2>/dev/null
-   "
+  if $SpectrumScaleVagrant_provider == 'VirtualBox' || $SpectrumScaleVagrant_provider == 'libvirt'
+  then
+    config.vm.provision "shell",
+      name:   "Get fingerprint for management IP address",
+      inline: "
+        /usr/bin/sudo /usr/bin/bash -c '/usr/bin/ssh-keyscan -t ecdsa m1m.example.com >> /root/.ssh/known_hosts'
+     "
+  end
 
   # Add Spectrum Scale executables to $PATH
   config.vm.provision "shell",

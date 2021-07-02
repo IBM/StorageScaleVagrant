@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+usage(){
+  echo "Usage: $0 [<provider>]"
+  echo "Supported provider:"
+  echo "  AWS"
+  echo "  VirtualBox"
+  echo "  libvirt"
+}
 
 # Improve readability of output
 echo "========================================================================================="
@@ -15,15 +22,37 @@ set -x
 # Exit script immediately, if one of the commands returns error code
 set -e
 
+# Exit, if not exactly one argument given
+if [ $# -ne 1 ]; then
+  usage
+  exit -1
+fi
+
+# Use first argument as current underlying provider
+case $1 in
+  'AWS'|'VirtualBox'|'libvirt' )
+    PROVIDER=$1
+    ;;
+  *)
+    usage
+    exit -1
+    ;;
+esac
+
 # Prepare Object Storage to accept AWSv4 Authentication
 echo "===> Preparing S3 Object for AWSv4 Authentication - use US as region with your client software"
 sudo mmobj config change --ccrfile "proxy-server.conf" --section "filter:s3api" --property "location" --value "US"
 
 # Copy credentials file to user directory and use it
 echo "===> Copy object credentials file and source it"
-sudo cp /root/openrc /home/vagrant/openrc
-sudo chown vagrant:vagrant /home/vagrant/openrc
-source /home/vagrant/openrc
+TARGET=vagrant
+if [ "$PROVIDER" = "AWS" ]
+then
+    TARGET=centos
+fi
+sudo cp /root/openrc /home/$TARGET/openrc
+sudo chown $TARGET:$TARGET /home/$TARGET/openrc
+source /home/$TARGET/openrc
 
 # Create S3 test user with access to the existing admin project
 echo "===> Create S3 tests user within admin project"
