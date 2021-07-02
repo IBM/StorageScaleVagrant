@@ -58,7 +58,7 @@ on how to get the AWS access key and the ssh key.
 ## Accept the CentOS license agreement on AWS marketplace
 
 At the point of writing this README, there is no charge for using the CentOS software,
-but before using CentOS you need to find [CentOS 7 on the AWS marketplace](https://aws.amazon.com/marketplace/pp/B00O7WM7QW)
+but before using CentOS you need to find [CentOS 8 on the AWS marketplace](https://aws.amazon.com/marketplace/pp/prodview-ndxelprnnxecs)
 and to subscribe it in order to accept the license agreement.
 
 ## Decide on how to integrate the Spectrum Scale self-extracting installation package
@@ -69,7 +69,7 @@ Depending on your network connectivity, it takes some time to upload the Spectru
 
 ## Spectrum Scale Base AMI - An AWS AMI optimized for Spectrum Scale
 
-The virtual machines are based on the official CentOS/7 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom Spectrum Scale Base AMI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
+The virtual machines are based on the official CentOS/8 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom Spectrum Scale Base AMI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
 
 To start the initial virtual machine:
 1. `cd SpectrumScaleVagrant\aws\prep-ami`
