@@ -39,10 +39,6 @@ case $1 in
     ;;
 esac
 
-# Prepare Object Storage to accept AWSv4 Authentication
-echo "===> Preparing S3 Object for AWSv4 Authentication - use US as region with your client software"
-sudo mmobj config change --ccrfile "proxy-server.conf" --section "filter:s3api" --property "location" --value "US"
-
 # Copy credentials file to user directory and use it
 echo "===> Copy object credentials file and source it"
 TARGET=vagrant
