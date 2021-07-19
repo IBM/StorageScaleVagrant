@@ -14,7 +14,7 @@ Open a Command Prompt and clone the GitHub repository:
 
 ### Get the Spectrum Scale self-extracting installation package
 
-The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The installation package can be downloaded from [IBM Support Fix Central](https://www.ibm.com/support/fixcentral/).
+The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The developer edition can be downloaded from the [Spectrum Scale home page](https://www.ibm.com/products/spectrum-scale/).
 
 Download the `Spectrum_Scale_Developer-5.1.1.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
 
@@ -27,13 +27,13 @@ Follow the [Vagrant Getting Started Guide](https://learn.hashicorp.com/tutorials
 
 ## Provisioning
 
-Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale cluster on VirtualBox and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
+Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale cluster on VirtualBox, libvirt and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
 
 | Directory                  | Provider            |
 |----------------------------|---------------------|
 | [aws](./aws)               | Amazon Web Services |
 | [virtualbox](./virtualbox) | VirtualBox          |
-| [KVM/libvirt](./libvirt)   | KVM/libvirt         |
+| [libvirt](./libvirt)       | libvirt (KVM/QEMU)  |
 
 
 Once the virtual environment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
@@ -73,7 +73,7 @@ GPFS cluster information
 
 ### Spectrum Scale REST API
 
-To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer/#/` in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
+To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`) in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
 
 [Trying out and exploring the Spectrum Scale REST API using “curl” and/or the IBM API Explorer website](https://developer.ibm.com/storage/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api/)
 
@@ -82,7 +82,7 @@ To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/ex
 Configuration of Spectrum Scale Cluster:
 
 ```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/clu
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/clu
 ster'
 {
   "cluster" : {
@@ -110,7 +110,7 @@ ster'
 Cluster nodes:
 
 ```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/nod
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/nod
 es'
 {
   "nodes" : [ {
@@ -127,7 +127,7 @@ es'
 
 ### Spectrum Scale GUI
 
-To connect to the Spectrum Scale GUI, enter `https://localhost:8888` in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
+To connect to the Spectrum Scale GUI, enter `https://localhost:8888` (AWS: `https://<AWS Public IP>`) in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
 
 ![](/doc/gui/gui_login.png)
 
