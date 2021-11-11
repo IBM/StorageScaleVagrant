@@ -1,30 +1,16 @@
 #!/usr/bin/bash
 
-# Exit on error
-set -e
+TASK="Create Spectrum Scale filesystems"
 
-# Improve readability of output
-echo "========================================================================================="
-echo "===>"
-echo "===> Running $0"
-echo "===> Create Spectrum Scale filesystems"
-echo "===>"
-echo "========================================================================================="
-
-# Print commands and their arguments as they are executed
-set -x
-
-# Exit script immediately, if one of the commands returns error code
-set -e
-
+source /vagrant/install/common-preamble.sh
 
 # Show Spectrum Scale filesystem specification
 echo "===> Show filesystem specification"
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale filesystem list
+sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale filesystem list
 
 # Create Spectrum Scale filesystems
 echo "===> Create Spectrum Scale filesystems"
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale deploy
+sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale deploy
 
 # Enable quotas
 echo "===> Enable quotas"

@@ -1,22 +1,8 @@
 #!/usr/bin/bash
 
-# Exit on error
-set -e
+TASK="Tune sensors for demo environment"
 
-# Improve readability of output
-echo "========================================================================================="
-echo "===>"
-echo "===> Running $0"
-echo "===> Tune sensors for demo environment"
-echo "===>"
-echo "========================================================================================="
-
-# Print commands and their arguments as they are executed
-set -x
-
-# Exit script immediately, if one of the commands returns error code
-set -e
-
+source /vagrant/install/common-preamble.sh
 
 # Tune sensors for demo environment
 echo "===> Tune sensors for demo environment"

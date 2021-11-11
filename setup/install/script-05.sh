@@ -1,26 +1,12 @@
 #!/usr/bin/bash
 
-# Exit on error
-set -e
+TASK="Install Spectrum Scale and create a Spectrum Scale cluster"
 
-# Improve readability of output
-echo "========================================================================================="
-echo "===>"
-echo "===> Running $0"
-echo "===> Install Spectrum Scale and create a Spectrum Scale cluster"
-echo "===>"
-echo "========================================================================================="
-
-# Print commands and their arguments as they are executed
-set -x
-
-# Exit script immediately, if one of the commands returns error code
-set -e
-
+source /vagrant/install/common-preamble.sh
 
 # Install Spectrum Scale and create Spectrum Scale cluster
 echo "===> Install Spectrum Scale and create Spectrum Scale cluster"
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale install
+sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale install
 
 ## Change admin interface
 #  Note: Disable configuration of separate admin network, because
