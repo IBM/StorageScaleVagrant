@@ -108,7 +108,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     name:   "Install and configure single node Spectrum Scale cluster",
     inline: "
-      /vagrant/install/script.sh #{$SpectrumScaleVagrant_provider}
+      /vagrant/install/script.sh #{$SpectrumScaleVagrant_provider} #{$SpectrumScale_version}
     "
 
   # Configure Spectrum Scale for demo purposes

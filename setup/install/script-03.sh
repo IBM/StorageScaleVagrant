@@ -1,46 +1,8 @@
 #!/usr/bin/bash
 
+TASK="Setup management node (m1) as Spectrum Scale Install Node"
 
-usage(){
-  echo "Usage: $0 [<provider>]"
-  echo "Supported provider:"
-  echo "  AWS"
-  echo "  VirtualBox"
-  echo "  libvirt"
-}
-
-
-# Improve readability of output
-echo "========================================================================================="
-echo "===>"
-echo "===> Running $0"
-echo "===> Setup management node (m1) as Spectrum Scale Install Node"
-echo "===>"
-echo "========================================================================================="
-
-# Print commands and their arguments as they are executed
-set -x
-
-# Exit script immediately, if one of the commands returns error code
-set -e
-
-
-# Exit, if not exactly one argument given
-if [ $# -ne 1 ]; then
-  usage
-  exit -1
-fi
-
-# Use first argument as current underlying provider
-case $1 in
-  'AWS'|'VirtualBox'|'libvirt' )
-    PROVIDER=$1
-    ;;
-  *)
-    usage
-    exit -1
-    ;;
-esac
+source /vagrant/install/common-preamble.sh
 
 # Determine SpectrumScale Install Node
 # ... for AWS
@@ -56,8 +18,8 @@ fi
 
 # Setup management node (m1) as Spectrum Scale Install Node
 echo "===> Setup management node (m1) as Spectrum Scale Install Node"
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale setup -s $INSTALL_NODE --storesecret
-sudo /usr/lpp/mmfs/5.1.1.0/ansible-toolkit/spectrumscale node list
+sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale setup -s $INSTALL_NODE --storesecret
+sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale node list
 
 
 # Exit successfully

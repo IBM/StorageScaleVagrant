@@ -16,7 +16,9 @@ Open a Command Prompt and clone the GitHub repository:
 
 The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The developer edition can be downloaded from the [Spectrum Scale home page](https://www.ibm.com/products/spectrum-scale/).
 
-Download the `Spectrum_Scale_Developer-5.1.1.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Developer-5.1.2.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+
+Please note that in case the Spectrum Scale Developer version you downloaded is newer than the one we listed here, you still might want to use the new version. You need to update the `$SpectrumScale_version` variable in [Vagrantfile.common](shared/Vagrantfile.common) to match the version you downloaded before continuing.
 
 Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
 
