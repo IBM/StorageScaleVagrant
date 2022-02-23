@@ -10,6 +10,12 @@
 
 Vagrant.configure('2') do |config|
 
+  # Contain CentOS 8 EOL
+  config.vm.provision "shell",
+    name:   "Switch to CentOS 8 Vault Mirror repository after CentOS 8 2021/12/31 EOL",
+    inline: "
+      /bin/sh -c 'sed -i \"s/mirrorlist/#mirrorlist/g\" /etc/yum.repos.d/CentOS-* && sed -i \"s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g\" /etc/yum.repos.d/CentOS-*'
+    "
 
   # Upgrade everything to prevent kernel version mismatches
   config.vm.provision "shell",

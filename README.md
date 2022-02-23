@@ -1,6 +1,6 @@
 # Spectrum Scale Vagrant
-Example scripts and configuration files to install and configure IBM Spectrum Scale in a Vagrant environment.
 
+Example scripts and configuration files to install and configure IBM Spectrum Scale in a Vagrant environment.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Open a Command Prompt and clone the GitHub repository:
 
 The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The developer edition can be downloaded from the [Spectrum Scale home page](https://www.ibm.com/products/spectrum-scale/).
 
-Download the `Spectrum_Scale_Developer-5.1.2.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Developer-5.1.2.2-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
 
 Please note that in case the Spectrum Scale Developer version you downloaded is newer than the one we listed here, you still might want to use the new version. You need to update the `$SpectrumScale_version` variable in [Vagrantfile.common](shared/Vagrantfile.common) to match the version you downloaded before continuing.
 
@@ -297,3 +297,10 @@ Maximum number of inodes:       107520
 
 [vagrant@m1 ~]$
 ```
+
+## Disclaimer
+
+**Please note:** This project is released for use "AS IS" without any warranties of any kind, including, but not limited to installation, use, or performance of the resources in this repository.
+We are not responsible for any damage, data loss or charges incurred with their use.
+This project is outside the scope of the IBM PMR process. If you have any issues, questions or suggestions you can create a new issue [here](https://github.com/IBM/SpectrumScaleVagrant/issues).
+Issues will be addressed as team availability permits.
