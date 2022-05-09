@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
     libvirt.qemu_use_session = false
   end
 
-  # Official CentOS 7 box
+  # Official CentOS 8 box
   config.vm.box = "centos/8"
 
   # Pin the version of the CentOS box, until project runs stable for a while
