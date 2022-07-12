@@ -2,6 +2,6 @@
 boxes/*.box
 */*/*.box
 disk/
-software/
+software/Spectrum_Scale_*
 aws/Vagrantfile.aws-credentials
 aws/Vagrantfile.aws-ami

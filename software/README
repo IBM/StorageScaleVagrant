@@ -1,0 +1,2 @@
+This directory will be copied from the host to the management node (m1) only.
+Copy software packages into this directory on the host.
