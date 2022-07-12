@@ -81,10 +81,11 @@ Copy the Spectrum Scale self-extracting installation package to `/software`, if 
 ```
 SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
 
-[centos@ip-172-31-27-143 ~]$ ls -l /software
--rw-rw-r--.  1 centos centos        134 16. Jun 10:09 README
--r-xr-xr-x.  1 centos centos 1173021210 16. Jun 13:11 Spectrum_Scale_Developer-5.1.3.0-x86_64-Linux-install
--rw-rw-r--.  1 centos centos         88 16. Jun 13:11 Spectrum_Scale_Developer-5.1.3.0-x86_64-Linux-install.md5
+[centos@ip-172-31-27-143 ~]$ ls -l software/
+total 1283864
+-rw-rw-r--. 1 centos centos 1314660721  1. Jun 00:50 Spectrum_Scale_Developer-5.1.4.0-x86_64-Linux-install
+-rw-rw-r--. 1 centos centos         88  1. Jun 00:50 Spectrum_Scale_Developer-5.1.4.0-x86_64-Linux-install.md5
+-rw-rw-r--. 1 centos centos       4035 25. Mai 11:33 Spectrum_Scale_Developer-5.1.4.0-x86_64-Linux.README
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
