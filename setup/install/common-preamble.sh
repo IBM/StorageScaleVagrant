@@ -4,7 +4,7 @@ usage(){
   echo "  AWS"
   echo "  Virtualbox"
   echo "  libvirt"
-  echo "<spectrumscale-version> is the full version number like 5.1.4.0"
+  echo "<spectrumscale-version> is the full version number like 5.1.4.1"
 }
 
 # Improve readability of output
