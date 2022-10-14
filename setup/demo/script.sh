@@ -4,7 +4,7 @@ usage(){
   echo "Usage: $0 [<provider>]"
   echo "Supported provider:"
   echo "  AWS"
-  echo "  Virtualbox"
+  echo "  VirtualBox"
   echo "  libvirt"
 }
 
