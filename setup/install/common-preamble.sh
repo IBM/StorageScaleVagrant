@@ -2,7 +2,7 @@ usage(){
   echo "Usage: $0 <provider> <spectrumscale-version>"
   echo "Supported <provider>:"
   echo "  AWS"
-  echo "  Virtualbox"
+  echo "  VirtualBox"
   echo "  libvirt"
   echo "<spectrumscale-version> is the full version number like 5.1.5.0"
 }
