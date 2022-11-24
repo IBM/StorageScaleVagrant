@@ -36,15 +36,15 @@ sudo mmlsnsd
 
 # Show GUI service
 echo "===> Show GUI service"
-service gpfsgui.service status
+sudo systemctl status --no-pager gpfsgui
 
 # Show Zimon Collector service
 echo "===> Show Zimon Collector service"
-service pmcollector status
+sudo systemctl status --no-pager pmcollector
 
 # Show Zimon Sensors service
 echo "===> Show Zimon Sensors service"
-service pmsensors status
+sudo systemctl status --no-pager pmsensors
 
 # Initialize Spectrum Scale GUI
 # Note: The Spectrum Scale GUI initializes implicitly during first login
