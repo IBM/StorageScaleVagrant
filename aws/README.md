@@ -1,11 +1,11 @@
-# SpectrumScaleVagrant for AWS
+# Storage Scale Vagrant for AWS
 
 The scripts and files in this directory include the tooling to provision and
-configure the example Spectrum Scale cluster on AWS.
+configure the example Storage Scale cluster on AWS.
 
 ## Install the Vagrant plugin for AWS (vagrant-aws)
 
-After installing [SpectrumScaleVagrant and Vagrant itself](../README.md) you
+After installing [Storage Scale Vagrant and Vagrant itself](../README.md) you
 need to install the [vagrant-aws plugin](https://github.com/mitchellh/vagrant-aws)
 to enable Vagrant to manage virtual environments on AWS.
 
@@ -61,32 +61,31 @@ At the point of writing this README, there is no charge for using the CentOS sof
 but before using CentOS you need to find [CentOS 8 on the AWS marketplace](https://aws.amazon.com/marketplace/pp/prodview-ndxelprnnxecs)
 and to subscribe it in order to accept the license agreement.
 
-## Decide on how to integrate the Spectrum Scale self-extracting installation package
+## Decide on how to integrate the Storage Scale self-extracting installation package
 
-Depending on your network connectivity, it takes some time to upload the Spectrum Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Spectrum Scale:
-1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Spectrum Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
+Depending on your network connectivity, it takes some time to upload the Storage Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Storage Scale:
+1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Storage Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
-## Spectrum Scale Base AMI - An AWS AMI optimized for Spectrum Scale
+## Spectrum Scale Base AMI - An AWS AMI optimized for Storage Scale
 
-The virtual machines are based on the official CentOS/8 AWS AMI. Spectrum Scale requires a couple of additional RPMs. We create a custom Spectrum Scale Base AMI to accelerate the provisioning of the virtual machines for the Spectrum Scale environment.
+The virtual machines are based on the official CentOS/8 AWS AMI. Storage Scale requires a couple of additional RPMs. We create a custom Storage Scale Base AMI to accelerate the provisioning of the virtual machines for the Storage Scale environment.
 
 To start the initial virtual machine:
 1. `cd SpectrumScaleVagrant\aws\prep-ami`
 1. `Vagrant up`
 1. `Vagrant ssh`
 
-Copy the Spectrum Scale self-extracting installation package to `/software`, if you decided for approach option 2 above.
+Copy the Storage Scale self-extracting installation package to `/software`, if you decided for approach option 2 above.
 
 ```
 SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
-total 1492920
--rw-rw-r--. 1 centos centos        134 12. Jul 14:42 README
--rw-r--r--. 1 centos centos 1528732766  1. Dez 14:48 Spectrum_Scale_Developer-5.1.6.0-x86_64-Linux-install
--rw-r--r--. 1 centos centos         88  1. Dez 14:48 Spectrum_Scale_Developer-5.1.6.0-x86_64-Linux-install.md5
--rw-r--r--. 1 centos centos       4035  1. Dez 14:47 Spectrum_Scale_Developer-5.1.6.0-x86_64-Linux.README
+total 1527996
+-rw-r--r--. 1 centos centos        134  4. Apr 12:22 README
+-rw-r--r--. 1 centos centos 1564648029  8. MÃ¤r 13:56 Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install
+-rw-r--r--. 1 centos centos         88  8. MÃ¤r 13:56 Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install.md5
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
@@ -95,7 +94,7 @@ Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
 SpectrumScaleVagrant\aws\prep-ami>
 ```
 
-Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appendix-avoid-orphaned-root-volumes)) we can build the Spectrum Scale AWS AMI and terminate the virtual machine:
+Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appendix-avoid-orphaned-root-volumes)) we can build the Storage Scale AWS AMI and terminate the virtual machine:
 1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
 1. `vagrant destroy`
 
@@ -121,20 +120,20 @@ copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
 notepad Vagrantfile.aws-ami
 ```
 
-## Boot a virtual machine with a single node Spectrum Scale cluster
+## Boot a virtual machine with a single node Storage Scale cluster
 
-Now we are ready to boot a virtual machine on AWS and to configure it with a single node Spectrum Scale cluster:
+Now we are ready to boot a virtual machine on AWS and to configure it with a single node Storage Scale cluster:
 1. `cd SpectrumScaleVagrant\aws`
 1. `vagrant up`
 1. `vagrant ssh`
 
-See the [README.md](../README.md) for details on the configured Spectrum Scale cluster.
+See the [README.md](../README.md) for details on the configured Storage Scale cluster.
 
 
 ## Appendix: Avoid orphaned root volumes
 
 Versions of the official CentOS AMI and derived AMIs might leave the orphaned root volume, after the owning virtual machine (instance) is terminated.
-Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Spectrum Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Follow the AWS documentation for the installation of the AWS CLI.
+Amazon charges for orphaned root volumes. They either need to be deleted manually, or the initial virtual machine needs to be modified, before the Storage Scale Base AMI is created. See the Amazon documentation ([Changing the Root Device Volume to Persist](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html#Using_RootDeviceStorage)) for details. The procedure requires the [installation of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Follow the AWS documentation for the installation of the AWS CLI.
 
 First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
 

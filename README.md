@@ -1,10 +1,10 @@
 # Spectrum Scale Vagrant
 
-Example scripts and configuration files to install and configure IBM Spectrum Scale in a Vagrant environment.
+Example scripts and configuration files to install and configure IBM Storage Scale in a Vagrant environment.
 
 ## Installation
 
-The scripts and configuration files provision a single node Spectrum Scale cluster using Vagrant.
+The scripts and configuration files provision a single node IBM Storage Scale cluster using Vagrant.
 
 ### Get the scripts and configuration files from GitHub
 
@@ -12,13 +12,13 @@ Open a Command Prompt and clone the GitHub repository:
 1. `git clone https://github.com/IBM/SpectrumScaleVagrant.git`
 1. `cd SpectrumScaleVagrant`
 
-### Get the Spectrum Scale self-extracting installation package
+### Get the Storage Scale self-extracting installation package
 
-The creation of the Spectrum Scale cluster requires the Spectrum Scale self-extracting installation package. The developer edition can be downloaded from the [Spectrum Scale home page](https://www.ibm.com/products/spectrum-scale/).
+The creation of the Storage Scale cluster requires the Storage Scale self-extracting installation package. The developer edition can be downloaded from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Spectrum_Scale_Developer-5.1.6.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
 
-Please note that in case the Spectrum Scale Developer version you downloaded is newer than the one we listed here, you still might want to use the new version. You need to update the `$SpectrumScale_version` variable in [Vagrantfile.common](shared/Vagrantfile.common) to match the version you downloaded before continuing.
+Please note that in case the Storage Scale Developer version you downloaded is newer than the one we listed here, you still might want to use the new version. You need to update the `$SpectrumScale_version` variable in [Vagrantfile.common](shared/Vagrantfile.common) to match the version you downloaded before continuing.
 
 Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
 
@@ -29,7 +29,7 @@ Follow the [Vagrant Getting Started Guide](https://learn.hashicorp.com/tutorials
 
 ## Provisioning
 
-Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale cluster on VirtualBox, libvirt and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
+Storage Scale Vagrant supports the creation of a single node Storage Scale cluster on VirtualBox, libvirt and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
 
 | Directory                  | Provider            |
 |----------------------------|---------------------|
@@ -38,21 +38,21 @@ Spectrum Scale Vagrant supports the creation of a single node Spectrum Scale clu
 | [libvirt](./libvirt)       | libvirt (KVM/QEMU)  |
 
 
-Once the virtual environment is provided, Spectrum Scale Vagrant uses the same scripts to install and configure Spectrum Scale. Spectrum Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
+Once the virtual environment is provided, Storage Scale Vagrant uses the same scripts to install and configure Storage Scale. Storage Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
 
 | Directory                        | Description                                                         |
 |----------------------------------|---------------------------------------------------------------------|
-| [setup/install](./setup/install) | Perform all steps to provision a Spectrum Scale cluster             |
-| [setup/demo](./setup/demo)       | Perform all steps to configure the Spectrum Scale for demo purposes |
+| [setup/install](./setup/install) | Perform all steps to provision a Storage Scale cluster             |
+| [setup/demo](./setup/demo)       | Perform all steps to configure the Storage Scale for demo purposes |
 
 
-## Spectrum Scale Management Interfaces
+## Storage Scale Management Interfaces
 
-Spectrum Scale Vagrant uses the Spectrum Scale CLI and the Spectrum Scale REST API to install and configure Spectrum Scale. In addition it configures the Spectrum Scale GUI to allow interested users to explore its capabilities.
+Storage Scale Vagrant uses the Storage Scale CLI and the Storage Scale REST API to install and configure Storage Scale. In addition it configures the Storage Scale GUI to allow interested users to explore its capabilities.
 
-### Spectrum Scale CLI
+### Storage Scale CLI
 
-Spectrum Scale Vagrant configures the shell `$PATH` variable and the sudo `secure_path` to include the location of the Spectrum Scale executables.
+Storage Scale Vagrant configures the shell `$PATH` variable and the sudo `secure_path` to include the location of the Storage Scale executables.
 
 ```
 [vagrant@m1 ~]$ sudo mmlscluster
@@ -73,15 +73,15 @@ GPFS cluster information
 [vagrant@m1 ~]$
 ```
 
-### Spectrum Scale REST API
+### Storage Scale REST API
 
-To explore the Spectrum Scale REST API, enter `https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`) in a browser. The Spectrum Scale REST API uses the same accounts as the Spectrum Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
+To explore the Storage Scale REST API, enter `https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`) in a browser. The Storage Scale REST API uses the same accounts as the Storage Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
 
-[Trying out and exploring the Spectrum Scale REST API using “curl” and/or the IBM API Explorer website](https://developer.ibm.com/storage/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api/)
+[Trying out and exploring the Storage Scale REST API using “curl” and/or the IBM API Explorer website](https://developer.ibm.com/storage/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api/)
 
 ![](/doc/gui/gui_rest_api.png)
 
-Configuration of Spectrum Scale Cluster:
+Configuration of Storage Scale Cluster:
 
 ```
 [vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/clu
@@ -127,20 +127,20 @@ es'
 [vagrant@m1 ~]$
 ```
 
-### Spectrum Scale GUI
+### Storage Scale GUI
 
-To connect to the Spectrum Scale GUI, enter `https://localhost:8888` (AWS: `https://<AWS Public IP>`) in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
+To connect to the Storage Scale GUI, enter `https://localhost:8888` (AWS: `https://<AWS Public IP>`) in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
 
 ![](/doc/gui/gui_login.png)
 
-Cluster overview in Spectrum Scale GUI:
+Cluster overview in Storage Scale GUI:
 
 ![](/doc/gui/gui_home_overview.png)
 
 
-## Spectrum Scale Filesystem
+## Storage Scale Filesystem
 
-Spectrum Scale Vagrant configures the filesystem `fs1` and adds some example data to illustrate selected Spectrum Scale features.
+Storage Scale Vagrant configures the filesystem `fs1` and adds some example data to illustrate selected Storage Scale features.
 
 ### Filesystems
 
@@ -157,7 +157,7 @@ flag                value                    description
 [vagrant@m1 ~]$
 ```
 
-In Linux, a Spectrum Scale filesystem can be used like any other filesystem:
+In Linux, a Storage Scale filesystem can be used like any other filesystem:
 ```
 [vagrant@m1 ~]$ mount | grep /ibm/
 fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
@@ -187,7 +187,7 @@ REST API call to show all filesystems:
 
 ### Storage Pools
 
-Storage pools allow to integrate different media types such es NVMe, SSD and NL-SAS into a single filesystem. Each Spectrum Scale filesystem has at list the system pool which stores metadata (inodes) and optionally data (content of files).
+Storage pools allow to integrate different media types such es NVMe, SSD and NL-SAS into a single filesystem. Each Storage Scale filesystem has at list the system pool which stores metadata (inodes) and optionally data (content of files).
 
 ```
 [vagrant@m1 ~]$ mmlspool fs1
