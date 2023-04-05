@@ -2,13 +2,13 @@
 # vi: set ft=ruby :
 
 #
-# Create virtual machine with all RPMs required by Spectrum Scale
+# Create virtual machine with all RPMs required by Storage Scale
 #
 
 $message = <<EOT
 --------------------------------------------------------------------------
 
-Created virtual machine with all RPMs required by IBM Spectrum Scale. Next
+Created virtual machine with all RPMs required by IBM Storage Scale. Next
 steps are to create a Vagrant box file and to destroy the virtual machine.
 
 To create a Vagrant box file from virtual machine execute:
