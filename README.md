@@ -1,4 +1,4 @@
-# Spectrum Scale Vagrant
+# Storage Scale Vagrant
 
 Example scripts and configuration files to install and configure IBM Storage Scale in a Vagrant environment.
 
@@ -14,22 +14,35 @@ Open a Command Prompt and clone the GitHub repository:
 
 ### Get the Storage Scale self-extracting installation package
 
-The creation of the Storage Scale cluster requires the Storage Scale self-extracting installation package. The developer edition can be downloaded from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
+The creation of the Storage Scale cluster requires the Storage Scale
+self-extracting installation package. The developer edition can be downloaded
+from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install` package and save it to directory `SpectrumScaleVagrant\software` on the `host`.
+Download the `Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install` package and
+save it to directory `SpectrumScaleVagrant/software` on the `host`.
 
-Please note that in case the Storage Scale Developer version you downloaded is newer than the one we listed here, you still might want to use the new version. You need to update the `$SpectrumScale_version` variable in [Vagrantfile.common](shared/Vagrantfile.common) to match the version you downloaded before continuing.
+Please note that in case the Storage Scale Developer version you downloaded is
+newer than the one we listed here, you still might want to use the new
+version. You need to update the `$SpectrumScale_version` variable in
+[Vagrantfile.common](shared/Vagrantfile.common) to match the version you
+downloaded before continuing.
 
-Vagrant will copy this file during the provisioning from the `host` to directory `/software` on the management node `m1`.
+Vagrant will copy this file during the provisioning from the `host` to directory
+`/software` on the management node `m1`.
 
 ### Install Vagrant
 
-Follow the [Vagrant Getting Started Guide](https://learn.hashicorp.com/tutorials/vagrant/getting-started-index) to install Vagrant to get familiar with Vagrant.
+Follow the [Vagrant Getting Started
+Guide](https://learn.hashicorp.com/tutorials/vagrant/getting-started-index) to
+install Vagrant to get familiar with Vagrant.
 
 
 ## Provisioning
 
-Storage Scale Vagrant supports the creation of a single node Storage Scale cluster on VirtualBox, libvirt and on AWS. There is a subdirectory for each supported provider. Follow the instructions in the subdirectory of your preferred provider to install and configure a virtual machine.
+Storage Scale Vagrant supports the creation of a single node Storage Scale
+cluster on VirtualBox, libvirt and on AWS. There is a subdirectory for each
+supported provider. Follow the instructions in the subdirectory of your
+preferred provider to install and configure a virtual machine.
 
 | Directory                  | Provider            |
 |----------------------------|---------------------|
@@ -38,7 +51,14 @@ Storage Scale Vagrant supports the creation of a single node Storage Scale clust
 | [libvirt](./libvirt)       | libvirt (KVM/QEMU)  |
 
 
-Once the virtual environment is provided, Storage Scale Vagrant uses the same scripts to install and configure Storage Scale. Storage Scale Vagrant executes those scripts automatically during the provisining process (`vagrant up`) for your preferred provider.
+Please note that for AWS you might want to prefer the new "Cloudkit" Storage
+Scale capability that is also available with the Storage Scale Developer Edition.
+For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/spectrum-scale/5.1.7?topic=reference-cloudkit).
+
+Once the virtual environment is provided, Storage Scale Vagrant uses the same
+scripts to install and configure Storage Scale. Storage Scale Vagrant executes
+those scripts automatically during the provisioning process (`vagrant up`) for
+your preferred provider.
 
 | Directory                        | Description                                                         |
 |----------------------------------|---------------------------------------------------------------------|
@@ -48,11 +68,14 @@ Once the virtual environment is provided, Storage Scale Vagrant uses the same sc
 
 ## Storage Scale Management Interfaces
 
-Storage Scale Vagrant uses the Storage Scale CLI and the Storage Scale REST API to install and configure Storage Scale. In addition it configures the Storage Scale GUI to allow interested users to explore its capabilities.
+Storage Scale Vagrant uses the Storage Scale CLI and the Storage Scale REST API
+to install and configure Storage Scale. In addition it configures the Storage
+Scale GUI to allow interested users to explore its capabilities.
 
 ### Storage Scale CLI
 
-Storage Scale Vagrant configures the shell `$PATH` variable and the sudo `secure_path` to include the location of the Storage Scale executables.
+Storage Scale Vagrant configures the shell `$PATH` variable and the sudo
+`secure_path` to include the location of the Storage Scale executables.
 
 ```
 [vagrant@m1 ~]$ sudo mmlscluster
@@ -75,17 +98,21 @@ GPFS cluster information
 
 ### Storage Scale REST API
 
-To explore the Storage Scale REST API, enter `https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`) in a browser. The Storage Scale REST API uses the same accounts as the Storage Scale GUI. There's also a blog post available which contains more details on how to explore the REST API using the IBM API Explorer URL:
+To explore the Storage Scale REST API, enter
+`https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`)
+in a browser. The Storage Scale REST API uses the
+same accounts as the Storage Scale GUI. There's also a blog post available which
+contains more details on how to explore the REST API using the IBM API Explorer
+URL:
 
-[Trying out and exploring the Storage Scale REST API using “curl” and/or the IBM API Explorer website](https://developer.ibm.com/storage/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api/)
+[Trying out and exploring the Storage Scale REST API using “curl” and/or the IBM API Explorer website](https://community.ibm.com/community/user/storage/blogs/andreas-kninger1/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api-using-curl-andor-the-ibm-api-explorer-website)
 
 ![](/doc/gui/gui_rest_api.png)
 
 Configuration of Storage Scale Cluster:
 
 ```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/clu
-ster'
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/cluster'
 {
   "cluster" : {
     "clusterSummary" : {
@@ -100,6 +127,7 @@ ster'
       "uidDomain" : "demo.example.com"
     }
   },
+  .....
   "status" : {
     "code" : 200,
     "message" : "The request finished successfully."
@@ -112,8 +140,7 @@ ster'
 Cluster nodes:
 
 ```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/nod
-es'
+[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/nodes'
 {
   "nodes" : [ {
     "adminNodeName" : "m1.example.com"
@@ -129,7 +156,10 @@ es'
 
 ### Storage Scale GUI
 
-To connect to the Storage Scale GUI, enter `https://localhost:8888` (AWS: `https://<AWS Public IP>`) in a browser. The GUI is configured with a self-signed certificate. The login screen shows, after accepting the certificate. The user `admin` has the default password `admin001`.
+To connect to the Storage Scale GUI, enter `https://localhost:8888` (AWS:
+`https://<AWS Public IP>`) in a browser. The GUI is configured with a
+self-signed certificate. The login screen shows, after accepting the
+certificate. The user `admin` has the default password `admin001`.
 
 ![](/doc/gui/gui_login.png)
 
@@ -140,11 +170,13 @@ Cluster overview in Storage Scale GUI:
 
 ## Storage Scale Filesystem
 
-Storage Scale Vagrant configures the filesystem `fs1` and adds some example data to illustrate selected Storage Scale features.
+Storage Scale Vagrant configures the filesystem `fs1` and adds some example data
+to illustrate selected Storage Scale features.
 
 ### Filesystems
 
 The filesystem `fs1` mounts on all cluster nodes at `/ibm/fs1`:
+
 ```
 [vagrant@m1 ~]$ mmlsmount all
 File system fs1 is mounted on 1 nodes.
@@ -157,7 +189,8 @@ flag                value                    description
 [vagrant@m1 ~]$
 ```
 
-In Linux, a Storage Scale filesystem can be used like any other filesystem:
+On Linux, a Storage Scale filesystem can be used like any other filesystem:
+
 ```
 [vagrant@m1 ~]$ mount | grep /ibm/
 fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
@@ -187,7 +220,10 @@ REST API call to show all filesystems:
 
 ### Storage Pools
 
-Storage pools allow to integrate different media types such es NVMe, SSD and NL-SAS into a single filesystem. Each Storage Scale filesystem has at list the system pool which stores metadata (inodes) and optionally data (content of files).
+Storage pools allow to integrate different media types such es NVMe, SSD and
+NL-SAS into a single filesystem. Each Storage Scale filesystem has at list the
+system pool which stores metadata (inodes) and optionally data (content of
+files).
 
 ```
 [vagrant@m1 ~]$ mmlspool fs1
@@ -221,7 +257,9 @@ Maximum number of inodes:       107520
 [vagrant@m1 ~]$
 ```
 
-A typcial configuration is to use NVMe or SSD for the system pool for metadata and hot files, and to add a second storage pool with NL-SAS for colder data.
+A typical configuration is to use NVMe or SSD for the system pool for metadata
+and hot files, and to add a second storage pool with NL-SAS for colder data.
+
 ```
 [vagrant@m1 ~]$ cat /vagrant/files/spectrumscale/stanza-fs1-capacity
 %nsd: device=/dev/sdg

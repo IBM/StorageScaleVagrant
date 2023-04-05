@@ -1,7 +1,7 @@
 $message = <<EOT
 --------------------------------------------------------------------------
 
-Created virtual machine with all RPMs required by IBM Spectrum Scale. Next
+Created virtual machine with all RPMs required by IBM Storage Scale. Next
 steps are to create an AWS AMI and to destroy the virtual machine.
 
 See the README.md for details.
@@ -77,10 +77,10 @@ Vagrant.configure("2") do |config|
   # Set message to be printed after VMs are up and running
   config.vm.post_up_message = $message
 
-  # Sync Spectrum Scale install package to admin node
+  # Sync Storage Scale install package to admin node
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  # Sync Spectrum Scale install package to admin node
+  # Sync Storage Scale install package to admin node
   config.vm.synced_folder "../../software", "/software", type: "rsync"
 
 end
