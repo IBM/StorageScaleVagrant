@@ -84,8 +84,8 @@ SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
 [centos@ip-172-31-27-143 ~]$ ls -l software/
 total 1527996
 -rw-r--r--. 1 centos centos        134  4. Apr 12:22 README
--rw-r--r--. 1 centos centos 1564648029  8. MÃ¤r 13:56 Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install
--rw-r--r--. 1 centos centos         88  8. MÃ¤r 13:56 Spectrum_Scale_Developer-5.1.7.0-x86_64-Linux-install.md5
+-rw-r--r--. 1 centos centos 1564715222 11. Apr 01:42 Spectrum_Scale_Developer-5.1.7.1-x86_64-Linux-install
+-rw-r--r--. 1 centos centos         88 11. Apr 01:42 Spectrum_Scale_Developer-5.1.7.1-x86_64-Linux-install.md5
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
