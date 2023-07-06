@@ -46,7 +46,7 @@ vagrant box add aws-dummy https://github.com/mitchellh/vagrant-aws/raw/master/du
 Copy the `Vagrantfile.aws-credentials.sample` to `Vagrantfile.aws-credentials` and update that file with your credentials:
 
 ```
-cd SpectrumScaleVagrant\aws
+cd StorageScaleVagrant\aws
 copy Vagrantfile.aws-credentials.sample Vagrantfile.aws-credentials
 notepad Vagrantfile.aws-credentials
 ```
@@ -64,58 +64,58 @@ and to subscribe it in order to accept the license agreement.
 ## Decide on how to integrate the Storage Scale self-extracting installation package
 
 Depending on your network connectivity, it takes some time to upload the Storage Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Storage Scale:
-1. Save the self-extracting installation package to `SpectrumScaleVagrant\software` before you to boot the virtual machine from which you create the Storage Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
+1. Save the self-extracting installation package to `StorageScaleVagrant\software` before you to boot the virtual machine from which you create the Storage Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
-## Spectrum Scale Base AMI - An AWS AMI optimized for Storage Scale
+## Storage Scale Base AMI - An AWS AMI optimized for Storage Scale
 
 The virtual machines are based on the official CentOS/8 AWS AMI. Storage Scale requires a couple of additional RPMs. We create a custom Storage Scale Base AMI to accelerate the provisioning of the virtual machines for the Storage Scale environment.
 
 To start the initial virtual machine:
-1. `cd SpectrumScaleVagrant\aws\prep-ami`
+1. `cd StorageScaleVagrant\aws\prep-ami`
 1. `Vagrant up`
 1. `Vagrant ssh`
 
 Copy the Storage Scale self-extracting installation package to `/software`, if you decided for approach option 2 above.
 
 ```
-SpectrumScaleVagrant\aws\prep-ami>vagrant ssh
+StorageScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
 total 1527996
--rw-r--r--. 1 centos centos        134  4. Apr 12:22 README
--rw-r--r--. 1 centos centos 1564715222 11. Apr 01:42 Spectrum_Scale_Developer-5.1.7.1-x86_64-Linux-install
--rw-r--r--. 1 centos centos         88 11. Apr 01:42 Spectrum_Scale_Developer-5.1.7.1-x86_64-Linux-install.md5
+-rw-r--r--.  1 centos centos        134 31. Mai 11:32 README
+-rwxr-xr-x.  1 centos centos 1568773648 24. Mai 01:03 Storage_Scale_Developer-5.1.8.0-x86_64-Linux-install
+-rw-r--r--.  1 centos centos         87 24. Mai 01:03 Storage_Scale_Developer-5.1.8.0-x86_64-Linux-install.md5
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
 Connection to ec2-34-224-86-55.compute-1.amazonaws.com closed.
 
-SpectrumScaleVagrant\aws\prep-ami>
+StorageScaleVagrant\aws\prep-ami>
 ```
 
 Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appendix-avoid-orphaned-root-volumes)) we can build the Storage Scale AWS AMI and terminate the virtual machine:
-1. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
+1. `vagrant package StorageScale_base --output StorageScale_base.box`
 1. `vagrant destroy`
 
 If `vagrant package` fails with the error message `Malformed => AMI names must be between 3 and 128 characters long, and may contain letters, numbers, '(', ')', '.', '-', '/' and '_'`
 you need to apply a patch described in the [Appendix](#appendix-fix-for-vagrant-aws-packaging) to your local copy of vagrant-aws and try again.
 
 
-## Configure the SpectrumScale_base AMI ID
+## Configure the StorageScale_base AMI ID
 
-The `vagrant package ...` command of the previous step prints the AMI ID of the new SpectrumScale_base AMI:
+The `vagrant package ...` command of the previous step prints the AMI ID of the new StorageScale_base AMI:
 
 ```
 ...
-==> SpectrumScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
+==> StorageScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
 ...
 ```
 
-Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the SpectrumScale_base AMI:
+Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the StorageScale_base AMI:
 
 ```
-cd SpectrumScaleVagrant\aws
+cd StorageScaleVagrant\aws
 copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
 notepad Vagrantfile.aws-ami
 ```
@@ -123,7 +123,7 @@ notepad Vagrantfile.aws-ami
 ## Boot a virtual machine with a single node Storage Scale cluster
 
 Now we are ready to boot a virtual machine on AWS and to configure it with a single node Storage Scale cluster:
-1. `cd SpectrumScaleVagrant\aws`
+1. `cd StorageScaleVagrant\aws`
 1. `vagrant up`
 1. `vagrant ssh`
 
@@ -138,7 +138,7 @@ Amazon charges for orphaned root volumes. They either need to be deleted manuall
 First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
 
 ```
-SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=SpectrumScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
+StorageScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=StorageScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
 [
     [
         [
@@ -158,15 +158,15 @@ SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 
     ]
 ]
 
-SpectrumScaleVagrant\aws\prep-ami>
+StorageScaleVagrant\aws\prep-ami>
 ```
 
 Next step is to modify the setting for `DeleteOnTermination` and to validate that the setting was changed:
 
 ```
-SpectrumScaleVagrant\aws\prep-ami>aws ec2 modify-instance-attribute --instance-id "i-0dadfb6d892a0d83c" --region us-east-1 --block-device-mappings file://DeleteOnTermination.json
+StorageScaleVagrant\aws\prep-ami>aws ec2 modify-instance-attribute --instance-id "i-0dadfb6d892a0d83c" --region us-east-1 --block-device-mappings file://DeleteOnTermination.json
 
-SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=SpectrumScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
+StorageScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=StorageScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
 [
     [
         [
@@ -186,7 +186,7 @@ SpectrumScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 
     ]
 ]
 
-SpectrumScaleVagrant\aws\prep-ami>
+StorageScaleVagrant\aws\prep-ami>
 ```
 
 ## Appendix: Fix for vagrant-aws packaging

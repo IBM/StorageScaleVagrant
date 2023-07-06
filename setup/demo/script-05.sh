@@ -32,13 +32,13 @@ sudo useradd cats          -g pets
 sudo useradd dogs          -g pets
 sudo useradd hamsters      -g pets
 
-# Create Spectrum Scale Filesets
-echo "===> Create Spectrum Scale Filesets"
+# Create Storage Scale Filesets
+echo "===> Create Storage Scale Filesets"
 sudo mmcrfileset fs1 pets    -t "Cute Pets"
 sudo mmcrfileset fs1 flowers -t "Lovely Flowers"
 
-# Link Spectrum Scale Filesets
-echo "===> Link Spectrum Scale Filesets"
+# Link Storage Scale Filesets
+echo "===> Link Storage Scale Filesets"
 sudo mmlinkfileset fs1 pets    -J /ibm/fs1/pets
 sudo mmlinkfileset fs1 flowers -J /ibm/fs1/flowers
 
@@ -67,8 +67,8 @@ for dir in /ibm/fs1/*/* ; do
   done
 done
 
-# Set owner of Spectrum Scale Filesets
-echo "===> Set owner of Spectrum Scale Filesets"
+# Set owner of Storage Scale Filesets
+echo "===> Set owner of Storage Scale Filesets"
 sudo chown admin_flowers:flowers /ibm/fs1/flowers
 sudo chown admin_pets:pets       /ibm/fs1/pets
 

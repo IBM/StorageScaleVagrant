@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-TASK="Setup management node (m1) as Spectrum Scale Install Node"
+TASK="Setup management node (m1) as Storage Scale Install Node"
 
 source /vagrant/install/common-preamble.sh
 
-# Determine SpectrumScale Install Node
+# Determine StorageScale Install Node
 # ... for AWS
 if [ "$PROVIDER" = "AWS" ]
 then
@@ -16,8 +16,8 @@ then
   INSTALL_NODE="10.1.1.11"
 fi
 
-# Setup management node (m1) as Spectrum Scale Install Node
-echo "===> Setup management node (m1) as Spectrum Scale Install Node"
+# Setup management node (m1) as Storage Scale Install Node
+echo "===> Setup management node (m1) as Storage Scale Install Node"
 sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale setup -s $INSTALL_NODE --storesecret
 sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale node list
 

@@ -1,15 +1,15 @@
 $message = <<EOT
 --------------------------------------------------------------------------
 
-Created virtual environment for IBM Spectrum Scale.
+Created virtual environment for IBM Storage Scale.
 
 User Guide:
-https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+https://github.com/IBM/StorageScaleVagrant/blob/master/README.md
 
 To logon on the management node execute:
 vagrant ssh
 
-To connect to the Spectrum Scale GUI, in a web browser:
+To connect to the Storage Scale GUI, in a web browser:
 https://<AWS Public IP>
 
 --------------------------------------------------------------------------
@@ -17,13 +17,13 @@ EOT
 
 
 # Set provider
-$SpectrumScaleVagrant_provider = 'AWS'
+$StorageScaleVagrant_provider = 'AWS'
 
 
 # Read AWS credentials and ssh keys from shared configuration file
 load File.expand_path('../Vagrantfile.aws-credentials', __FILE__)
 
-# Read AWS AMI ID of the SpectrumScale_base AMI from the configuration file
+# Read AWS AMI ID of the StorageScale_base AMI from the configuration file
 load File.expand_path('../Vagrantfile.aws-ami', __FILE__)
 
 # Load common settings
@@ -66,8 +66,8 @@ Vagrant.configure("2") do |config|
     # aws.region = "eu-central-1"
     aws.region = "us-east-1"
 
-    # Pin the SpectrumScale_base AMI
-    aws.ami = $my_aws_SpectrumScale_base_AMI_ID
+    # Pin the StorageScale_base AMI
+    aws.ami = $my_aws_StorageScale_base_AMI_ID
 
     # Set instance type - default is m3.medium - we need more RAM for CES
     aws.instance_type = "m3.large"
@@ -77,9 +77,9 @@ Vagrant.configure("2") do |config|
 
     # Tag each instance running in AWS with user name
     username = "#{ENV['USERNAME'] || `whoami`}"
-    aws.tags = { 'Name' => "SpectrumScaleVagrant_#{username}" }
+    aws.tags = { 'Name' => "StorageScaleVagrant_#{username}" }
 
-    # Add disks for SpectrumScale NSDs
+    # Add disks for StorageScale NSDs
     aws.block_device_mapping = [
       { 'DeviceName' => '/dev/xvdb', 'Ebs.VolumeSize' =>  3 },
       { 'DeviceName' => '/dev/xvdc', 'Ebs.VolumeSize' =>  3 },
@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
 
 
   # Set name of virtual machine used by Vagrant
-  config.vm.define "SpectrumScale_single"
+  config.vm.define "StorageScale_single"
 
   # Set message to be printed after VMs are up and running
   config.vm.post_up_message = $message
@@ -104,18 +104,18 @@ Vagrant.configure("2") do |config|
   config.ssh.keep_alive = true
   config.winssh.keep_alive = true
 
-  # Install and configure single node Spectrum Scale cluster
+  # Install and configure single node Storage Scale cluster
   config.vm.provision "shell",
-    name:   "Install and configure single node Spectrum Scale cluster",
+    name:   "Install and configure single node Storage Scale cluster",
     inline: "
-      /vagrant/install/script.sh #{$SpectrumScaleVagrant_provider} #{$SpectrumScale_version}
+      /vagrant/install/script.sh #{$StorageScaleVagrant_provider} #{$StorageScale_version}
     "
 
-  # Configure Spectrum Scale for demo purposes
+  # Configure Storage Scale for demo purposes
   config.vm.provision "shell",
-    name:   "Configure Spectrum Scale for demo purposes",
+    name:   "Configure Storage Scale for demo purposes",
     inline: "
-      /vagrant/demo/script.sh #{$SpectrumScaleVagrant_provider}
+      /vagrant/demo/script.sh #{$StorageScaleVagrant_provider}
     "
 
 

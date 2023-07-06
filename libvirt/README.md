@@ -15,7 +15,7 @@ in a lab environment. To simplify access from the outside, all virtual
 nodes are configured with well known SSH keys. This is a security exposure
 for production environments.
 
-## SpectrumScale_base.box - A Vagrant box optimized for Storage Scale
+## StorageScale_base.box - A Vagrant box optimized for Storage Scale
 
 The virtual machines are based on the [official Vagrant CentOS/8 boxes](https://app.vagrantup.com/centos/boxes/8).
 Storage Scale requires a couple of additional RPMs. We create a custom
@@ -25,16 +25,16 @@ and the additional CentOS RPMs will be downloaded during the provisioning
 process (`vagrant up`).
 
 To create the custom Vagrant Storage Scale box:
-1. `cd SpectrumScaleVagrant/libvirt/prep-box`
+1. `cd StorageScaleVagrant/libvirt/prep-box`
 2. `vagrant up`
-3. `vagrant package SpectrumScale_base --output SpectrumScale_base.box`
-4. `vagrant box add SpectrumScale_base.box --name SpectrumScale_base`
+3. `vagrant package StorageScale_base --output StorageScale_base.box`
+4. `vagrant box add StorageScale_base.box --name StorageScale_base`
 5. `vagrant destroy`
 
 ## Boot a virtual machine with a single node Storage Scale cluster
 
 Now we are ready to boot a virtual machine on libvirt and to configure it with a single node Storage Scale cluster:
-1. `cd SpectrumScaleVagrant\libvirt`
+1. `cd StorageScaleVagrant\libvirt`
 2. `vagrant up`
 3. `vagrant ssh`
 

@@ -11,7 +11,7 @@ $message = <<EOT
 Created virtual environment for IBM Storage Scale.
 
 User Guide:
-https://github.com/IBM/SpectrumScaleVagrant/blob/master/README.md
+https://github.com/IBM/StorageScaleVagrant/blob/master/README.md
 
 To logon on the management node execute:
 vagrant ssh
@@ -24,7 +24,7 @@ EOT
 
 
 # Set provider
-$SpectrumScaleVagrant_provider = 'libvirt'
+$StorageScaleVagrant_provider = 'libvirt'
 
 
 # Load common settings
@@ -34,8 +34,8 @@ load File.expand_path('../../shared/Vagrantfile.common', __FILE__)
 Vagrant.configure("2") do |config|
 
   # Use the Vagrant box prepared for Storage Scale
-  config.vm.box     = "SpectrumScale_base"
-  # config.vm.box_url = "./prep-box/SpectrumScale_base.box"
+  config.vm.box     = "StorageScale_base"
+  # config.vm.box_url = "./prep-box/StorageScale_base.box"
 
   # Customize resources of virtual machines
   config.vm.provider "libvirt" do |libvirt|
@@ -63,6 +63,7 @@ Vagrant.configure("2") do |config|
 
     # Attach five disks for Storage Scale NSDs
     node.vm.provider "libvirt" do |libvirt|
+      libvirt.machine_virtual_size = 15
       # 5 small disks
       # 3 disks will be allocated to fs1, system pool, single failure group
       # 2 disks will be allocated to cesShared, system pool, fg1
@@ -87,14 +88,14 @@ Vagrant.configure("2") do |config|
     node.vm.provision "shell",
       name:   "Install and configure single node Storage Scale cluster",
       inline: "
-        /vagrant/install/script.sh #{$SpectrumScaleVagrant_provider} #{$SpectrumScale_version}
+        /vagrant/install/script.sh #{$StorageScaleVagrant_provider} #{$StorageScale_version}
       "
 
     # Configure Storage Scale for demo purposes
     node.vm.provision "shell",
       name:   "Configure Storage Scale for demo purposes",
       inline: "
-        /vagrant/demo/script.sh #{$SpectrumScaleVagrant_provider}
+        /vagrant/demo/script.sh #{$StorageScaleVagrant_provider}
       "
   end
 end

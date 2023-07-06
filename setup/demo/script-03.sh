@@ -48,8 +48,8 @@ mmlsattr -L /ibm/fs1/examples/placement_policy/file.hot | grep 'storage pool nam
 echo "===> Show that default file is placed in the capacity storage pool"
 mmlsattr -L /ibm/fs1/examples/placement_policy/file.txt | grep 'storage pool name'
 
-# Show that Spectrum Scale storage pools are not visible to end users
-echo "===> Show that Spectrum Scale storage pools are not visible to end users"
+# Show that Storage Scale storage pools are not visible to end users
+echo "===> Show that Storage Scale storage pools are not visible to end users"
 ls -la /ibm/fs1/examples/placement_policy
 wc -l /ibm/fs1/examples/placement_policy/file*
 
