@@ -2,9 +2,9 @@
 # vi: set ft=ruby :
 
 #
-# RPMs required by Spectrum Scale on top of the base CentOS image
+# RPMs required by Storage Scale on top of the base CentOS image
 #
-# This file should be included by Vagrant files that build a Spectrum Scale
+# This file should be included by Vagrant files that build a Storage Scale
 # base box or image for as specific Vagrant provider
 #
 
@@ -18,18 +18,18 @@ Vagrant.configure('2') do |config|
       /usr/bin/yum upgrade -y
     "
 
-  # Install RPMs required by Spectrum Scale Installation Toolkit
+  # Install RPMs required by Storage Scale Installation Toolkit
   config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale Installation Toolkit",
+    name:   "Install RPMs required by Storage Scale Installation Toolkit",
     inline: "
       /usr/bin/yum install -y\
         python3\
         net-tools
     "
 
-  # Install RPMs required by Spectrum Scale core
+  # Install RPMs required by Storage Scale core
     config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale core",
+    name:   "Install RPMs required by Storage Scale core",
     inline: "
       /usr/bin/yum install -y\
         ksh\
@@ -46,9 +46,9 @@ Vagrant.configure('2') do |config|
   #       kernel-headers\
   #  "
 
-  # Install RPMs required by Spectrum Scale to build portability layer
+  # Install RPMs required by Storage Scale to build portability layer
   config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale to build portability layer",
+    name:   "Install RPMs required by Storage Scale to build portability layer",
     inline: "
       /usr/bin/yum install -y\
         kernel-devel\
@@ -58,9 +58,9 @@ Vagrant.configure('2') do |config|
         gcc-c++
     "
 
-  # Install RPMs required by Spectrum Scale GUI
+  # Install RPMs required by Storage Scale GUI
   config.vm.provision "shell",
-    name:   "Install RPMs required by Spectrum Scale GUI",
+    name:   "Install RPMs required by Storage Scale GUI",
     inline: "
       /usr/bin/yum install -y\
         libpcap\
@@ -71,9 +71,9 @@ Vagrant.configure('2') do |config|
         postgresql-server
     "
 
-  # Install additional RPMs required by Spectrum Scale
+  # Install additional RPMs required by Storage Scale
     config.vm.provision "shell",
-    name:   "Install additional RPMs required by Spectrum Scale",
+    name:   "Install additional RPMs required by Storage Scale",
     inline: "
       /usr/bin/yum install -y\
         boost-regex\

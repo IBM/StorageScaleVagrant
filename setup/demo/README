@@ -1,10 +1,10 @@
-script.sh     Perform all steps to configure the Spectrum Scale for demo purposes
+script.sh     Perform all steps to configure the Storage Scale for demo purposes
 
 
 script.sh executes the following scripts:
 
-Configure the Spectrum Scale filesystem for demo purposes:
-script-01.sh  Show Spectrum Scale filesystems
+Configure the Storage Scale filesystem for demo purposes:
+script-01.sh  Show Storage Scale filesystems
 script-02.sh  Add second storage pool to filesystem fs1
 script-03.sh  Create placement policy for filesystem fs1
 script-04.sh  - TODO: Placeholder for migration policies -

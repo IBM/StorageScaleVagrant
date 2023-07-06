@@ -1,4 +1,4 @@
 # Provisioned by Vagrant
 
-# Add Spectrum Scale executables
+# Add Storage Scale executables
 export PATH=$PATH:/usr/lpp/mmfs/bin

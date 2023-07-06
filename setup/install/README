@@ -1,12 +1,12 @@
-script.sh     Perform all steps to provision a Spectrum Scale cluster
+script.sh     Perform all steps to provision a Storage Scale cluster
 
               script.sh executes the following scripts:
 
-script-01.sh  Check that Spectrum Scale self-extracting install package exists
-script-02.sh  Extract Spectrum Scale RPMs
-script-03.sh  Setup management node (m1) as Spectrum Scale Install Node
-script-04.sh  Specify Spectrum Scale Cluster
-script-05.sh  Install Spectrum Scale and create a Spectrum Scale cluster
-script-06.sh  Create Spectrum Scale filesystems
+script-01.sh  Check that Storage Scale self-extracting install package exists
+script-02.sh  Extract Storage Scale RPMs
+script-03.sh  Setup management node (m1) as Storage Scale Install Node
+script-04.sh  Specify Storage Scale Cluster
+script-05.sh  Install Storage Scale and create a Storage Scale cluster
+script-06.sh  Create Storage Scale filesystems
 script-07.sh  Tune sensors for demo environment
-script-08.sh  Install Spectrum Scale CES and Object Protocol
+script-08.sh  Install Storage Scale CES and Object Protocol

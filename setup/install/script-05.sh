@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
-TASK="Install Spectrum Scale and create a Spectrum Scale cluster"
+TASK="Install Storage Scale and create a Storage Scale cluster"
 
 source /vagrant/install/common-preamble.sh
 
-# Install Spectrum Scale and create Spectrum Scale cluster
-echo "===> Install Spectrum Scale and create Spectrum Scale cluster"
+# Install Storage Scale and create Storage Scale cluster
+echo "===> Install Storage Scale and create Storage Scale cluster"
 sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale install
 
 ## Change admin interface
@@ -46,10 +46,10 @@ sudo systemctl status --no-pager pmcollector
 echo "===> Show Zimon Sensors service"
 sudo systemctl status --no-pager pmsensors
 
-# Initialize Spectrum Scale GUI
-# Note: The Spectrum Scale GUI initializes implicitly during first login
+# Initialize Storage Scale GUI
+# Note: The Storage Scale GUI initializes implicitly during first login
 #       attempt. Initializing the GUI here accelerates the first login.
-echo "==> Initialize Spectrum Scale GUI"
+echo "==> Initialize Storage Scale GUI"
 sudo /usr/lpp/mmfs/gui/cli/initgui
 
 

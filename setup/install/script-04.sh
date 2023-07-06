@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-TASK="Specify Spectrum Scale Cluster\n===> Target configuration: Single Node Cluster"
+TASK="Specify Storage Scale Cluster\n===> Target configuration: Single Node Cluster"
 
 source /vagrant/install/common-preamble.sh
 

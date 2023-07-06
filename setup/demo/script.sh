@@ -12,7 +12,7 @@ usage(){
 echo "========================================================================================="
 echo "===>"
 echo "===> Running $0"
-echo "===> Perform all steps to configure Spectrum Scale for demo purposes"
+echo "===> Perform all steps to configure Storage Scale for demo purposes"
 echo "===>"
 echo "========================================================================================="
 
@@ -39,7 +39,7 @@ case $1 in
     ;;
 esac
 
-# Perform all steps to configure the Spectrum Scale filesystem for demo purposes
+# Perform all steps to configure the Storage Scale filesystem for demo purposes
 /vagrant/demo/script-01.sh
 /vagrant/demo/script-02.sh
 /vagrant/demo/script-03.sh

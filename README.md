@@ -9,8 +9,8 @@ The scripts and configuration files provision a single node IBM Storage Scale cl
 ### Get the scripts and configuration files from GitHub
 
 Open a Command Prompt and clone the GitHub repository:
-1. `git clone https://github.com/IBM/SpectrumScaleVagrant.git`
-1. `cd SpectrumScaleVagrant`
+1. `git clone https://github.com/IBM/StorageScaleVagrant.git`
+1. `cd StorageScaleVagrant`
 
 ### Get the Storage Scale self-extracting installation package
 
@@ -18,8 +18,8 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Spectrum_Scale_Developer-5.1.7.1-x86_64-Linux-install` package and
-save it to directory `SpectrumScaleVagrant/software` on the `host`.
+Download the `Storage_Scale_Developer-5.1.8.0-x86_64-Linux-install` package and
+save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
 newer than the one we listed here, you still might want to use the new
@@ -53,7 +53,7 @@ preferred provider to install and configure a virtual machine.
 
 Please note that for AWS you might want to prefer the new "Cloudkit" Storage
 Scale capability that is also available with the Storage Scale Developer Edition.
-For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/spectrum-scale/5.1.7?topic=reference-cloudkit).
+For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/5.1.8?topic=reference-cloudkit).
 
 Once the virtual environment is provided, Storage Scale Vagrant uses the same
 scripts to install and configure Storage Scale. Storage Scale Vagrant executes
@@ -340,5 +340,5 @@ Maximum number of inodes:       107520
 
 **Please note:** This project is released for use "AS IS" without any warranties of any kind, including, but not limited to installation, use, or performance of the resources in this repository.
 We are not responsible for any damage, data loss or charges incurred with their use.
-This project is outside the scope of the IBM PMR process. If you have any issues, questions or suggestions you can create a new issue [here](https://github.com/IBM/SpectrumScaleVagrant/issues).
+This project is outside the scope of the IBM PMR process. If you have any issues, questions or suggestions you can create a new issue [here](https://github.com/IBM/StorageScaleVagrant/issues).
 Issues will be addressed as team availability permits.

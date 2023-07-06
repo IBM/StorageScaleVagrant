@@ -6,7 +6,7 @@
 # This file should be included by the Vagrantfile of each cluster configuration
 #
 
-$SpectrumScale_version = "5.1.7.1"
+$StorageScale_version = "5.1.8.0"
 
 Vagrant.configure('2') do |config|
 
@@ -22,7 +22,7 @@ Vagrant.configure('2') do |config|
 
   # Configure /etc/hosts
   # ... for AWS
-  if $SpectrumScaleVagrant_provider == 'AWS'
+  if $StorageScaleVagrant_provider == 'AWS'
   then
     config.vm.provision "shell",
       name:   "Configure /etc/hosts for AWS",
@@ -44,7 +44,7 @@ Vagrant.configure('2') do |config|
   end
   # ... for VirtualBox
   # Configure /etc/hosts
-  if $SpectrumScaleVagrant_provider == 'VirtualBox' || $SpectrumScaleVagrant_provider == 'libvirt'
+  if $StorageScaleVagrant_provider == 'VirtualBox' || $StorageScaleVagrant_provider == 'libvirt'
   then
     config.vm.provision "shell",
       name:   "Configure /etc/hosts for VirtualBox",
@@ -54,7 +54,7 @@ Vagrant.configure('2') do |config|
   end
 
   # Generate ssh keys for user root
-  # Note: The Spectrum Scale installation toolkit requires root ssh
+  # Note: The Storage Scale installation toolkit requires root ssh
   config.vm.provision "shell",
     name:   "Generate ssh keys for user root",
     inline: "
@@ -70,7 +70,7 @@ Vagrant.configure('2') do |config|
    "
 
   # Get fingerprint for management IP address
-  if $SpectrumScaleVagrant_provider == 'VirtualBox' || $SpectrumScaleVagrant_provider == 'libvirt'
+  if $StorageScaleVagrant_provider == 'VirtualBox' || $StorageScaleVagrant_provider == 'libvirt'
   then
     config.vm.provision "shell",
       name:   "Get fingerprint for management IP address",
@@ -79,14 +79,14 @@ Vagrant.configure('2') do |config|
      "
   end
 
-  # Add Spectrum Scale executables to $PATH
+  # Add Storage Scale executables to $PATH
   config.vm.provision "shell",
     name:   "Add /usr/lpp/mmfs/bin to $PATH",
     inline: "
       cp /vagrant/files/linux/etc__profile.d__spectrumscale.sh /etc/profile.d/spectrumscale.sh
    "
 
-  # Add Spectrum Scale executables to sudo secure_path
+  # Add Storage Scale executables to sudo secure_path
     config.vm.provision "shell",
     name:   "Add /usr/lpp/mmfs/bin to sudo secure_path",
     inline: "
