@@ -47,7 +47,8 @@ esac
 /vagrant/demo/script-05.sh
 /vagrant/demo/script-06.sh
 #/vagrant/demo/script-07.sh
-/vagrant/demo/script-08.sh $PROVIDER
+# Starting with 5.1.9.0, the Swift-based object implementation is no longer supported.
+#/vagrant/demo/script-08.sh $PROVIDER
 
 # Tweak the configuration to show more management capabilities
 /vagrant/demo/script-80.sh
