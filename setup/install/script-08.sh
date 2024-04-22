@@ -14,6 +14,7 @@ sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale config protocols -f ce
 #sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale enable object
 #sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale config object -f fs1 -m /ibm/fs1 -e cesip.example.com -au admin -dp passw0rd -sp passw0rd -ap passw0rd
 #sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale config object -s3 on -i 50000
+
 set +e
 sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale deploy
 if [ $? != 0 ]; then

@@ -20,7 +20,7 @@ sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale node add -a -g -q -m -
 echo "===> Show cluster specification"
 sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale node list
 
-# Specify NSDs
+# Specify NSDs and file systems
 # ... for AWS
 if [ "$PROVIDER" = "AWS" ]
 then
@@ -42,6 +42,14 @@ then
   sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale nsd add -p m1.example.com -fs cesShared /dev/vde /dev/vdf
   sudo /usr/lpp/mmfs/$VERSION/ansible-toolkit/spectrumscale nsd add -p m1.example.com /dev/vdg /dev/vdh
 fi
+
+# Reduce the amount of nodes to keep the Scale metadata size small
+# Unfortunately this can not be changed using the installation toolkit, so patch it manually
+sudo dnf -y install jq
+tmp=$(sudo mktemp)
+clusterdef=/usr/lpp/mmfs/$VERSION/ansible-toolkit/ansible/vars/scale_clusterdefinition.json
+sudo jq '.scale_filesystem[].numNodes = "1"' $clusterdef > $tmp
+sudo mv $tmp $clusterdef
 
 # Show NSD specification
 echo "===> Show NSD specification"
