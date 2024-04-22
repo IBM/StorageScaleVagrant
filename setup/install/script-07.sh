@@ -13,6 +13,9 @@ sudo mmperfmon config update \
   GPFSFilesetQuota.period=300 \
   GPFSDiskCap.period=300
 
+echo "===> Mute expected mmhealth tips"
+sudo mmhealth event hide callhome_not_enabled
+sudo mmhealth event hide unexpected_operating_system
 
 # Exit successfully
 echo "===> Script completed successfully!"
