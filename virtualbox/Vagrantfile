@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
 
     # Attach five disks for Storage Scale NSDs
     node.vm.provider "virtualbox" do |vbox|
-      unless File.exist?("disk")
+      if ARGV[0] == "up"
         vbox.customize ['storagectl', :id, '--name', 'SATA', '--add', 'sata', '--hostiocache', 'off']
       end
       small = 5

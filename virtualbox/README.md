@@ -38,5 +38,14 @@ Now we are ready to boot a virtual machine on VirtualBox and to configure it wit
 1. `vagrant up`
 1. `vagrant ssh`
 
+## Shut down and restart the virtual machine
+
+To shut down (gracefully) and re-start the virtual machine, please use the following command sequence:
+1. `vagrant halt`
+1. `vagrant reload`
+
+Trying to re-start the VM using `vagrant up` will throw an error that the storage controller already exists.
+
+
 See the [README.md](../README.md) for details on the configured Storage Scale
 cluster.
