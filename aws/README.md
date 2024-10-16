@@ -83,9 +83,9 @@ StorageScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
 total 931024
--rw-r--r--. 1 centos centos       134 31. Mai 2023  README
--rw-r--r--. 1 centos centos 953355805 30. Apr 09:49 Storage_Scale_Developer-5.2.0.0-x86_64-Linux-install
--rw-r--r--. 1 centos centos        87 30. Apr 09:49 Storage_Scale_Developer-5.2.0.0-x86_64-Linux-install.md5
+-rw-r--r--. 1 centos centos        134 31. Mai 2023  README
+-rw-r--r--. 1 centos centos 1162977306 15. Aug 13:24 Storage_Scale_Developer-5.2.1.0-x86_64-Linux-install
+-rw-r--r--. 1 centos centos         87 15. Aug 13:24 Storage_Scale_Developer-5.2.1.0-x86_64-Linux-install.md5
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
