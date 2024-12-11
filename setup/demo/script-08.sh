@@ -107,6 +107,9 @@ sudo chown -R vagrant:vagrant aws-cert
 sudo mmces service stop s3
 sudo mmces service start s3
 
+# Wait some time for the service to get online. 10 seconds seem to be fine (issue #59)
+sleep 10
+
 # Test S3 interface
 echo "===> Test S3 API operations"
 AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3 mb s3://testbucket

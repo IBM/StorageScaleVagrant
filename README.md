@@ -18,7 +18,7 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Storage_Scale_Developer-5.2.1.0-x86_64-Linux-install` package and
+Download the `Storage_Scale_Developer-5.2.1.1-x86_64-Linux-install` package and
 save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
@@ -53,7 +53,7 @@ preferred provider to install and configure a virtual machine.
 
 Please note that for AWS you might want to prefer the new "Cloudkit" Storage
 Scale capability that is also available with the Storage Scale Developer Edition.
-For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/5.1.9?topic=reference-cloudkit).
+For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/5.2.1?topic=reference-cloudkit).
 
 Once the virtual environment is provided, Storage Scale Vagrant uses the same
 scripts to install and configure Storage Scale. Storage Scale Vagrant executes
@@ -71,6 +71,13 @@ your preferred provider.
 Storage Scale Vagrant uses the Storage Scale CLI and the Storage Scale REST API
 to install and configure Storage Scale. In addition it configures the Storage
 Scale GUI to allow interested users to explore its capabilities.
+
+[!IMPORTANT]
+As per default setting, the Storage Scale GUI is mapped to port 8888 on the host.
+That might conflict with other software using that port (see issue #54).
+You can configure the port yourself [here](https://github.com/IBM/StorageScaleVagrant/blob/main/virtualbox/Vagrantfile#L58)
+for VirtualBox and [here](https://github.com/IBM/StorageScaleVagrant/blob/main/libvirt/Vagrantfile#L62) for libvirt.
+
 
 ### Storage Scale CLI
 
@@ -160,6 +167,8 @@ To connect to the Storage Scale GUI, enter `https://localhost:8888` (AWS:
 `https://<AWS Public IP>`) in a browser. The GUI is configured with a
 self-signed certificate. The login screen shows, after accepting the
 certificate. The user `admin` has the default password `admin001`.
+To be able to use the GUI early in the installation process, a user
+`performance` with the default password `monitor` is created.
 
 ![](/doc/gui/gui_login.png)
 
