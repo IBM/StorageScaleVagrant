@@ -52,6 +52,8 @@ sudo systemctl status --no-pager pmsensors
 echo "==> Initialize Storage Scale GUI"
 sudo /usr/lpp/mmfs/gui/cli/initgui
 
+# Issue #58: Immediately create a GUI user
+sudo /usr/lpp/mmfs/gui/cli/mkuser performance -p monitor
 
 # Exit successfully
 echo "===> Script completed successfully!"

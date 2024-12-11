@@ -167,6 +167,8 @@ To connect to the Storage Scale GUI, enter `https://localhost:8888` (AWS:
 `https://<AWS Public IP>`) in a browser. The GUI is configured with a
 self-signed certificate. The login screen shows, after accepting the
 certificate. The user `admin` has the default password `admin001`.
+To be able to use the GUI early in the installation process, a user
+`performance` with the default password `monitor` is created.
 
 ![](/doc/gui/gui_login.png)
 
