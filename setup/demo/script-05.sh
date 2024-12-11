@@ -57,7 +57,7 @@ sudo mkdir /ibm/fs1/pets/hamsters
 echo "===> Create some files in each user directory"
 set +x
 inc=3
-for dir in /ibm/fs1/*/* ; do
+for dir in /ibm/fs1/{pets,flowers}/* ; do
   inc=$(($inc+1))
   num_files=$((10+$inc))
   cur_file=$((0))
