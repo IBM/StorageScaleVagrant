@@ -55,6 +55,7 @@ sudo mkdir /ibm/fs1/pets/hamsters
 # Note: The algorithm creates files of varying sizes so that quota reports
 #       have varying sizes
 echo "===> Create some files in each user directory"
+set +x
 inc=3
 for dir in /ibm/fs1/*/* ; do
   inc=$(($inc+1))
@@ -66,6 +67,7 @@ for dir in /ibm/fs1/*/* ; do
     sudo dd if=/dev/zero of=$dir/file$cur_file bs=100K count=$num_blocks 2>/dev/null
   done
 done
+set -x
 
 # Set owner of Storage Scale Filesets
 echo "===> Set owner of Storage Scale Filesets"

@@ -26,6 +26,7 @@ sudo mmlinkfileset fs1 exceed_warning_threshold -J /ibm/fs1/examples/exceed_warn
 sudo mmlinkfileset fs1 exceed_error_threshold   -J /ibm/fs1/examples/exceed_error_threshold
 
 # Create files to exceed warning threshold
+set +x
 echo "===> Create files to exceed warning threshold"
 for i in {1..850}; do
   sudo touch /ibm/fs1/examples/exceed_warning_threshold/file$i
@@ -36,7 +37,7 @@ echo "===> Create files to exceed error threshold"
 for i in {1..950}; do
   sudo touch /ibm/fs1/examples/exceed_error_threshold/file$i
 done
-
+set -x
 
 # Exit successfully
 echo "===> Script completed successfully!"
