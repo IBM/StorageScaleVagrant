@@ -72,6 +72,13 @@ Storage Scale Vagrant uses the Storage Scale CLI and the Storage Scale REST API
 to install and configure Storage Scale. In addition it configures the Storage
 Scale GUI to allow interested users to explore its capabilities.
 
+[!IMPORTANT]
+As per default setting, the Storage Scale GUI is mapped to port 8888 on the host.
+That might conflict with other software using that port (see issue #54).
+You can configure the port yourself [here](https://github.com/IBM/StorageScaleVagrant/blob/main/virtualbox/Vagrantfile#L58)
+for VirtualBox and [here](https://github.com/IBM/StorageScaleVagrant/blob/main/libvirt/Vagrantfile#L62) for libvirt.
+
+
 ### Storage Scale CLI
 
 Storage Scale Vagrant configures the shell `$PATH` variable and the sudo
