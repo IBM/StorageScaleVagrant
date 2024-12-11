@@ -32,6 +32,10 @@ mount | grep /ibm/
 echo "===> Show content of all Storage Scale filesystems"
 find /ibm/
 
+# Create the GUI Admin
+echo "==> Create the GUI admin user"
+sudo /usr/lpp/mmfs/gui/cli/mkuser admin -g SecurityAdmin -p admin001
+
 # Show all Storage Scale filesystems using the REST API
 echo "==> Show all Storage Scale filesystems using the REST API"
 curl -k -s -S -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/filesystems/'

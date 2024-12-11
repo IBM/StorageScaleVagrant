@@ -18,7 +18,6 @@ set -e
 
 # Authorize the default admin to manage ACLs
 echo "===> Authorize the default GUI admin to manage ACLs"
-sudo /usr/lpp/mmfs/gui/cli/mkuser admin -g SecurityAdmin -p admin001
 sudo /usr/lpp/mmfs/gui/cli/chuser admin -a DataAccess
 
 
