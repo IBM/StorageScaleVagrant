@@ -44,38 +44,11 @@ case $1 in
     ;;
 esac
 
-# Copy credentials file to user directory and use it
-echo "===> Copy object credentials file and source it"
-TARGET=vagrant
-if [ "$PROVIDER" = "AWS" ]
-then
-    TARGET=centos
-fi
-
 # Create S3 test users
 echo "===> Create S3 tests users"
 S3U1=$(mms3 account create s3user1 --gid 1000 --uid 1000 --newBucketsPath /ibm/fs1/examples/buckets | tail -1)
 S3U2=$(mms3 account create s3user2 --gid 1000 --uid 1001 --newBucketsPath /ibm/fs1/examples/buckets-u2 | tail -1)
 S3U3=$(mms3 account create s3user3 --gid 1002 --uid 1002 --newBucketsPath /ibm/fs1/examples/buckets-u3 | tail -1)
-
-# Install AWS CLI v2
-echo "===> Install AWS CLI v2"
-cd /software
-curl -s https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip
-dnf -y install unzip
-unzip awscliv2.zip 2>&1 >/dev/null
-cd aws
-sudo ./install
-cd ..
-rm -rf awscliv2.zip aws
-
-# Configure AWS CLI with user credentials
-echo "===> Configure AWS CLI with user credentials"
-configure_awscli s3user1 $S3U1
-configure_awscli s3user2 $S3U2
-configure_awscli s3user3 $S3U3
-sudo cp -r /root/.aws /home/vagrant
-sudo chown -R vagrant:vagrant /home/vagrant/.aws
 
 # Configure TLS certificate for S3 access
 echo "===> Configure TLS certificate for S3 access"
@@ -107,15 +80,36 @@ sudo chown -R vagrant:vagrant aws-cert
 sudo mmces service stop s3
 sudo mmces service start s3
 
+# "S3 Client": Install AWS CLI v2
+echo "===> S3 Client: Install AWS CLI v2"
+cd /software
+curl -s https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip
+dnf -y install unzip
+unzip awscliv2.zip 2>&1 >/dev/null
+cd aws
+sudo ./install
+cd ..
+rm -rf awscliv2.zip aws
+
 # Wait some time for the service to get online. 10 seconds seem to be fine (issue #59)
+echo "===> Wait for the service to settle. Required for VirtualBox/Windows, not required on libvirt/Linux"
 sleep 10
 
-# Test S3 interface
-echo "===> Test S3 API operations"
+# "S3 Client": Configure AWS CLI with user credentials
+echo "===> S3 Client: Configure AWS CLI with user credentials"
+configure_awscli s3user1 $S3U1
+configure_awscli s3user2 $S3U2
+configure_awscli s3user3 $S3U3
+sudo cp -r /root/.aws /home/vagrant
+sudo chown -R vagrant:vagrant /home/vagrant/.aws
+
+# "S3 Client": Test S3 interface
+echo "===> S3 Client: Test S3 API operations"
 AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3 mb s3://testbucket
 AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3 ls
 
-# Set some aliases
+# "S3 Client": Set some aliases
+echo "===> S3 Client: Add aliases to shorten S3 CLI, for example use s3 ls."
 cat <<EOF>>/home/vagrant/.bashrc
 # User specific aliases and functions
 alias s3="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3"
