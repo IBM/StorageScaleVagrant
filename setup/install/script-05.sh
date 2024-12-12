@@ -54,7 +54,7 @@ sudo /usr/lpp/mmfs/gui/cli/initgui
 
 # Issue #58: Immediately create a GUI user
 echo "==> Create GUI user for monitoring purposes"
-sudo /usr/lpp/mmfs/gui/cli/mkuser performance -p monitor
+sudo /usr/lpp/mmfs/gui/cli/mkuser performance -g Monitor -p monitor
 
 # Exit successfully
 echo "===> Script completed successfully!"
