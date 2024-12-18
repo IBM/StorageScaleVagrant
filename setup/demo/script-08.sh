@@ -11,6 +11,8 @@ usage(){
 configure_awscli(){
   aws configure set aws_access_key_id $2 --profile $1
   aws configure set aws_secret_access_key $3 --profile $1
+  aws configure set endpoint_url https://cesip.example.com:6443  --profile $1
+  aws configure set ca_bundle /home/vagrant/aws-cert/cesip-example-com.pem --profile $1
 }
 
 # Improve readability of output
@@ -52,7 +54,7 @@ S3U3=$(mms3 account create s3user3 --gid 1002 --uid 1002 --newBucketsPath /ibm/f
 
 # Configure TLS certificate for S3 access
 echo "===> Configure TLS certificate for S3 access"
-cd /home/vagrant
+cd /root
 mkdir aws-cert
 cd aws-cert
 cat <<EOF>san.cnf
@@ -75,8 +77,11 @@ sudo openssl req -new -key tls.key -out tls.csr -config san.cnf -subj "/CN=local
 sudo openssl x509 -req -days 365 -in tls.csr -signkey tls.key -out tls.crt -extfile san.cnf -extensions req_ext
 sudo mkdir /ibm/cesShared/ces/s3-config/certificates
 sudo cp tls.key tls.crt /ibm/cesShared/ces/s3-config/certificates/
+sudo mkdir /home/vagrant/aws-cert
+sudo cp tls.crt /home/vagrant/aws-cert/cesip-example-com.pem
+sudo chown -R vagrant:vagrant /home/vagrant/aws-cert
+rm tls.key
 cd ..
-sudo chown -R vagrant:vagrant aws-cert
 sudo mmces service stop s3
 sudo mmces service start s3
 
@@ -105,19 +110,20 @@ sudo chown -R vagrant:vagrant /home/vagrant/.aws
 
 # "S3 Client": Test S3 interface
 echo "===> S3 Client: Test S3 API operations"
-AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3 mb s3://testbucket
-AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3 ls
+aws --profile s3user1 s3 mb s3://testbucket
+aws --profile s3user1 s3 ls
 
 # "S3 Client": Set some aliases
 echo "===> S3 Client: Add aliases to shorten S3 CLI, for example use s3 ls."
 cat <<EOF>>/home/vagrant/.bashrc
 # User specific aliases and functions
-alias s3="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3"
-alias s3api="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user1 --endpoint https://cesip.example.com:6443 s3api"
-alias s3u2="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user2 --endpoint https://cesip.example.com:6443 s3"
-alias s3u2api="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user2 --endpoint https://cesip.example.com:6443 s3api"
-alias s3u3="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user3 --endpoint https://cesip.example.com:6443 s3"
-alias s3u3api="AWS_CA_BUNDLE=/home/vagrant/aws-cert/tls.crt aws --profile s3user3 --endpoint https://cesip.example.com:6443 s3api"
+alias s3="aws --profile s3user1 s3"
+alias s3api="aws --profile s3user1 s3api"
+alias s3u2="aws --profile s3user2 s3"
+alias s3u2api="aws --profile s3user2 s3api"
+alias s3u3="aws --profile s3user3 s3"
+alias s3u3api="aws --profile s3user3 s3api"
+export AWS_EC2_METADATA_DISABLED=true
 EOF
 
 # Exit successfully
