@@ -97,8 +97,10 @@ Vagrant.configure('2') do |config|
   config.vm.provision "shell",
     name:   "Expand root file system",
     inline: "
-      /usr/bin/sudo /usr/bin/bash -c \"echo ', +' | sfdisk -N 1 --force --no-reread /dev/vda\"
-      /usr/bin/sudo partprobe /dev/vda
-      /usr/bin/sudo xfs_growfs /dev/vda1
-    "
+      BOOTPART=$(sudo df / | grep -v \"^Filesystem\" | grep \"/\" | awk '{print $1}')
+      BOOTDISK=${BOOTPART::-1}
+      /usr/bin/sudo /usr/bin/bash -c \"echo ', +' | sfdisk -N 1 --force --no-reread $BOOTDISK\"
+      /usr/bin/sudo partprobe $BOOTDISK
+      /usr/bin/sudo xfs_growfs $BOOTPART
+  "
 end
