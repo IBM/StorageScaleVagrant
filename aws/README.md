@@ -72,19 +72,20 @@ Depending on your network connectivity, it takes some time to upload the Storage
 The virtual machines are based on the official CentOS/8 AWS AMI. Storage Scale requires a couple of additional RPMs. We create a custom Storage Scale Base AMI to accelerate the provisioning of the virtual machines for the Storage Scale environment.
 
 To start the initial virtual machine:
+
 1. `cd StorageScaleVagrant\aws\prep-ami`
 1. `Vagrant up`
 1. `Vagrant ssh`
 
 Copy the Storage Scale self-extracting installation package to `/software`, if you decided for approach option 2 above.
 
-```
+```bash
 StorageScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
 total 931024
 -rw-r--r--. 1 centos centos        134 31. Mai 2023  README
--rwxr-xr-x. 1 centos centos 1700061879  5. Mai 16:11 Storage_Scale_Developer-5.2.3.0-x86_64-Linux-install
+-rwxr-xr-x. 1 centos centos 1704771648 18. Jun 19:52 Storage_Scale_Developer-5.2.3.1-x86_64-Linux-install
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
@@ -94,6 +95,7 @@ StorageScaleVagrant\aws\prep-ami>
 ```
 
 Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appendix-avoid-orphaned-root-volumes)) we can build the Storage Scale AWS AMI and terminate the virtual machine:
+
 1. `vagrant package StorageScale_base --output StorageScale_base.box`
 1. `vagrant destroy`
 
@@ -105,7 +107,7 @@ you need to apply a patch described in the [Appendix](#appendix-fix-for-vagrant-
 
 The `vagrant package ...` command of the previous step prints the AMI ID of the new StorageScale_base AMI:
 
-```
+```bash
 ...
 ==> StorageScale_base: Waiting for the AMI 'ami-05d550f0ea6e84325' to burn...
 ...
@@ -113,7 +115,7 @@ The `vagrant package ...` command of the previous step prints the AMI ID of the 
 
 Copy the `Vagrantfile.aws-ami.sample` to `Vagrantfile.aws-ami` and update that file with the AMI ID of the StorageScale_base AMI:
 
-```
+```bash
 cd StorageScaleVagrant\aws
 copy Vagrantfile.aws-ami.sample Vagrantfile.aws-ami
 notepad Vagrantfile.aws-ami
@@ -122,6 +124,7 @@ notepad Vagrantfile.aws-ami
 ## Boot a virtual machine with a single node Storage Scale cluster
 
 Now we are ready to boot a virtual machine on AWS and to configure it with a single node Storage Scale cluster:
+
 1. `cd StorageScaleVagrant\aws`
 1. `vagrant up`
 1. `vagrant ssh`
@@ -136,7 +139,7 @@ Amazon charges for orphaned root volumes. They either need to be deleted manuall
 
 First step is to query the `InstanceId` and the setting for `DeleteOnTermination` of the running virtual machine:
 
-```
+```bash
 StorageScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=StorageScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
 [
     [
@@ -192,7 +195,8 @@ StorageScaleVagrant\aws\prep-ami>
 
 If `vagrant package` fails with the error message `Malformed => AMI names must be between 3 and 128 characters long, and may contain letters, numbers, '(', ')', '.', '-', '/' and '_'`
 you need to apply a patch like the following to your local copy of vagrant-aws. You need to adopt to your installation path and user name:
-```
+
+```bash
 --- /home/user/.vagrant.d/gems/2.7.0/gems/vagrant-aws-0.7.2/lib/vagrant-aws/action/package_instance.rb	2021-06-23 13:58:10.612642358 +0200
 +++ /home/user/.vagrant.d/gems/2.7.0/gems/vagrant-aws-0.7.2/lib/vagrant-aws/action/package_instance_fixed.rb	2021-06-23 13:59:10.136684461 +0200
 @@ -39,11 +39,12 @@
