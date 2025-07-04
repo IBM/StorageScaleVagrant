@@ -3,7 +3,7 @@
 The scripts and files in this directory include the tooling to provision and
 configure the example Storage Scale cluster on KVM/libvirt.
 
-## Install KVM/libvirt.
+## Install KVM/libvirt
 
 In addition to [Storage Scale Vagrant and Vagrant itself](../README.md) you
 need to install KVM/libvirt. Just follow the KVM/libvirt documentation.
@@ -25,6 +25,7 @@ and the additional CentOS RPMs will be downloaded during the provisioning
 process (`vagrant up`).
 
 To create the custom Vagrant Storage Scale box:
+
 1. `cd StorageScaleVagrant/libvirt/prep-box`
 2. `vagrant up`
 3. `vagrant package StorageScale_base --output StorageScale_base.box`
@@ -34,6 +35,7 @@ To create the custom Vagrant Storage Scale box:
 ## Boot a virtual machine with a single node Storage Scale cluster
 
 Now we are ready to boot a virtual machine on libvirt and to configure it with a single node Storage Scale cluster:
+
 1. `cd StorageScaleVagrant\libvirt`
 2. `vagrant up`
 3. `vagrant ssh`

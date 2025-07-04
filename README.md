@@ -9,6 +9,7 @@ The scripts and configuration files provision a single node IBM Storage Scale cl
 ### Get the scripts and configuration files from GitHub
 
 Open a Command Prompt and clone the GitHub repository:
+
 1. `git clone https://github.com/IBM/StorageScaleVagrant.git`
 1. `cd StorageScaleVagrant`
 
@@ -18,7 +19,7 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Storage_Scale_Developer-5.2.3.0-x86_64-Linux-install` package and
+Download the `Storage_Scale_Developer-5.2.3.1-x86_64-Linux-install` package and
 save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
@@ -35,7 +36,6 @@ Vagrant will copy this file during the provisioning from the `host` to directory
 Follow the [Vagrant Getting Started
 Guide](https://learn.hashicorp.com/tutorials/vagrant/getting-started-index) to
 install Vagrant to get familiar with Vagrant.
-
 
 ## Provisioning
 
