@@ -27,17 +27,17 @@ EOT
 
 
 # Load RPMs that need to be installed on top of the CentOS base image
-load File.expand_path('../../../shared/Vagrantfile8.rpms', __FILE__)
+load File.expand_path('../../../shared/Vagrantfile.rpms', __FILE__)
 
 
 Vagrant.configure("2") do |config|
 
 
-  # Official CentOS 7 box
-  config.vm.box = "centos/8"
+  # Rocky Linux 9 box
+  config.vm.box = "bento/rockylinux-9"
 
   # Pin the version of the CentOS box, until project runs stable for a while
-  config.vm.box_version = "2011.0"
+  config.vm.box_version = "202502.21.0"
 
   # Set name of virtual machine
   config.vm.define "StorageScale_base"

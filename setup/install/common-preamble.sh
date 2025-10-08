@@ -4,7 +4,7 @@ usage(){
   echo "  AWS"
   echo "  VirtualBox"
   echo "  libvirt"
-  echo "<spectrumscale-version> is the full version number like 5.2.3.1"
+  echo "<spectrumscale-version> is the full version number like $1"
 }
 
 # Improve readability of output
@@ -33,7 +33,7 @@ case $1 in
     PROVIDER=$1
     ;;
   *)
-    usage
+    usage $2
     exit -1
     ;;
 esac
