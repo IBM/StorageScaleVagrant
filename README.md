@@ -19,7 +19,7 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Storage_Scale_Developer-5.2.3.3-x86_64-Linux-install` package and
+Download the `Storage_Scale_Developer-5.2.3.4-x86_64-Linux-install` package and
 save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
