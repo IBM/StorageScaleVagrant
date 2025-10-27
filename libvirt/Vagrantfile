@@ -63,7 +63,6 @@ Vagrant.configure("2") do |config|
 
     # Attach five disks for Storage Scale NSDs
     node.vm.provider "libvirt" do |libvirt|
-      libvirt.machine_virtual_size = 15
       # 5 small disks
       # 3 disks will be allocated to fs1, system pool, single failure group
       # 2 disks will be allocated to cesShared, system pool, fg1
