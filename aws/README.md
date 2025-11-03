@@ -13,7 +13,7 @@ On Windows 10 hosts, the installation of the vagrant-aws plugin might fail, but 
 version of fog-ovirt](https://github.com/mitchellh/vagrant-aws/issues/539#issuecomment-398100794)
 resolves the issue:
 
-```
+```bash
 vagrant plugin install --plugin-version 1.0.1 fog-ovirt
 vagrant plugin install vagrant-aws
 ```
@@ -21,7 +21,7 @@ vagrant plugin install vagrant-aws
 On Ubuntu 20.04 it is required to install an additional dependency to pass the vagrant-aws
 plugin installation:
 
-```
+```bash
 sudo apt install libcurl4-openssl-dev
 vagrant plugin install vagrant-aws
 ```
@@ -37,7 +37,7 @@ the AMI ID of an available AWS AMI.
 To [add the vagrant-aws dummy box](https://github.com/mitchellh/vagrant-aws#quick-start)
 to your Vagrant installation:
 
-```
+```bash
 vagrant box add aws-dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 ```
 
@@ -45,7 +45,7 @@ vagrant box add aws-dummy https://github.com/mitchellh/vagrant-aws/raw/master/du
 
 Copy the `Vagrantfile.aws-credentials.sample` to `Vagrantfile.aws-credentials` and update that file with your credentials:
 
-```
+```bash
 cd StorageScaleVagrant\aws
 copy Vagrantfile.aws-credentials.sample Vagrantfile.aws-credentials
 notepad Vagrantfile.aws-credentials
@@ -64,6 +64,7 @@ and to subscribe it in order to accept the license agreement.
 ## Decide on how to integrate the Storage Scale self-extracting installation package
 
 Depending on your network connectivity, it takes some time to upload the Storage Scale self-extracting installation package into AWS. There are two approach options to optimize the creation of the AWS AMI image for Storage Scale:
+
 1. Save the self-extracting installation package to `StorageScaleVagrant\software` before you to boot the virtual machine from which you create the Storage Scale AWS AMI. Then Vagrant will automatically copy it during the provisioning process (`Vagrant up`) from your host to the virtual machine in AWS.
 1. Copy the self-extracting installation package to `/software` of your virtual machine, after you have booted it. This approach is faster, if you have a copy for instance in an S3 bucket.
 
@@ -83,9 +84,9 @@ Copy the Storage Scale self-extracting installation package to `/software`, if y
 StorageScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
-total 1667752
+total 1626668
 -rw-r--r--. 1 centos centos        134 31. Mai 2023  README
--rw-r--r--. 1 centos centos 1707703064  3. Okt 12:41 Storage_Scale_Developer-5.2.3.4-x86_64-Linux-install
+-rw-r--r--. 1 centos centos 1665650917 16. Okt 08:05 Storage_Scale_Developer-6.0.0.0-x86_64-Linux-install
 
 [centos@ip-172-31-27-143 ~]$ exit
 logout
@@ -101,7 +102,6 @@ Having checked that `DeleteOnTermination` is set to `true` (see [Appendix](#appe
 
 If `vagrant package` fails with the error message `Malformed => AMI names must be between 3 and 128 characters long, and may contain letters, numbers, '(', ')', '.', '-', '/' and '_'`
 you need to apply a patch described in the [Appendix](#appendix-fix-for-vagrant-aws-packaging) to your local copy of vagrant-aws and try again.
-
 
 ## Configure the StorageScale_base AMI ID
 
@@ -130,7 +130,6 @@ Now we are ready to boot a virtual machine on AWS and to configure it with a sin
 1. `vagrant ssh`
 
 See the [README.md](../README.md) for details on the configured Storage Scale cluster.
-
 
 ## Appendix: Avoid orphaned root volumes
 
@@ -165,7 +164,7 @@ StorageScaleVagrant\aws\prep-ami>
 
 Next step is to modify the setting for `DeleteOnTermination` and to validate that the setting was changed:
 
-```
+```bash
 StorageScaleVagrant\aws\prep-ami>aws ec2 modify-instance-attribute --instance-id "i-0dadfb6d892a0d83c" --region us-east-1 --block-device-mappings file://DeleteOnTermination.json
 
 StorageScaleVagrant\aws\prep-ami>aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=StorageScaleVagrant*" --query "Reservations[*].Instances[*].[InstanceId,BlockDeviceMappings[*]]"
