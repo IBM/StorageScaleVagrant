@@ -10,104 +10,42 @@
 
 Vagrant.configure('2') do |config|
 
-
   # Upgrade everything to prevent kernel version matches
   config.vm.provision "shell",
     name:   "Upgrade everything to ensure kernel version matches packages available in the repos",
     inline: "
-      /usr/bin/yum upgrade -y
+      /usr/bin/dnf -y upgrade
     "
 
-  # Install RPMs required by Storage Scale Installation Toolkit
+  # Install RPMs required by Storage Scale
   config.vm.provision "shell",
-    name:   "Install RPMs required by Storage Scale Installation Toolkit",
+    name:   "Install RPMs required by Storage Scale",
     inline: "
-      /usr/bin/yum install -y\
-        python3\
-        net-tools
+      /usr/bin/dnf -y install \
+        kernel-headers \
+        kernel-devel \
+        net-tools \
+        nftables \
+        cpp \
+        gcc \
+        gcc-c++ \
+        binutils \
+        elfutils \
+        elfutils-devel \
+        nfs-utils \
+        ethtool \
+        rpcbind \
+        psmisc \
+        iputils \
+        boost-regex \
+        sqlite-libs \
+        openssl-devel \
+        cyrus-sasl-devel \
+        postgresql-server \
+        ansible-core \
+        bzip2 \
+        unzip \
+        python3.11 \
+        jq
     "
-
-  # Install RPMs required by Storage Scale core
-    config.vm.provision "shell",
-    name:   "Install RPMs required by Storage Scale core",
-    inline: "
-      /usr/bin/yum install -y\
-        ksh\
-        m4\
-        libaio
-    "
-
-  # Remove installed kernel-devel and kernel-headers to prevent version mismatches
-  # config.vm.provision "shell",
-  #   name:   "Remove installed kernel-devel and kernel-headers to prevent version mismatches",
-  #   inline: "
-  #     /usr/bin/yum remove -y\
-  #       kernel-devel\
-  #       kernel-headers\
-  #  "
-
-  # Install RPMs required by Storage Scale to build portability layer
-  config.vm.provision "shell",
-    name:   "Install RPMs required by Storage Scale to build portability layer",
-    inline: "
-      /usr/bin/yum install -y\
-        kernel-devel\
-        kernel-headers\
-        cpp\
-        gcc\
-        gcc-c++
-    "
-
-  # Install RPMs required by Storage Scale GUI
-  config.vm.provision "shell",
-    name:   "Install RPMs required by Storage Scale GUI",
-    inline: "
-      /usr/bin/yum install -y\
-        libpcap\
-        lsof\
-        nmap-ncat\
-        postgresql\
-        postgresql-libs\
-        postgresql-server
-    "
-
-  # Install additional RPMs required by Storage Scale
-    config.vm.provision "shell",
-    name:   "Install additional RPMs required by Storage Scale",
-    inline: "
-      /usr/bin/yum install -y\
-        boost-regex\
-        cyrus-sasl\
-        cyrus-sasl-devel\
-        keyutils-libs-devel\
-        krb5-devel\
-        libcom_err-devel\
-        libkadm5\
-        libselinux-devel\
-        libsepol-devel\
-        libverto-devel\
-        numactl \
-        openssl-devel\
-        pcre-devel\
-        perl-Class-Load\
-        perl-Class-Singleton\
-        perl-Data-Dumper\
-        perl-Data-OptList\
-        perl-DateTime\
-        perl-DateTime-Locale\
-        perl-DateTime-TimeZone\
-        perl-List-MoreUtils\
-        perl-Module-Implementation\
-        perl-Module-Runtime\
-        perl-Package-DeprecationManager\
-        perl-Package-Stash\
-        perl-Package-Stash-XS\
-        perl-Params-Util\
-        perl-Params-Validate\
-        perl-Sub-Install\
-        perl-Try-Tiny\
-        zlib-devel
-    "
-
-
 end

@@ -20,6 +20,37 @@ chmod 555 $install
 echo "===> Extract Storage Scale PRMs"
 sudo $install --silent
 
+# Patch for Rocky Linux support
+echo "===> Patch for Rocky Linux support"
+cd /usr/lpp/mmfs/${VERSION}/ansible-toolkit/ansible/ibm-spectrum-scale-install-infra/roles/core_common/vars
+dnf -y install patch
+cat <<EOF>/tmp/rocky1.patch
+--- main.yml.orig	2025-07-07 16:53:34.590395287 +0000
++++ main.yml	2025-07-07 16:53:48.707667130 +0000
+@@ -31,6 +31,7 @@
+ scale_rhel_distribution:
+   - RedHat
+   - CentOS
++  - Rocky
+ 
+ ## Supported scale os distrubution
+ scale_sles_distribution:
+EOF
+patch -p0 < /tmp/rocky1.patch
+cd /usr/lpp/mmfs/${VERSION}/ansible-toolkit/ansible/ibm-spectrum-scale-install-infra/roles/core_install/vars
+cat <<EOF>/tmp/rocky2.patch
+--- main.yml.orig	2025-07-07 17:00:47.610918841 +0000
++++ main.yml	2025-07-07 17:00:58.104105969 +0000
+@@ -31,6 +31,7 @@
+ scale_rhel_distribution:
+   - RedHat
+   - CentOS
++  - Rocky
+ 
+ ## Supported scale os distrubution
+ scale_sles_distribution:
+EOF
+patch -p0 < /tmp/rocky2.patch
 
 # Exit successfully
 echo "===> Script completed successfully!"

@@ -43,8 +43,6 @@ Vagrant.configure("2") do |config|
     vbox.cpus = 2
   end
 
-  config.vm.disk :disk, size: "15GB", primary: true
-
   #
   # The single node cluster comprises one node only
   #
@@ -103,7 +101,4 @@ Vagrant.configure("2") do |config|
       "
 
   end
-
 end
-
-

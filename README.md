@@ -19,7 +19,7 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Storage_Scale_Developer-5.2.3.4-x86_64-Linux-install` package and
+Download the `Storage_Scale_Developer-6.0.0.0-x86_64-Linux-install` package and
 save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
@@ -53,7 +53,7 @@ preferred provider to install and configure a virtual machine.
 
 Please note that for AWS you might want to prefer the new "Cloudkit" Storage
 Scale capability that is also available with the Storage Scale Developer Edition.
-For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/5.2.2?topic=reference-cloudkit).
+For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/6.0.0?topic=reference-cloudkit).
 
 Once the virtual environment is provided, Storage Scale Vagrant uses the same
 scripts to install and configure Storage Scale. Storage Scale Vagrant executes
