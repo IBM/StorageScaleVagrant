@@ -91,15 +91,4 @@ Vagrant.configure('2') do |config|
     inline: "
       cp /vagrant/files/linux/etc__sudoers.d__spectrumscale /etc/sudoers.d/spectrumscale
    "
-
-  # Expand root file system beyond default 10GB
-  config.vm.provision "shell",
-    name:   "Expand root file system",
-    inline: "
-      BOOTPART=$(sudo df / | grep -v \"^Filesystem\" | grep \"/\" | awk '{print $1}')
-      BOOTDISK=${BOOTPART::-1}
-      /usr/bin/sudo /usr/bin/bash -c \"echo ', +' | sfdisk -N 1 --force --no-reread $BOOTDISK\"
-      /usr/bin/sudo partprobe $BOOTDISK
-      /usr/bin/sudo xfs_growfs $BOOTPART
-  "
 end
