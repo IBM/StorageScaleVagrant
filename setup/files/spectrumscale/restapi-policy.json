@@ -1,0 +1,144 @@
+{
+	"id": 0,
+	"name": "StorageScaleDomain",
+	"permissions": {
+		"SecurityAdmin": {
+			"role": "SecurityAdmin",
+			"policies": [
+				{
+					"resource": "allEndpoints",
+					"action": "create",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "delete",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "get",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "update",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "link",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "unlink",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "cani",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "unmount",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "mount",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "impersonate",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "start",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "stop",
+					"effect": "allow"
+				},
+				{
+					"resource": "allEndpoints",
+					"action": "restripe",
+					"effect": "allow"
+				},
+				{
+					"resource": "privateEndpoints",
+					"action": "execute",
+					"effect": "allow"
+				},
+				{
+					"resource": "privateEndpoints",
+					"action": "transfer",
+					"effect": "allow"
+				}
+			]
+		},
+		"Monitor": {
+                    "role": "Monitor",
+		    "policies": [
+                {
+                   "resource": "allEndpoints",
+                   "action": "get",
+                   "effect": "allow"
+                },
+                {
+                         "resource": "allEndpoints",
+                         "action": "cani",
+                         "effect": "allow"
+                }
+		    ]
+		}
+	},
+	"memberships": {
+		"admin": {
+			"name": "admin",
+			"roles": [
+				"SecurityAdmin"
+			]
+		},
+		"root": {
+			"name": "root",
+			"roles": [
+				"SecurityAdmin"
+			]
+		},
+		"performance": {
+			"name": "performance",
+			"roles": [
+				"Monitor"
+			]
+		}
+	},
+	"resource_groups": {
+		"allEndpoints": {
+			"name": "allEndpoints",
+			"resources": [
+				"/scalemgmt/*",
+				"/scalemgmt/*/*",
+				"/scalemgmt/*/*/*",
+				"/scalemgmt/*/*/*/*",
+				"/scalemgmt/*/*/*/*/*",
+				"/scalemgmt/*/*/*/*/*/*",
+				"/scalemgmt/*/*/*/*/*/*/*",
+				"/scalemgmt/*/*/*/*/*/*/*/*"
+			]
+		},
+		"privateEndpoints": {
+			"name": "privateEndpoints",
+			"resources": [
+				"/scalemgmt/*/private/remoteexecute",
+				"/scalemgmt/*/private/remotetransfer"
+			]
+		}
+	},
+	"attributes": {}
+}

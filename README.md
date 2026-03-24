@@ -19,7 +19,7 @@ The creation of the Storage Scale cluster requires the Storage Scale
 self-extracting installation package. The developer edition can be downloaded
 from the [Storage Scale home page](https://www.ibm.com/products/storage-scale).
 
-Download the `Storage_Scale_Developer-6.0.0.1-x86_64-Linux-install` package and
+Extract the `Storage_Scale_Developer-6.0.0.2-x86_64-Linux-install` package and
 save it to directory `StorageScaleVagrant/software` on the `host`.
 
 Please note that in case the Storage Scale Developer version you downloaded is
@@ -50,7 +50,6 @@ preferred provider to install and configure a virtual machine.
 | [virtualbox](./virtualbox) | VirtualBox          |
 | [libvirt](./libvirt)       | libvirt (KVM/QEMU)  |
 
-
 Please note that for AWS you might want to prefer the new "Cloudkit" Storage
 Scale capability that is also available with the Storage Scale Developer Edition.
 For more details about Cloudkit, please refer to the [documentation](https://www.ibm.com/docs/en/storage-scale/6.0.0?topic=reference-cloudkit).
@@ -62,9 +61,8 @@ your preferred provider.
 
 | Directory                        | Description                                                         |
 |----------------------------------|---------------------------------------------------------------------|
-| [setup/install](./setup/install) | Perform all steps to provision a Storage Scale cluster             |
-| [setup/demo](./setup/demo)       | Perform all steps to configure the Storage Scale for demo purposes |
-
+| [setup/install](./setup/install) | Perform all steps to provision a Storage Scale cluster              |
+| [setup/demo](./setup/demo)       | Perform all steps to configure the Storage Scale for demo purposes  |
 
 ## Storage Scale Management Interfaces
 
@@ -78,87 +76,72 @@ That might conflict with other software using that port (see issue #54).
 You can configure the port yourself [here](https://github.com/IBM/StorageScaleVagrant/blob/main/virtualbox/Vagrantfile#L58)
 for VirtualBox and [here](https://github.com/IBM/StorageScaleVagrant/blob/main/libvirt/Vagrantfile#L62) for libvirt.
 
-
 ### Storage Scale CLI
 
 Storage Scale Vagrant configures the shell `$PATH` variable and the sudo
 `secure_path` to include the location of the Storage Scale executables.
 
-```
+```shell
 [vagrant@m1 ~]$ sudo mmlscluster
 
 GPFS cluster information
 ========================
-  GPFS cluster name:         demo.example.com
-  GPFS cluster id:           4200744107440960413
-  GPFS UID domain:           demo.example.com
-  Remote shell command:      /usr/bin/ssh
-  Remote file copy command:  /usr/bin/scp
+  GPFS cluster name:         demo
+  GPFS cluster id:           4200744107666200101
+  GPFS UID domain:           demo
+  Remote shell command:      /usr/lpp/mmfs/bin/scaleadmremoteexecute
+  Remote file copy command:  /usr/lpp/mmfs/bin/scaleadmremotetransfer
   Repository type:           CCR
 
  Node  Daemon node name  IP address  Admin node name  Designation
 ------------------------------------------------------------------
-   1   m1.example.com    10.1.2.11   m1m.example.com  quorum-manager-perfmon
+   1   m1.example.com    10.1.2.11   m1.example.com   quorum-manager-perfmon
 
 [vagrant@m1 ~]$
 ```
 
 ### Storage Scale REST API
 
-To explore the Storage Scale REST API, enter
-`https://localhost:8888/ibm/api/explorer` (for AWS please use `https://>AWS Public IP>/ibm/api/explorer`)
-in a browser. The Storage Scale REST API uses the
-same accounts as the Storage Scale GUI. There's also a blog post available which
-contains more details on how to explore the REST API using the IBM API Explorer
-URL:
+To explore the Storage Scale REST API v3, enter `https://192.168.56.101/openapi`
+in a browser.
 
-[Trying out and exploring the Storage Scale REST API using “curl” and/or the IBM API Explorer website](https://community.ibm.com/community/user/storage/blogs/andreas-kninger1/2019/02/06/trying-out-and-exploring-the-spectrum-scale-rest-api-using-curl-andor-the-ibm-api-explorer-website)
+![GUI showing REST API](/doc/gui/gui_rest_api.png)
 
-![](/doc/gui/gui_rest_api.png)
+As an example, get the configuration of the Storage Scale Cluster and the list
+of nodes:
 
-Configuration of Storage Scale Cluster:
-
-```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/cluster'
+```shell
+[vagrant@m1 ~]$ curl -k -X 'GET' \
+  'https://192.168.56.101:46443/scalemgmt/v3/clusters?view=BASIC' \
+  -H 'accept: application/json' \
+  -u admin:supersecret
 {
-  "cluster" : {
-    "clusterSummary" : {
-      "clusterId" : 4200744107441232322,
-      "clusterName" : "demo.example.com",
-      "primaryServer" : "m1.example.com",
-      "rcpPath" : "/usr/bin/scp",
-      "rcpSudoWrapper" : false,
-      "repositoryType" : "CCR",
-      "rshPath" : "/usr/bin/ssh",
-      "rshSudoWrapper" : false,
-      "uidDomain" : "demo.example.com"
+  "clusters":  [
+    {
+      "cluster_name":  "demo",
+      "domain_name":  "demo",
+      "remote_file_copy_cmd":  "/usr/lpp/mmfs/bin/scaleadmremotetransfer",
+      "remote_shell_cmd":  "/usr/lpp/mmfs/bin/scaleadmremoteexecute",
+      "cluster_id":  "4200744107666200101",
+      "repository_type":  "CCR",
+      "nodes":  [
+        {
+          "node_name":  "m1.example.com",
+          "admin_node_name":  "m1.example.com",
+          "node_designations":  [
+            "quorum",
+            "manager",
+            "perfmon",
+            "ces"
+          ],
+          "node_number":  "1",
+          "daemon_ip_address":  "10.1.2.11"
+        }
+      ],
+      "manager":  "m1"
     }
-  },
-  .....
-  "status" : {
-    "code" : 200,
-    "message" : "The request finished successfully."
-  }
-}
-
-[vagrant@m1 ~]$
-```
-
-Cluster nodes:
-
-```
-[vagrant@m1 ~]$ curl -k -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost:8888/scalemgmt/v2/nodes'
-{
-  "nodes" : [ {
-    "adminNodeName" : "m1.example.com"
-  } ],
-  "status" : {
-    "code" : 200,
-    "message" : "The request finished successfully."
-  }
-}
-
-[vagrant@m1 ~]$
+  ]
+}[vagrant@m1 ~]$
 ```
 
 ### Storage Scale GUI
@@ -170,12 +153,11 @@ certificate. The user `admin` has the default password `admin001`.
 To be able to use the GUI early in the installation process, a user
 `performance` with the default password `monitor` is created.
 
-![](/doc/gui/gui_login.png)
+![GUI Login](/doc/gui/gui_login.png)
 
 Cluster overview in Storage Scale GUI:
 
-![](/doc/gui/gui_home_overview.png)
-
+![GUI Cluster Overview](/doc/gui/gui_home_overview.png)
 
 ## Storage Scale Filesystem
 
@@ -186,7 +168,7 @@ to illustrate selected Storage Scale features.
 
 The filesystem `fs1` mounts on all cluster nodes at `/ibm/fs1`:
 
-```
+```shell
 [vagrant@m1 ~]$ mmlsmount all
 File system fs1 is mounted on 1 nodes.
 
@@ -200,7 +182,7 @@ flag                value                    description
 
 On Linux, a Storage Scale filesystem can be used like any other filesystem:
 
-```
+```shell
 [vagrant@m1 ~]$ mount | grep /ibm/
 fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
 
@@ -214,16 +196,156 @@ fs1 on /ibm/fs1 type gpfs (rw,relatime,seclabel)
 
 REST API call to show all filesystems:
 
-```
-[vagrant@m1 ~]$ curl -k -s -S -X GET --header 'Accept: application/json' -u admin:admin001 'https://localhost/scalemgmt/v2/filesystems/'
+```shell
+[vagrant@m1 ~]$ curl -k -X 'GET' \
+  'https://192.168.56.101:46443/scalemgmt/v3/filesystems' \
+  -H 'accept: application/json' \
+  -u admin:supersecret
 {
-  "filesystems" : [ {
-    "name" : "fs1"
-  } ],
-  "status" : {
-    "code" : 200,
-    "message" : "The request finished successfully."
-  }
+  "filesystems":  [
+    {
+      "name":  "cesShared",
+      "uid":  "0B02010A:69C25683",
+      "min_fragment_size":  8192,
+      "inode_size":  4096,
+      "indirect_block_size":  32768,
+      "default_metadata_replicas":  1,
+      "max_metadata_replicas":  2,
+      "default_data_replicas":  1,
+      "max_data_replicas":  2,
+      "block_allocation_type":  "CLUSTER_BLOCKALLOCATIONTYPE",
+      "file_locking_semantics":  "NFS4_FILELOCKINGSEMANTICS",
+      "acl_semantics":  "ALL_ACLSEMANTICS",
+      "num_nodes":  1,
+      "block_size":  4194304,
+      "quotas_accounting_enabled":  "none",
+      "quotas_enforced":  "none",
+      "default_quotas_enabled":  "none",
+      "perfileset_quotas":  "NO",
+      "filesetdf_enabled":  "NO",
+      "create_time":  "2026-03-24T09:16:51Z",
+      "dmapi_enabled":  "NO",
+      "logfile_size":  "33554432",
+      "exact_mtime":  "YES",
+      "suppress_atime":  "RELATIME_SUPPRESSATIME",
+      "strict_replication":  "WHEN_POSSIBLE_STRICT_REPL",
+      "fast_ea_enabled":  "yes",
+      "encryption":  "NO",
+      "inode_limit":  "67584",
+      "max_snapshot_id":  0,
+      "log_replicas":  0,
+      "is_4K_aligned":  "YES",
+      "rapid_repair_enabled":  "YES",
+      "subblocks_per_full_block":  512,
+      "storage_pools":  [
+        {
+          "name":  "system"
+        }
+      ],
+      "file_audit_log":  "NO",
+      "maintenance_mode":  "NO_MAINTENANCEMODE",
+      "flush_on_close":  "NO",
+      "auto_inode_limit":  "NO",
+      "disks":  [
+        {
+          "name":  "nsd4"
+        },
+        {
+          "name":  "nsd5"
+        }
+      ],
+      "automatic_mount_option":  "YES_AUTO",
+      "default_mount_point":  "/ibm/cesShared",
+      "mount_priority":  0,
+      "nfs4_owner_write_acl":  "YES",
+      "domain_id":  0,
+      "manager":  "m1",
+      "inode_segment_manager":  "YES",
+      "cluster":  "demo",
+      "local_version":  "38.00 (6.0.0.0)",
+      "original_version":  "38.00 (6.0.0.0)",
+      "manager_version":  "38.00 (6.0.0.0)",
+      "highest_supported_version":  "38.00 (6.0.0.0)",
+      "acldata_maxlen":  "ACLDATAMAXLEN_15"
+    },
+    {
+      "name":  "fs1",
+      "uid":  "0B02010A:69C2567E",
+      "min_fragment_size":  8192,
+      "inode_size":  4096,
+      "indirect_block_size":  32768,
+      "default_metadata_replicas":  1,
+      "max_metadata_replicas":  2,
+      "default_data_replicas":  1,
+      "max_data_replicas":  2,
+      "block_allocation_type":  "CLUSTER_BLOCKALLOCATIONTYPE",
+      "file_locking_semantics":  "NFS4_FILELOCKINGSEMANTICS",
+      "acl_semantics":  "ALL_ACLSEMANTICS",
+      "num_nodes":  1,
+      "block_size":  4194304,
+      "quotas_accounting_enabled":  "user;group;fileset",
+      "quotas_enforced":  "user;group;fileset",
+      "default_quotas_enabled":  "none",
+      "perfileset_quotas":  "NO",
+      "filesetdf_enabled":  "NO",
+      "create_time":  "2026-03-24T09:16:46Z",
+      "dmapi_enabled":  "NO",
+      "logfile_size":  "33554432",
+      "exact_mtime":  "YES",
+      "suppress_atime":  "RELATIME_SUPPRESSATIME",
+      "strict_replication":  "WHEN_POSSIBLE_STRICT_REPL",
+      "fast_ea_enabled":  "yes",
+      "encryption":  "NO",
+      "inode_limit":  "70656",
+      "max_snapshot_id":  1,
+      "log_replicas":  0,
+      "is_4K_aligned":  "YES",
+      "rapid_repair_enabled":  "YES",
+      "subblocks_per_full_block":  512,
+      "storage_pools":  [
+        {
+          "name":  "system"
+        },
+        {
+          "name":  "capacity"
+      }
+      ],
+      "file_audit_log":  "NO",
+      "maintenance_mode":  "NO_MAINTENANCEMODE",
+      "flush_on_close":  "NO",
+      "auto_inode_limit":  "NO",
+      "disks":  [
+        {
+          "name":  "nsd1"
+        },
+        {
+          "name":  "nsd2"
+        },
+        {
+          "name":  "nsd3"
+        },
+        {
+          "name":  "nsd6"
+        },
+        {
+          "name":  "nsd7"
+        }
+      ],
+      "automatic_mount_option":  "YES_AUTO",
+      "default_mount_point":  "/ibm/fs1",
+      "mount_priority":  0,
+      "nfs4_owner_write_acl":  "YES",
+      "domain_id":  0,
+      "manager":  "m1",
+      "inode_segment_manager":  "YES",
+      "cluster":  "demo",
+      "local_version":  "38.00 (6.0.0.0)",
+      "original_version":  "38.00 (6.0.0.0)",
+      "manager_version":  "38.00 (6.0.0.0)",
+      "highest_supported_version":  "38.00 (6.0.0.0)",
+      "acldata_maxlen":  "ACLDATAMAXLEN_15"
+    }
+  ]
 }[vagrant@m1 ~]$
 ```
 
@@ -234,7 +356,7 @@ NL-SAS into a single filesystem. Each Storage Scale filesystem has at list the
 system pool which stores metadata (inodes) and optionally data (content of
 files).
 
-```
+```shell
 [vagrant@m1 ~]$ mmlspool fs1
 Storage pools in file system at '/ibm/fs1':
 Name                    Id   BlkSize Data Meta Total Data in (KB)   Free Data in (KB)   Total Meta in (KB)    Free Meta in (KB)
@@ -269,7 +391,7 @@ Maximum number of inodes:       107520
 A typical configuration is to use NVMe or SSD for the system pool for metadata
 and hot files, and to add a second storage pool with NL-SAS for colder data.
 
-```
+```shell
 [vagrant@m1 ~]$ cat /vagrant/files/spectrumscale/stanza-fs1-capacity
 %nsd: device=/dev/sdg
 nsd=nsd6
@@ -301,9 +423,9 @@ mmadddisk: mmsdrfs propagation completed.
 [vagrant@m1 ~]$
 ```
 
-Now the filesystem has two storage pool.
+Now the filesystem has two storage pools.
 
-```
+```shell
 [vagrant@m1 ~]$ mmlspool fs1
 Storage pools in file system at '/ibm/fs1':
 Name                    Id   BlkSize Data Meta Total Data in (KB)   Free Data in (KB)   Total Meta in (KB)    Free Meta in (KB)
@@ -343,6 +465,53 @@ Number of allocated inodes:     107520
 Maximum number of inodes:       107520
 
 [vagrant@m1 ~]$
+```
+
+List Storage Pools using the REST API:
+
+```shell
+curl -k -X 'GET' \
+  'https://192.168.56.101:46443/scalemgmt/v3/filesystems/fs1/storagepools' \
+  -H 'accept: application/json' \
+  -u admin:supersecret
+{
+  "storage_pools":  [
+    {
+      "name":  "system",
+      "id":  0,
+      "filesystem":  "fs1",
+      "block_size":  4194304,
+      "pool_usage":  "DATA_AND_METADATA",
+      "layout_map":  "CLUSTER_BLOCKALLOCATIONTYPE",
+      "write_affinity":  "NO",
+      "write_affinity_depth":  0,
+      "block_group_factor":  1,
+      "max_disk_size":  "53678702592",
+      "total_data":  "12884901888",
+      "free_data":  "12272533504",
+      "pct_data_free":  0.9524739583333334,
+      "total_metadata":  "12884901888",
+      "free_metadata":  "12297699328",
+      "pct_metadata_free":  0.9544270833333334
+    },
+    {
+      "name":  "capacity",
+      "id":  65537,
+      "filesystem":  "fs1",
+      "block_size":  4194304,
+      "pool_usage":  "DATA_ONLY",
+      "layout_map":  "CLUSTER_BLOCKALLOCATIONTYPE",
+      "write_affinity":  "NO",
+      "write_affinity_depth":  0,
+      "block_group_factor":  1,
+      "max_disk_size":  "53678702592",
+      "total_data":  "12884901888",
+      "free_data":  "11077156864",
+      "pct_data_free":  0.8597005208333334,
+      "free_metadata":  "0"
+    }
+  ]
+}[vagrant@m1 ~]
 ```
 
 ## Disclaimer
