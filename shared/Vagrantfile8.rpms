@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 #
-# RPMs required by Storage Scale on top of the base CentOS image
+# RPMs required by Storage Scale on top of the base CentOS 8 image
 #
 # This file should be included by Vagrant files that build a Storage Scale
 # base box or image for as specific Vagrant provider
@@ -91,6 +91,7 @@ Vagrant.configure('2') do |config|
         openssl-devel\
         pcre-devel\
         zlib-devel\
+        unzip \
         epel-release
     "
 

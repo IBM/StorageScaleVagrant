@@ -89,7 +89,6 @@ sudo mmces service start s3
 echo "===> S3 Client: Install AWS CLI v2"
 cd /software
 curl -s https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip
-dnf -y install unzip
 unzip awscliv2.zip 2>&1 >/dev/null
 cd aws
 sudo ./install

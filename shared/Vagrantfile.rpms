@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 #
-# RPMs required by Storage Scale on top of the base CentOS image
+# RPMs required by Storage Scale on top of the base Rocky Linux 9 image
 #
 # This file should be included by Vagrant files that build a Storage Scale
 # base box or image for as specific Vagrant provider

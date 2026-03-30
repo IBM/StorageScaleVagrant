@@ -102,7 +102,7 @@ GPFS cluster information
 
 ### Storage Scale REST API
 
-To explore the Storage Scale REST API v3, enter `https://192.168.56.101/openapi`
+To explore the Storage Scale REST API v3, open [https://192.168.56.101:46443/openapi/](https://192.168.56.101:46443/openapi/)
 in a browser.
 
 ![GUI showing REST API](/doc/gui/gui_rest_api.png)

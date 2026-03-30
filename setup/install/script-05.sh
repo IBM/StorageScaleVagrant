@@ -71,7 +71,8 @@ sudo /usr/lpp/mmfs/gui/cli/initgui
 echo "==> Create GUI user for monitoring purposes"
 sudo /usr/lpp/mmfs/gui/cli/mkuser performance -g Monitor -p monitoring
 
-# Check REST API v3
+# Check REST API v3 and add users
+echo "==> Check REST API v3 and add users"
 sudo scalectl apihealth get m1.example.com
 sudo scalectl authorization cani -a create -r '/scalemgmt/v3/filesystems'
 sudo mmcommon checkscaleapienabled
@@ -83,6 +84,10 @@ sudo scalectl authorization domain update StorageScaleDomain -F /vagrant/files/s
 # The following commands list the authorization domains in detail, skipping here as too verbose
 #sudo scalectl authorization domain list
 #sudo scalectl authorization domain get StorageScaleDomain
+
+# Set cluster config to automatically start on boot
+echo "===> Set cluster config to automatically start on boot"
+sudo mmchconfig autoload=yes
 
 # Exit successfully
 echo "===> Script completed successfully!"
