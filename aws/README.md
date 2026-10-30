@@ -84,9 +84,9 @@ Copy the Storage Scale self-extracting installation package to `/software`, if y
 StorageScaleVagrant\aws\prep-ami>vagrant ssh
 
 [centos@ip-172-31-27-143 ~]$ ls -l software/
-total 1626668
+total 1871856
 -rw-r--r--. 1 centos centos        134 31. Mai 2023  README
--rw-r--r--. 1 centos centos 1920967037  2. Jun 10:59 Storage_Scale_Developer-6.0.1.0-x86_64-Linux-install
+-rw-r--r--. 1 centos centos 1916774718  2. Okt 14:35 Storage_Scale_Developer-6.0.1.2-x86_64-Linux-install
 
 
 [centos@ip-172-31-27-143 ~]$ exit
